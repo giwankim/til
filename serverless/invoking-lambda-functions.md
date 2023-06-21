@@ -32,3 +32,5 @@ $ serverless invoke -f hello
 "Hello, world!"
 ```
 The command results in a synchronous invocation.
+
+<img width="1005" alt="Testing out editing feature in Github" src="https://github.com/giwankim/til/assets/14240606/119aef50-5504-4fea-af8a-4eaa4e6f7bdb">
