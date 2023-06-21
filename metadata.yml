@@ -1,0 +1,75 @@
+title: Today I Learned
+about: giwankim/til
+about_url: https://github.com/giwankim/til
+plugins:
+  datasette-graphql:
+    path: /-/graphql
+  datasette-atom:
+    allow_unsafe_html_in_canned_queries: true
+  datasette-block-robots:
+    literal: |-
+      User-agent: *
+      Disallow: /tils
+  datasette-sitemap:
+    sql: |-
+      select '/' || topic || '/' || slug as path from til
+databases:
+  tils:
+    queries:
+      search: |
+        select
+          til_fts.rank,
+          til.*,
+          snippet(til_fts, -1, 'b4de2a49c8', '8c94a2ed4b', '...', 60) as snippet
+        from
+          til
+          join til_fts on til.rowid = til_fts.rowid
+        where
+          til_fts match case
+            :q
+            when '' then 'nomatchforthisterm'
+            else escape_fts(:q)
+          end
+        order by
+          til_fts.rank limit 20
+      feed:
+        title: Giwan Kim TIL
+        sql: |-
+          SELECT
+            'tag:til.giwankim.com,2023-06-21:' || path as atom_id,
+            title as atom_title,
+            'https://til.giwankim.com/' || topic || '/' || slug as atom_link,
+            created_utc as atom_updated,
+            html as atom_content_html,
+            'Giwan Kim' as atom_author_name,
+            'https://giwankim.com/' as atom_author_uri
+          FROM
+            til
+          ORDER BY
+            created_utc desc
+          LIMIT
+            15
+      feed_by_topic:
+        title: Giwan Kim TIL for topic
+        sql: |-
+          SELECT
+            'tag:til.giwankim.com,2023-06-21:' || path as atom_id,
+            title as atom_title,
+            'https://til.giwankim.com/' || topic || '/' || slug as atom_link,
+            created_utc as atom_updated,
+            html as atom_content_html,
+            'Giwan Kim' as atom_author_name,
+            'https://giwankim.com/' as atom_author_uri
+          FROM
+            til
+          WHERE
+            topic = :topic
+          ORDER BY
+            created_utc desc
+          LIMIT
+            15
+      tables:
+        til:
+          sort_desc: updated_utc
+          facets:
+          - topic
