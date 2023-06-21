@@ -86,7 +86,6 @@ jobs:
           datasette publish vercel tils.db \
             --token $VERCEL_TOKEN \
             --project giwankim-til \
-            --scope datasette \
             --metadata metadata.yaml \
             # --static static:static \
             --install datasette-template-sql \
