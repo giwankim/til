@@ -89,9 +89,9 @@ def build_database(repo_path):
                     headers=headers,
                 )
                 if response.status_code == 200:
-                    print('response text')
-                    print(response.text)
-                    print(response)
+                    # DEBUG
+                    print('body', body)
+                    print('response', response)
 
                     record["html"] = response.text
                     print("Rendered HTML for {}".format(path))
@@ -108,9 +108,6 @@ def build_database(repo_path):
                     path, response.headers
                 )
         # Populate summary
-        # DEBUG
-        print(record)
-
         record["summary"] = first_paragraph_text_only(record.get("html") or previous_html or "")
         record.update(all_times[path])
         with db.conn:
