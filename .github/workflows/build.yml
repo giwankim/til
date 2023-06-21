@@ -78,3 +78,25 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |-
           s3-credentials put-object til.giwankim.com tils.db main/tils.db
+      - name: Deploy Datasette using Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |-
+          cd main
+          datasette publish vercel tils.db \
+            --token $VERCEL_TOKEN \
+            --project giwankim-til \
+            --scope datasette \
+            --metadata metadata.yaml \
+            --static static:static \
+            --install datasette-template-sql \
+            --install "datasette-sitemap>=1.0" \
+            --install "datasette-atom>=0.7" \
+            --install datasette-json-html \
+            --install beautifulsoup4 \
+            --install "datasette-debug-asgi>=1.1" \
+            --install "datasette-graphql>=2.2" \
+            --install datasette-block-robots \
+            --plugins-dir plugins \
+            --template-dir templates \
+            --public
