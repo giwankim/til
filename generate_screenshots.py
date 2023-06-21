@@ -15,7 +15,7 @@ SHOT_HASH_PATHS = [
 
 def s3_contents():
     proc = subprocess.run(
-        ["s3-credentials", "list-bucket", "til.simonwillison.net"], capture_output=True
+        ["s3-credentials", "list-bucket", "til.giwankim.com"], capture_output=True
     )
     return [item["Key"] for item in json.loads(proc.stdout)]
 
