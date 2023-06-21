@@ -89,10 +89,6 @@ def build_database(repo_path):
                     headers=headers,
                 )
                 if response.status_code == 200:
-                    # DEBUG
-                    print('body', body)
-                    print('response', response)
-
                     record["html"] = response.text
                     print("Rendered HTML for {}".format(path))
                     break
