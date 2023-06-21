@@ -1,0 +1,5 @@
+GitPython
+sqlite-utils>=3.2
+beautifulsoup4
+s3-credentials
+shot-scraper
