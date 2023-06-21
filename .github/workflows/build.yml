@@ -96,6 +96,3 @@ jobs:
             --install "datasette-graphql>=2.2" \
             --install datasette-block-robots \
             --public
-
-            # --plugins-dir plugins \
-            # --template-dir templates \
