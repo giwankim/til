@@ -15,10 +15,6 @@ root = pathlib.Path(__file__).parent.resolve()
 
 def first_paragraph_text_only(html):
     soup = BeautifulSoup(html, "html.parser")
-
-    print()
-    print(soup.find("p").stripped_strings)
-
     return " ".join(soup.find("p").stripped_strings)
 
 
@@ -93,6 +89,10 @@ def build_database(repo_path):
                     headers=headers,
                 )
                 if response.status_code == 200:
+                    print('response text')
+                    print(response.text)
+                    print(response)
+
                     record["html"] = response.text
                     print("Rendered HTML for {}".format(path))
                     break
@@ -110,7 +110,6 @@ def build_database(repo_path):
         # Populate summary
         # DEBUG
         print(record)
-        print(record.get('html'))
 
         record["summary"] = first_paragraph_text_only(record.get("html") or previous_html or "")
         record.update(all_times[path])
