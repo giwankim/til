@@ -15,6 +15,10 @@ root = pathlib.Path(__file__).parent.resolve()
 
 def first_paragraph_text_only(html):
     soup = BeautifulSoup(html, "html.parser")
+
+    print()
+    print(soup.find("p").stripped_strings)
+
     return " ".join(soup.find("p").stripped_strings)
 
 
