@@ -1,3 +1,4 @@
+import git
 import httpx
 import pathlib
 import sqlite_utils
