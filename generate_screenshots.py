@@ -74,7 +74,7 @@ def generate_screenshots(root):
                 [
                     "s3-credentials",
                     "put-object",
-                    "til.simonwillison.net",
+                    "til.giwankim.com",
                     shot_filename,
                     "-",
                     "--content-type",
