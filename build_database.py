@@ -104,6 +104,10 @@ def build_database(repo_path):
                     path, response.headers
                 )
         # Populate summary
+        # DEBUG
+        print(record)
+        print(record.get('html'))
+
         record["summary"] = first_paragraph_text_only(record.get("html") or previous_html or "")
         record.update(all_times[path])
         with db.conn:
