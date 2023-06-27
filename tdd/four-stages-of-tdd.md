@@ -1,6 +1,6 @@
 # The World's Best Intro to TDD, Level 1
 
-These are some personal notes that I will be taking while taking J. B. Rainsberger [The World's Best Intro to TDD, Level 1: TDD Done Right
+These are some notes that I am taking while taking J. B. Rainsberger [The World's Best Intro to TDD, Level 1: TDD Done Right
 ](https://online-training.jbrains.ca/p/wbitdd-01).
 
 ## Four Stages of TDD
@@ -13,14 +13,14 @@ Different stages of adopting TDD practices based on the current level of practic
 - Only One Rule: always start with a failing test
 - Goal: reduce the cost of defects by reducing the time to discover them
 - Don't need to change anything else about your practice
-- When bug rates go down, begin to notice other things that are not quite right when write test first...
+- When bug rates go down, begin to notice other things that are not quite right when writing test first...
 
 ### Stage 2: Test-Driven Development
 
 - Bottleneck: **design**
 - One More Technique: refactoring
 - Reduce the cost of changing the design as the needs change
-- Avoid throw large sections away to rewrite them
+- Avoid throwing large sections away to rewrite them
 - Avoid feeling imprisoned by past design decisions
 
 ### Stage 3: Predictability
@@ -35,7 +35,7 @@ Different stages of adopting TDD practices based on the current level of practic
 
 - Bottleneck: **changing context** (language, framework, greenfield vs legacy)
 - Different strategies for different situations
-- Evolutionay Design Without* Tests
+- Evolutionary Design Without* Tests
 - More judicious use of scarce resources
 - Trust yourself to add tests when you need them
 
@@ -43,7 +43,7 @@ Different stages of adopting TDD practices based on the current level of practic
 
 JBrains will present ideas and demonstrate a wide range of techniques. Should decide which things to practice now and defer the rest.
 
-## Sample Practive Strategies
+## Sample Practice Strategies
 
 - Stage 1: build the habit of writing tests first
 - Stage 2: build the habit of refactoring after every new test passes
