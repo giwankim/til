@@ -1,5 +1,7 @@
 # Core Concepts
 
+Gradle 공식문서[^1]를 읽으면서 요약한 내용입니다.
+
 ![gradle](../../assets/gradle.png)
 
 
@@ -106,6 +108,127 @@ include("sub-project-a")
 include("sub-project-b")
 include("sub-project-c")
 ```
+
+
+### Build File
+
+Every Gradle build comprises at least one build script.
+
+In the build file, two types of dependencies can be added:
+
+  1. The libraries and/or plugins on which Gradle and the build script depend.
+  2. The libraries on which the project sources (i.e., source code) depend.
+
+#### Build scripts
+
+```java
+plugins {
+  id("application")
+}
+
+application {
+  mainClass = "com.example.Main"
+}
+```
+
+##### 1. Add plugins
+
+Plugins extend Gradle's functionality and can contribute tasks to a project.
+
+Adding a plugin to build is called _applying_ a plugin.
+
+##### 2. Use convention properties
+
+A plugin adds tasks to a project. It also adds properties and methods to a project.
+
+The `application` plugin defines tasks that package and distribute an application, such as the `run` task. The plugin provides a way to declare the main class of a Java application, which is required to execute the code.
+
+
+### Dependency Management
+
+Dependency management is an automated technnique for declaring and resolving external resources required by a project.
+
+#### Version Catalog
+
+Version catalogs provide a way to centralize dependency declarations in a `libs.versions.toml` file.
+
+The version catalog typically contains four sections:
+ 1. [versions] to declare the version numbers that 
+ 1. [libraries] to define the libraries used in the build files.
+ 1. [bundles] to define a set of dependencies.
+ 1. [plugins] to define plugins.
+
+```toml
+[versions]
+androidGradlePlugin = "7.4.1"
+mockito = "2.16.0"
+
+[libraries]
+googleMaterial = { group = "com.google.android.material", name = "material", version = "1.1.0-alpha05" }
+mockitoCore = { module = "org.mockito:mockito-core", version.ref = "mockito" }
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+```
+
+The file is located in the `gradle` directory so that it can be used by Gradle and IDEs automatically. The version catalog should be checked into source control.
+
+#### Declaring Dependencies
+
+To add dependency to your project, specify a dependency in the dependencies block of your `build.gradle.kts` file.
+
+```kotlin
+plugins {
+  alias(libs.plugins.androidApplication)
+}
+
+dependencies {
+  implementation(libs.googleMaterial)
+  testImplementation(libs.mockitoCore)
+}
+```
+
+
+#### Viewing Project Dependencies
+
+```bash
+./gradlew :app:dependencies
+
+> Task :app:dependencies
+
+------------------------------------------------------------
+Project ':app'
+------------------------------------------------------------
+
+annotationProcessor - Annotation processors and their dependencies for source set 'main'.
+No dependencies
+
+compileClasspath - Compile classpath for source set 'main'.
+\--- com.google.guava:guava:33.2.1-jre
+     +--- com.google.guava:failureaccess:1.0.2
+     +--- com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava
+     +--- com.google.code.findbugs:jsr305:3.0.2
+     +--- org.checkerframework:checker-qual:3.42.0
+     +--- com.google.errorprone:error_prone_annotations:2.26.1
+     \--- com.google.j2objc:j2objc-annotations:3.0.0
+
+compileOnly - Compile-only dependencies for the 'main' feature. (n)
+No dependencies
+
+...
+```
+
+
+### Task
+
+A task represents some independent unit of work that a build performs, such as compiling classes, creating a JAR, generating Javadoc, or publishing archives to a repository.
+
+
+### Plugins
+
+Gradle is built on a plugin system. Gradle itself is primarily composed of infrastructure, such as a sophisticated dependency resolution engine. The rest of its functionality comes from plugins.
+
+A plugin is a piece of software that provides additional functionality to the Gradle build system.
 
 
 [^1]: [Gradle User Manual](https://docs.gradle.org/current/userguide/userguide.html)
