@@ -24,4 +24,4 @@
 ## Build
 
   - Gradle
-    - [core concepts](build/gradle/core-concepts.md)
+    - [Core Concepts](build/gradle/core-concepts.md)
