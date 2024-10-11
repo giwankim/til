@@ -230,5 +230,7 @@ Gradle is built on a plugin system. Gradle itself is primarily composed of infra
 
 A plugin is a piece of software that provides additional functionality to the Gradle build system.
 
+Plugins can be applied to a Gradle build script to add new task, configurations, or other build-related capabilities.
+
 
 [^1]: [Gradle User Manual](https://docs.gradle.org/current/userguide/userguide.html)
