@@ -73,7 +73,91 @@ The anatomy of a typical project root directory looks as follows:
 
 ## 2. Multi-Project Builds
 
+Gradle supports _multi-project_ builds. This is sometimes referred to as a multi-module project. Gradle refers to modules as subprojects.
+
+### Multi-Project standards
+
+Gradle community has two standards for multi-project build structures:
+
+1. `buildSrc` - `buildSrc` is a subproject-like directory at the Gradle project root containing all the build logic.
+2. Composite builds - a build that includes other builds where `build-logic` is a build directory at the Gradle project root containing reusable build logic.
+
+![alt text](https://docs.gradle.org/current/userguide/img/multi-project-standards.png)
+
+#### 1. Multi-Project Builds using `buildSrc`
+
+For example, a build that has many modules called `mobile-app`, `web-app`, `api`, `lib`, and `documentation` could be structured as follows:
+
+```bash
+.
+├── gradle
+├── gradlew
+├── settings.gradle.kts
+├── buildSrc
+│   ├── build.gradle.kts
+│   └── src/main/kotlin/shared-build-conventions.gradle.kts
+├── mobile-app
+│   └── build.gradle.kts
+├── web-app
+│   └── build.gradle.kts
+├── api
+│   └── build.gradle.kts
+├── lib
+│   └── build.gradle.kts
+└── documentation
+    └── build.gradle.kts
+```
+
+The modules have dependencies between them such as `web-app` and `mobile-app` depending on `lib`. This means that in order for Gradle to build `web-app` or `mobile-app`, it must build `lib` first.
+
+`buildSrc` is automatically recognized by Gradle. It is a good place to define and maintain shared configuration or imperative build logic, such as custom tasks or plugins.
+
+If the `java` plugin is applied to the `buildSrc` project, the compiled code from `buildSrc/src/main/java` is put in the classpath fo the root build script, making it available to any subproject in the build.
+
+#### 2. Composite Builds
+
+Composite Builds, also referred to as _included builds_, are best for sharing logic between builds (_not subprojects_) or isolating access to shared build logic (i.e. convention plugins).
+
+The logic in `buildSrc` from the previous example has been turned into a project that contains plugins and be published and worked on independently of the root project build.
+
+The plugin is moved to its own build called `build-logic` with a build script and settings file:
+
+```bash
+.
+├── gradle
+├── gradlew
+├── settings.gradle.kts
+├── build-logic
+│   ├── settings.gradle.kts
+│   └── conventions
+│       ├── build.gradle.kts
+│       └── src/main/kotlin/shared-build-conventions.gradle.kts
+├── mobile-app
+│   └── build.gradle.kts
+├── web-app
+│   └── build.gradle.kts
+├── api
+│   └── build.gradle.kts
+├── lib
+│   └── build.gradle.kts
+└── documentation
+    └── build.gradle.kts
+```
+
+The root settings file includes the entire `build-logic` build:
+```kotlin
+pluginManagement {
+  includeBuild("build-logic")
+}
+include("mobile-app", "web-app", "api", "lib", "documentation")
+```
+
 ## 3. Gradle Build Lifecycle
+
+```mermaid
+flowchart LR
+  Initialization["1 Initialization Phase"] --> Configuration[2 Configuration Phase] --> Execution[3 Configuration Phase]
+```
 
 ## 4. Writing Settings Files
 
