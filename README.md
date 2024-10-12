@@ -25,3 +25,4 @@
 
   - Gradle
     - [Core Concepts](build/gradle/core-concepts.md)
+    - [Authoring Builds](build/gradle/authoring-builds.md)
