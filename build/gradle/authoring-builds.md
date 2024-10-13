@@ -145,6 +145,7 @@ The plugin is moved to its own build called `build-logic` with a build script an
 ```
 
 The root settings file includes the entire `build-logic` build:
+
 ```kotlin
 pluginManagement {
   includeBuild("build-logic")
@@ -154,10 +155,60 @@ include("mobile-app", "web-app", "api", "lib", "documentation")
 
 ## 3. Gradle Build Lifecycle
 
+The build author defines the tasks and dependencies between tasks. Gradle guarantees that these tasks will execute in order of their dependencies.
+
+For example, if the project tasks include `build`, `assemble`, `createDocs`, the build scripts can ensure that they are executed in the order `build` -> `assemble` -> `createDoc`.
+
+### Task Graphs
+
+Gradle builds the task graph before executing any task.
+
+Across all projects in the build, tasks form a Directed Acyclic Graph.
+
+Here is a partial task graph for a standard Java build, with dependencies between tasks represented as arrows:
+
+```mermaid
+  flowchart TD
+    build([build]) --> check([check]) --> test([test])
+    assemble([assemble]) --> jar([jar])
+    build --> assemble
+    jar --> classes([classes])
+    classes --> compileJava([Compile Java])
+    classes --> processResources([processResources])
+```
+
+Both plugins and build scripts contribute to the task graph via the task dependency mechanism and annotated inputs/outputs.
+
+### Build Phases
+
+A Gradle build has three distinct phases.
+
 ```mermaid
 flowchart LR
   Initialization["1 Initialization Phase"] --> Configuration[2 Configuration Phase] --> Execution[3 Configuration Phase]
 ```
+
+Gradle runs these phases in order:
+
+#### Phase 1. Initialization
+
+- Detects the `settings.gradle.kts` file
+- Creates a `Settings` instance
+- Evaluates the settings file to determine which projects (and included builds) make up the build.
+- Creates a `Project` instance for every project.
+
+#### Phase 2. Configuration
+
+- Evaluates the build scripts, `build.gradle.kts`, of every project participating in the build.
+- Creates a task graph for requested tasks.
+
+#### Phase 3. Execution
+
+- Schedules and executes the selected tasks.
+- Dependencies  tasks determine execution order.
+- Execution of tasks can occur in parallel.
+
+![build phases](https://docs.gradle.org/current/userguide/img/build-lifecycle-example.png)
 
 ## 4. Writing Settings Files
 
