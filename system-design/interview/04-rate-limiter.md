@@ -164,3 +164,71 @@ Redis is a popular option to implement rate limiting. It offers two commands: IN
      - System increments the counter and saves it back to Redis.
 
 ## Step 3 - Design deep dive
+
+### Rate limiting rules
+
+Lyft open-sourced their [rate-limiting component](https://github.com/envoyproxy/ratelimit?tab=readme-ov-file).
+
+As an example of rate limiting rules configuration:
+```yaml
+domain: messagin
+descriptors:
+  # Only allow 5 marketing messages a day
+  - key: message_type
+    value: marketing
+    descriptors:
+      - key: to_number
+        rate_limit:
+          unit: day
+          requests_per_unit: 5
+```
+
+Rules are generally writting in configuration files and saved on disk.
+
+### Exceeding the rate limit
+
+If a request rate limited, API returns HTTP response code 429 (too many requests) to the client.
+
+Depending on the use cases, we may enqueue the rate-limited requests to be processed later.
+
+#### Rate limiter headers
+
+In order to enhance the client experience of the API, we can respond with additional response headers to send information about the rate limit:
+
+- _X-Rate-Limit-Remaining_: The remaining number of allowed requests within the window.
+- _X-Rate-Limit_: How many calls the client can per time window.
+- _X-Rate-Limit-Retry-After-Seconds_: Number of seconds to wait until the client can make a request again without being throttled.
+
+When a user has sent too many requests, a 429 HTTP response status code and _X-Rate-Limit-Retry-After-Seconds_ header are returned to the client.
+
+### Detailed design
+
+![rate-limiter](../../assets/rate-limiter-design.png)
+
+- Rules are stored on disk. Workers frequently pull rules from disk and store them in the cache.
+- Client request is first routed the rate limiter middleware.
+- Rate limiter middleware loads rules from the cache and decides whether to forward the request to API servers or rate limit the request. The request is either dropped or forwarded to the queue.
+
+### Distributed environment
+
+There are two challenges in scaling the system to support multiple servers and concurrent threads:
+
+- Race condition
+- Synchronization
+
+#### Race condition
+
+#### Synchronization issue
+
+### Performance optimization
+
+### Monitoring
+
+Gather analytics data to check whether the rate limiter is effective.
+
+For example, if rate limiting rules are too strict, many valid requests are dropped. In this case, relax the rules.
+
+In another example, we notice rate limiter becomes ineffective when there is a sudden increase in traffic like flash sales.
+We may replace the algorithm with token bucket to support burst traffic.
+
+## Step 4 - Wrap up

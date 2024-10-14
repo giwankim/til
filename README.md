@@ -30,4 +30,4 @@
 ## System Design
 
 - [System Design Interview](https://www.amazon.com/System-Design-Interview-insiders-Second/dp/B08CMF2CQF)
-  - [Chapter 4 - Design a Rate Limiter](system-design/interview/04=rate-limiter.md)
+  - [Chapter 4 - Design a Rate Limiter](system-design/interview/04-rate-limiter.md)
