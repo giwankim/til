@@ -26,3 +26,8 @@
   - Gradle
     - [Core Concepts](build/gradle/core-concepts.md)
     - [Authoring Builds](build/gradle/authoring-builds.md)
+
+## System Design
+
+- [System Design Interview](https://www.amazon.com/System-Design-Interview-insiders-Second/dp/B08CMF2CQF)
+  - [Chapter 4 - Design a Rate Limiter](system-design/interview/04=rate-limiter.md)
