@@ -31,3 +31,11 @@
 
 - [System Design Interview](https://www.amazon.com/System-Design-Interview-insiders-Second/dp/B08CMF2CQF)
   - [Chapter 4 - Design a Rate Limiter](system-design/interview/04-rate-limiter.md)
+  - [Chapter 5 - Design a Consistent Hashing](system-design/interview/05-consistent-hash.md)
+
+## SQL
+
+- SQLD
+  - 과목 I. 데이터 모델링의 이해
+    - 제1장 데이터 모델링의 이해
+    - 제2장 데이터 모델과 SQL
