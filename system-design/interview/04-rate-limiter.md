@@ -1,4 +1,4 @@
-# Chapter 4. Design a Rate Limiter
+# 4. Design a Rate Limiter
 
 Rate limiter is used to control the rate of traffic sent by a client or a service.
 

@@ -11,7 +11,7 @@
 
 ## Algorithm
 
-- [Java Collections Framework](algorithm/collections.md)
+- [Collections](algorithm/collections.md)
 
 
 ## Diagram

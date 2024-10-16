@@ -1,4 +1,4 @@
-# Chapter 5. Design a Consistent Hashing
+# 5. Design a Consistent Hashing
 
 To achieve horizontal scaling, it is important to distribute request/data efficiently and evenly across servers.
 
@@ -54,9 +54,36 @@ Most keys are redistributed, not just the ones originally stored in server 1. Th
 
 > Consistent hashing is a special kind of hashing such that when a hash table is re-sized and consistent hashing is used, only k/n keys need to be remapped onn average, where k is the number of keys, and n is the number of slots. [^1]
 
-## Hash space and hash ring
+The basic steps of consistent hashing algorithm introduced by Karger et al. [^2] are:
+
+  - Map servers and keys on to hash ring using a uniformly distributed hash function.
+  - To find out which server a key is mapped, go clockwise from the key position until the first server on the ring is found.
+
+### Hash space and hash ring
+
+A hash function maps elements to "buckets," such as 160-bits in the case of SHA-1.
+
+In this case, _hash space_ is integers from $0$ to $2^{160} - 1$.
+
+By identifying the two ends, $0$ to $2^{160} - 1$, we get a _hash ring._
+
+### Hash servers
+
+The key idea is that in addition to hashing the keys as before, _we also hash the names (or IPs) of the cache servers._
+
+### Hash keys
+
+### Server lookup
+
+### Add a server
+
+### Remove a server
 
 ### Two issues in the basic approach
+
+### Virtual nodes
+
+### Find affected keys
 
 ## Wrap up
 
@@ -69,3 +96,8 @@ Consistent hashing is widely used in real-world systems, including
 - Maglev network load balancer
 
 [^1]: Consistent hashing: https://en.wikipedia.org/wiki/Consistent_hashing
+
+[^2]: D. Karger, E. Lehman, T. Leighton, M. Levine, D. Lewin, and R. Panigrahy. Consistent
+hashing and random trees: Distributed caching protocols for relieving hot spots on the
+world wide web. In _Proceedings of the Twenty-ninth Annual ACM Symposium on Theory
+of Computing (STOC)_, pages 654–663, 1997.
