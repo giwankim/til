@@ -28,6 +28,7 @@
 ## System Design
 
 - [System Design Interview](https://www.amazon.com/System-Design-Interview-insiders-Second/dp/B08CMF2CQF)
+  - [3. A Framework for System Design Interviews](system-design/interview/03-framework.md)
   - [4. Design a Rate Limiter](system-design/interview/04-rate-limiter.md)
   - [5. Design a Consistent Hashing](system-design/interview/05-consistent-hash.md)
   - [7. Design a Unique ID Generator in Distributed Systems](system-design/interview/07-id-generator.md)
