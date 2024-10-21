@@ -31,7 +31,9 @@
   - [3. A Framework for System Design Interviews](system-design/interview/03-framework.md)
   - [4. Design a Rate Limiter](system-design/interview/04-rate-limiter.md)
   - [5. Design a Consistent Hashing](system-design/interview/05-consistent-hash.md)
+  - [6. Design a Key-Value Store](system-design/interview/06-key-value.md)
   - [7. Design a Unique ID Generator in Distributed Systems](system-design/interview/07-id-generator.md)
+  - [8. Design a URL Shortener](system-design/interview/08-url-shortener.md)
 
 ## SQL
 
