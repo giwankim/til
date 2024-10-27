@@ -18,6 +18,7 @@
   - [0. Introduction](diagram/mermaid/00-intro.md)
   - [1. Document your Domain](diagram/mermaid/01-document-domain.md)
   - [2. Enhance your Domain Model](diagram/mermaid/02-enhance-domain.md)
+  - [3. Visualize Application and User Flows](diagram/mermaid/03-user-flows.md)
 
 ## Build
 
@@ -34,6 +35,10 @@
   - [6. Design a Key-Value Store](system-design/interview/06-key-value.md)
   - [7. Design a Unique ID Generator in Distributed Systems](system-design/interview/07-id-generator.md)
   - [8. Design a URL Shortener](system-design/interview/08-url-shortener.md)
+  - [9. Design a Web Crawler](system-design/interview/09-web-crawler.md)
+  - [10. Design a Notification System](system-design/interview/10-notification-system.md)
+  - [11. Design a News Feed System](system-design/interview/11-news-feed-system.md)
+  - [12. Design a Chat System](system-design/interview/12-chat-system.md)
 
 ## SQL
 
