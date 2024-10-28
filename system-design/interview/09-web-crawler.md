@@ -57,21 +57,93 @@ Characteristics of a good web crawler:
 
 ![web crawler](../../assets/web-crawler.png)
 
-### Seed URLs
+### Components
+
+#### Seed URLs
 
 A web crawler uses seed URLs as a starting point for the crawl process.
 
-To crawl the entire web, we need to be creative in selecting seed URLs. A good seed URL serves as a good starting point that a crawler can utilize to traverse as many links as possible.
+To crawl the entire web, we need to be creative in selecting seed URLs.
 
-### URL Frontier
+One approach is based on locality as different countries may have different popular websites.
 
-### HTML Downloader
+Another way is to choose seed URLs based on topics; for example, we can divide URL space into shopping, sports, healthcare, etc.
 
-### DNS Resolver
+#### URL Frontier
 
-### Content Parser
+Most modern web crawler split the crawl space into two: to be downloaded and already downloaded. The component that stores URLs to be downloaded is called the URL Frontier. It can be considered as a FIFO queue.
 
-### Content Seen?
+#### HTML Downloader
+
+HTML downloader downloads web pages from the internet. Those URLs are provided by the URL Frontier.
+
+#### DNS Resolver
+
+To download a web page, URL must be translated into an IP address. HTML downloader calls the DNS resolver to get the corresponding IP address for the URL.
+
+#### Content Parser
+
+After a web page is downloaded, it must be parsed and validated because malformed web pages could provoke problems and waste storage space.
+
+#### Content Seen?
+
+"Content Seen?" data structure eliminates data redundancy and shortens processing time.
+
+#### Content Storage
+
+It is a storage system for storing HTML content. Both disk and memory are used.
+
+#### URL Extractor
+
+URL Extractor parses and extracts links from HTML pages.
+
+Given,
+
+```html
+<html class="client-nojs" lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Wikipedia, the free encyclopedia</title>
+  </head>
+  <body>
+    <li><a href="/wiki/Cong_Weixi" title="Cong Weixi">Cong Weixi</a></li>
+    <li><a href="/wiki/Kay_Hagan" title="Kay Hagan"></a>Kay Hagan</li>
+    <li><a href="/wiki/Vladimir_Bukovsky" title="Vladimir Bukovsky"></a>Vladimir Bukovsky</li>
+    <li><a href="/wiki/John_Conyers" title="John Conyers">John Conyers</a></li>
+  </body>
+</html>
+```
+
+URL extractor extracts the following links:
+
+- `https://en.wikipedia.org/wiki/Cong_Weixi`
+- `https://en.wikipedia.org/wiki/Kay_Hagan`
+- `https://en.wikipedia.org/wiki/Vladimir_Bukovsky`
+- `https://en.wikipedia.org/wiki/John_Conyers`
+
+#### URL Filter
+
+URL filter excludes certain content types, file extensions, error links and URLs in "blacklisted" sites.
+
+#### URL Seen?
+
+"URL Seen?" is a data structure that keeps track of URLs that that have been visited before or already in the Frontier. "URL Seen?" helps to avoid adding the same URL multiple times as this can increase server load and cause potential infinite loops.
+
+Bloom filter and hash tables are common techniques to implement the "URL Seen?" component.
+
+#### URL Storage
+
+URL Storage stores already visited URLs.
+
+### Web crawler workflow
+
+![web crawler workflow](../../assets/crawler-workflow.png)
+
+1. Add seed URLs to the URL Frontier.
+2. HTML Downloader fetches a list of URLs from URL Frontier.
+3. HTML Downloader gets IP addresses of URLs from DNS Resolver and starts downloading.
+4. Content Parser parses HTML pages and checks if pages are malformed.
+5. 
 
 ## Step 3 - Design Deep Dive
 
