@@ -12,21 +12,26 @@ __Candidate:__ What is the main purpose of the crawler? Is is used for search en
 
 __Interviewer:__ Search engine indexing.
 
+
 __Candidate:__ How many web pages does the web crawler collect per month?
 
 __Interviewer:__ 1 billion pages
+
 
 __Candidate:__ What content types are included? HTML only or other content types such as PDFs and images as well?
 
 __Interviewer:__ HTML only.
 
+
 __Candidate:__ Shall we consider newly added or edited web pages?
 
-__Interviewer:__Yes, we should consider newly added or edited web pages.
+__Interviewer:__ Yes, we should consider newly added or edited web pages.
+
 
 __Candidate:__ Do we need to store HTML pages crawled from the web?
 
 __Interviewer:__ Yes, up to 5 years.
+
 
 __Candidate:__ How do we handle web pages with duplicate content?
 
