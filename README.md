@@ -8,6 +8,11 @@
   - Java Persistence with Spring Data and Hibernate
     - [1장](spring/jpa/java-persistence-with-spring-data-and-hibernate/1.md)
 
+## Kotlin
+
+- [Kotlin in Action](https://www.manning.com/books/kotlin-in-action-second-edition)
+  - [Chapter 1: Kotlin: What and why](kotlin/kia/01-what-and-why.md)
+
 ## PS
 
 - [자주 사용하는 컬렉션 프레임워크 인터페이스](ps/collections.md)
