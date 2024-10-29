@@ -1,4 +1,4 @@
-# 자주 사용하는 컬렉션 프레임워크 인터페이스
+# 컬렉션 프레임워크
 
 ## 스택
 
@@ -44,7 +44,7 @@ Deque<Integer> stack = new ArrayDeque<>();
 | pop() | removeFirst() |
 | peek() | getFirst() |
 
-스택이 비어있는 경우, `peek()`은 `null`을 리턴하지만 `pop()`은 `NoSuckElementException`을 던진다.
+스택이 비어있는 경우, `peek()`은 `null`을 리턴하지만 `pop()`은 `NoSuchElementException`을 던진다.
 
 ### Thread-safe
 
