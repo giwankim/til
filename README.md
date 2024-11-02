@@ -13,6 +13,13 @@
 - [Kotlin in Action](https://www.manning.com/books/kotlin-in-action-second-edition)
   - [1. Kotlin: What and why](kotlin/kia/01-what-and-why.md)
   - [2. Kotlin basics](kotlin/kia/02-basics.md)
+  - [3. Defining and calling functions](kotlin/kia/03-functions.md)
+
+## CS
+
+- TODO: Two's complement
+- TODO: Master theorem
+- TODO: Floating point
 
 ## PS
 
@@ -45,6 +52,10 @@
   - [10. Design a Notification System](system-design/interview/10-notification-system.md)
   - [11. Design a News Feed System](system-design/interview/11-news-feed-system.md)
   - [12. Design a Chat System](system-design/interview/12-chat-system.md)
+
+## Books
+
+- [The Pragmatic Programmer](books/tpp.md)
 
 ## SQL
 
