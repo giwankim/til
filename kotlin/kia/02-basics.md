@@ -196,6 +196,32 @@ You can also use the Kotlin property syntax for class defined in Java. Getters i
 
 ### Custom accessors
 
+```kotlin
+class Rectangle(
+    val height: Int,
+    val width: Int,
+) {
+    val isSquare: Boolean
+        get() {
+            return height == width
+        }
+}
+```
+
+Note that you can define the getter using expression-body syntax and write `val isSquare get() = height == width` as well. The expression-body syntax allows you to omit explicitly specifying the property type, having the compiler infer the type.
+
+To invoke the property like `isSquare`
+
+```kotlin
+fun main() {
+    val rectangle = Rectangle(41, 43)
+    println(rectangle.isSquare)
+    // false
+}
+```
+
+You might ask whether it's better to declare a property with a custom getter or define a function inside the class (referred to as a _member function_ or _method_). Generally, if you describe the characteristic (the property) of a class, you should declare it as a property. If you are describing the behavior of a class, choose a member function instead.
+
 ### Source code layout: Directories and packages
 
 ## Enums and when
