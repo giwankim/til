@@ -224,7 +224,17 @@ You might ask whether it's better to declare a property with a custom getter or 
 
 ### Source code layout: Directories and packages
 
+Kotlin uses the concept of _packages_ to organize classes. Every Kotlin file can have a `package` statement at the beginning, and all declarations (classes, functions, and properties) defined in the file will be placed in that package.
+
+Declarations defined in other files can be used directly if they're in the same package; they need to be _imported_ if they're in a different package.
+
+In Java, you put your classes into a structure of files and directories that matches the package structure.
+
+In Kotlin, you can put multiple classes in the same file and choose any name for that file. Kotlin doesn't impose any restrictions on the layout of source files on disk.
+
 ## Enums and when
+
+### Smart casts: Combining type checks and casts
 
 ## While and for loops
 
