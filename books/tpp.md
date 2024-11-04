@@ -18,9 +18,11 @@ A Pragmatic programmer has the following characteristics:
 - Realistic
 - Jack of all trades
 
-__Tip 1: Care about your craft__
+> [!TIP]
+> Tip 1: Care about your craft
 
-__Tip 2: Think! About your work__
+> [!TIP]
+> Tip 2: Think! About your work
 
 __Individual Pragmatists, Large Teams__
 
@@ -48,13 +50,50 @@ We all spend a large amount of time interacting with others. [Communicate!](#com
 
 ### It's Your Life
 
-### The Cat Ate My Source Code
+> [!TIP]
+> Tip 3: You Have Agency
+
+Does your work environment suck? Is your job boring? Try to fix it. But don't try forever. As Martin Fowler says, "you can change your organization or change your organization[^1]."
+
+The industry gives you remarkable set of opportunities. Be proactive, and take them.
+
+### The Cat Ate My Source 
+
+One of the cornerstones of the pragmatic philosophy is the idea of taking responsibility for yourself and you actions in terms of your career advancement, your learning and education, your project, and your day-to-day work.
+
+__Team Trust__
+
+Above all, your team needs to be able to trust and rely on you--and you need to be comfortable relying on each of them as well.
+
+__Take Responsibility__
+
+Responsibility is something you actively agree on.
+
+When you _do_ accept the responsibility for an outcome, you should expect to be held accountable for it.
+
+> [!TIP]
+> Tip 4: Provide Options, Don't Make Lame Excuses
 
 ### Software Entropy
 
-When disorder increases in software, we call it "software rot." 
+When disorder increases in software, we call it "software rot." Some folks might call it by the more optimistic term, "technical debt," with the implied notion that they'll pay it back someday.
+
+> [!TIP]
+> Tip 5: Don't Live with Broken Windows
+
+Don't leave "broken windows" (bad designs, wrong decisions, or poor code) unrepaired.
+
+__First, Do No Harm__
+
+Don't cause collateral damage just because there's a crisis of some sort.
 
 ### Stone Soup and Boiled Frogs
+
+> [!TIP]
+> Tip 6: Be a Catalyst for Change
+
+> [!TIP]
+> Tip 7: Remember the Big Picture
 
 ### Good-Enough Software
 
@@ -63,3 +102,23 @@ When disorder increases in software, we call it "software rot."
 ### Communicate!
 
 ## 2. A Pragmatic Approach
+
+### The Essence of Good Design
+
+### DRY--The Evils of Duplication
+
+### Orthogonality
+
+### Reversibility
+
+### Tracer Bullets
+
+### Prototypes and Post-It Notes
+
+### Domain Languages
+
+### Estimating
+
+## 3. Tha Basic Tools
+
+[^1]: https://wiki.c2.com/?ChangeYourOrganization

@@ -234,8 +234,92 @@ In Kotlin, you can put multiple classes in the same file and choose any name for
 
 ## Enums and when
 
+### Enum class declaration
+
+In Kotlin, `enum` is a _soft keyword:_ it has a special meaning when it comes before `class`, but you can use it as a regular name (e.g., for a function, variable name or parameter) in other places. On the other hand, `class` is a _hard keyword_, meaning you can't use it as an identifier: you can use an alternate spelling or phrasing, like `clazz` or `aClass`.
+
+```kotlin
+package ch02.enums.colors
+
+enum class Color(
+    val r: Int,
+    var g: Int,
+    var b: Int,
+) {
+    RED(255, 0, 0),
+    ORANGE(255, 165, 0),
+    YELLOW(255, 255, 0),
+    GREEN(0, 255, 0),
+    BLUE(0, 0, 255),
+    INDIGO(75, 0, 130),
+    VIOLET(238, 130, 238),
+    ;
+
+    val rgb = (r * 256 + g) * 256 + b
+
+    fun printColor() = println("$this is $rgb")
+}
+
+fun main() {
+    println(Color.BLUE.rgb)
+    // 255
+    Color.GREEN.printColor()
+    // GREEN is 65280
+}
+```
+
+Note that this example shows the only place in Kotlin syntax where your're required to use semicolons: if you define any methods in the enum class, the semicolons separates the enum constant list from the method definitions.
+
+### When expression
+
+Like `if,` `when` is an expression that returns a value. The following is a function with a _expression body_, returning the `when` expression directly.
+
+```kotlin
+fun getMnemonic(color: Color) =
+    when (color) {
+        Color.RED -> "Richard"
+        Color.ORANGE -> "Of"
+        Color.YELLOW -> "York"
+        Color.GREEN -> "Gave"
+        Color.BLUE -> "Battle"
+        Color.INDIGO -> "In"
+        Color.VIOLET -> "Vain"
+    }
+```
+
+You can also combine multiple values in the same branch if you separate them with commas.
+
+```kotlin
+fun getWarmthFromSensor(): String =
+    when (val color = measureColor()) {
+        Color.RED, Color.ORANGE, Color.YELLOW -> "warm (red = ${color.r})"
+        Color.GREEN -> "neutral (green = ${color.g})"
+        Color.BLUE, Color.INDIGO, Color.VIOLET -> "cold (blue = ${color.b})"
+    }
+```
+
+Note that anytime `when` is used as an expression (meaning its result is used in an assignment or as a return value), the compiler enforces the construct to be _exhaustive._
+
+The `when` expression can capture its subject in a variable.
+
+The `when` construct in Kotlin is more flexible than in other languages--you can use any kind of object as a branch condition.
+
+```kotlin
+fun mix(
+    c1: Color,
+    c2: Color,
+) = when (setOf(c1, c2)) {
+    setOf(RED, YELLOW) -> ORANGE
+    setOf(YELLOW, BLUE) -> GREEN
+    setOf(BLUE, VIOLET) -> INDIGO
+    else -> throw Exception("Dirty color")
+}
+```
+
+Since the Kotlin compiler can't deduce that we have covered all possible combinations of color set, a default case is provided.
+
 ### Smart casts: Combining type checks and casts
 
-## While and for loops
+## Iteration: while and for loops
 
 ## Exceptions
