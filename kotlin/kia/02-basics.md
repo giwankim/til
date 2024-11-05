@@ -429,6 +429,21 @@ The rule that _the last expression in a block is the result_ holds in all cases 
 
 ### while loop
 
+Kotlin has `while` and `do-while` loops.
+
+For nested loops, Kotlin allows you to specify a _label_, which you can then reference when using `break` or `continue`. A label is an identifier followed by the at sign (@):
+
+```kotlin
+outer@ while (outerCondition) {
+  while (innerCondition) {
+    if (shouldExitInner) break
+    if (shouldSkipInner) continue
+    if (shouldExit) break@outer
+    if (shouldSkip) continue@outer
+  }
+}
+```
+
 ### Ranges and progressions
 
 Kotlin does not have C-style `for` loop. To replace the most common use cases for such loops, Kotlin uses the concepts of `ranges`. A range is essentially just an interval between two values: a start and an end. You write it using the `..` operator:
@@ -441,11 +456,70 @@ Note that in Kotlin, these ranges are _closed_ or _inclusive_.
 
 The most basic thing you can do with integer ranges is loop over all the values. If you can iterate over all the values in a range, such a range is called a _progression_.
 
+```kotlin
+fun main() {
+  for (i in 1..100) {
+    print(i)
+  }
+}
+```
+
+A progression can also have a _step_, which allows it to skip some numbers. The step can also be negative, in which case the progression goes backward rather than forward.
+
+```kotlin
+fun main() {
+  for (i in 100 downTo 1 step 2) {
+    print(i)
+  }
+}
+```
+
+The `..` syntax creates a range that includes the end point. To create a half-closed range, which don't include the specified end point, use `..<`. For eexample, the loop `for (x in 0..<size)` is equivalent to `for (x in 0..size-1)`.
+
+### Iterating over maps
+
+The most common scenario of using a `for (x in y)` loop is iterating over a collection.
+
+Let's see an example of iterating over a map.
+
+```kotlin
+fun main() {
+    val binaryReps = mutableMapOf<Char, String>()
+    for (char in 'A'..'F') {
+        val binary = char.code.toString(radix = 2)
+        binaryReps[char] = binary
+    }
+
+    for ((letter, binary) in binaryReps) {
+        println("$letter = $binary")
+    }
+    // A = 1000001
+    // B = 1000010
+    // C = 1000011
+    // D = 1000100
+    // E = 1000101
+    // F = 1000110
+}
+```
+
+You can use the same unpacking syntax to iterate over a collection while keeping track of the index of the current item.
+
+```kotlin
+fun main() {
+    val list = listOf("10", "11", "1001")
+    for ((index, element) in list.withIndex()) {
+        println("$index: $element")
+    }
+    // 0: 10
+    // 1: 11
+    // 2: 1001
+}
+```
+
+### Using `in` to check collection and range membership
+
 ## Exceptions
 
 Exception handling in Kotlin is similar to the way it is done in Java. A function can complete in a normal way or throw an exception if an error occurs. The function caller can catch this exception and process it; if it doesn't, the exception is re-thrown further up the stack.
 
 The `throw` construct is an _expression_ and can be used as a part of other expressions:
-
-```kotlin
-```
