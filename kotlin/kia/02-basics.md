@@ -318,8 +318,134 @@ fun mix(
 
 Since the Kotlin compiler can't deduce that we have covered all possible combinations of color set, a default case is provided.
 
+It is also possible to write a `when` expression without an argument.
+
+```kotlin
+fun mixOptimized(
+    c1: Color,
+    c2: Color,
+) = when {
+    (c1 == RED && c2 == YELLOW) || (c1 == YELLOW && c2 == RED) -> ORANGE
+    (c1 == YELLOW && c2 == BLUE) || (c1 == BLUE && c2 == YELLOW) -> GREEN
+    (c1 == BLUE && c2 == VIOLET) || (c1 == VIOLET && c2 == BLUE) -> INDIGO
+    else -> throw Exception("Dirty color")
+}
+```
+
+If no argument is supplied for the `when` expression, the branch condition is any Boolean expression.
+
 ### Smart casts: Combining type checks and casts
+
+We'll write a function that evaluates simple arithmetic expression, like `(1 + 2) + 4`. In the process, we'll learn about how _smart casts_ make it much easier to work with Kotlin objects of different types.
+
+To mark that a class implements an interface, you use a colon (:) followed by the interface name.
+
+```kotlin
+interface Expr
+
+class Num(
+    val value: Int,
+) : Expr
+
+class Sum(
+    val left: Expr,
+    val right: Expr,
+) : Expr
+```
+
+First, we'll look an implementation of this function written in a style similar to what you might see in Java code. Then, we'll refactor it to reflect idiomatic Kotlin.
+
+```kotlin
+fun eval(e: Expr): Int {
+    if (e is Num) {
+        val n = e as Num
+        return n.value
+    }
+    if (e is Sum) {
+        return eval(e.left) + eval(e.right)
+    }
+    throw IllegalArgumentException("Unknown expression")
+}
+```
+
+Kotlin's `is` check provides some additional convenience: if you check the variable for a certain type, you don't need to cast it afterward. In effect, the compiler performs the cast for you, something we call a _smart cast_.
+
+Recall that `if` expression can already return a value.
+
+```kotlin
+fun eval(e: Expr): Int =
+    if (e is Num) {
+        e.value
+    } else if (e is Sum) {
+        eval(e.right) + eval(e.left)
+    } else {
+        throw IllegalArgumentException("Unknown expression")
+    }
+```
+
+There is an even better language construct for expressing multiple choices.
+
+```kotlin
+fun eval(e: Expr): Int =
+    when (e) {
+        is Num -> e.value
+        is Sum -> eval(e.left) + eval(e.right)
+        else -> throw IllegalArgumentException("Unknown expression")
+    }
+```
+
+Both `if` and `when` can have blocks as branches. In this case, the last expression in the block is the result.
+
+```kotlin
+fun eval(e: Expr): Int =
+    when (e) {
+        is Num -> {
+            println("num: ${e.value}")
+            e.value
+        }
+        is Sum -> {
+            val left = eval(e.left)
+            val right = eval(e.right)
+            println("sum: $left + $right")
+            left + right
+        }
+        else -> throw IllegalArgumentException("Unknown expression")
+    }
+
+fun main() {
+    println(eval(Sum(Sum(Num(1), Num(2)), Num(4))))
+    // num: 1
+    // num: 2
+    // sum: 1 + 2
+    // num: 4
+    // sum: 3 + 4
+    // 7
+}
+```
+
+The rule that _the last expression in a block is the result_ holds in all cases in which a block can be used and a result is expected.
 
 ## Iteration: while and for loops
 
+### while loop
+
+### Ranges and progressions
+
+Kotlin does not have C-style `for` loop. To replace the most common use cases for such loops, Kotlin uses the concepts of `ranges`. A range is essentially just an interval between two values: a start and an end. You write it using the `..` operator:
+
+```kotlin
+val oneToTen = 1..10
+```
+
+Note that in Kotlin, these ranges are _closed_ or _inclusive_.
+
+The most basic thing you can do with integer ranges is loop over all the values. If you can iterate over all the values in a range, such a range is called a _progression_.
+
 ## Exceptions
+
+Exception handling in Kotlin is similar to the way it is done in Java. A function can complete in a normal way or throw an exception if an error occurs. The function caller can catch this exception and process it; if it doesn't, the exception is re-thrown further up the stack.
+
+The `throw` construct is an _expression_ and can be used as a part of other expressions:
+
+```kotlin
+```
