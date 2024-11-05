@@ -518,6 +518,26 @@ fun main() {
 
 ### Using `in` to check collection and range membership
 
+The `in` operator checks whether a value is in a range or its opposite, `!in`, to check whether a value isn't in a range.
+
+If you have any class that supports comparing instances (by implementing the `kotlin.Comparable` interface), you can create ranges of objects of that type. If you have such a range, you can't enumerate all objects in the range but can still check whether another object belongs to the range, using the `in` operator:
+
+```kotlin
+fun main() {
+  println("Kotlin" in "Java".."Scala")
+  // true
+}
+```
+
+The same `in` check works with collections as well:
+
+```kotlin
+fun main() {
+  println("Kotlin" in setOf("Java", "Scala"))
+  // false
+}
+```
+
 ## Exceptions
 
 Exception handling in Kotlin is similar to the way it is done in Java. A function can complete in a normal way or throw an exception if an error occurs. The function caller can catch this exception and process it; if it doesn't, the exception is re-thrown further up the stack.
