@@ -542,4 +542,97 @@ fun main() {
 
 Exception handling in Kotlin is similar to the way it is done in Java. A function can complete in a normal way or throw an exception if an error occurs. The function caller can catch this exception and process it; if it doesn't, the exception is re-thrown further up the stack.
 
+You throw an exception using the `throw` keyword--in this case, to indicate that the calling function has provided an invalid percentage value:
+
+```kotlin
+if (percentage !in 0..100) {
+  throw IllegalArgumentException(
+    "A percentage value must be between 0 and 100: $percentage")
+}
+```
+
 The `throw` construct is an _expression_ and can be used as a part of other expressions:
+
+```kotlin
+val percentage =
+    if (number in 1..100) {
+        number
+    } else {
+        throw IllegalArgumentException("A percentage value must be between 0 and 100: $number")
+    }
+```
+
+### Handling exceptions and recovering from errors: try, catch, and finally
+
+You can use the `try` construct with `catch` and `finally` clauses to handle exceptions.
+
+```kotlin
+import java.io.BufferedReader
+import java.io.StringReader
+
+fun readNumber(reader: BufferedReader): Int? {
+    try {
+        val line = reader.readLine()
+        return Integer.parseInt(line)
+    } catch (e: NumberFormatException) {
+        return null
+    } finally {
+        reader.close()
+    }
+}
+
+fun main() {
+    val reader = BufferedReader(StringReader("239"))
+    println(readNumber(reader))
+    // 239
+}
+```
+
+An important difference from Java is that Kotlin doesn't have a `throws` clause. If you wrote this function in Java, you'd explicitly write `throws IOException` after the function declaration.
+
+`Integer readNumber(BufferedReader reader) throws IOException;`
+
+Kotlin doesn't differentiate between checked and unchecked exceptions. You don't specify the exceptions thrown yb a function, and you may or may not handle any exceptions.
+
+### Using try as an expression
+
+Since `try` is an _expression_, you can modify the example a little to take advantage of that and assign the value of your `try` expression to a variable.
+
+```kotlin
+fun readNumber(reader: BufferedReader) {
+    val number =
+        try {
+            Integer.parseInt(reader.readLine())
+        } catch (e: NumberFormatException) {
+            return
+        }
+    println(number)
+}
+
+fun main() {
+    val reader = BufferedReader(StringReader("not a number"))
+    readNumber(reader)
+}
+
+```
+
+It's worth pointing out that, unlike with `if`, you always need to enclose the statement body in curly braces. If the body contains multiple expressions, the value of the `try` expression as a whole is the value of the last expression.
+
+```kotlin
+fun readNumber(reader: BufferedReader) {
+    val number =
+        try {
+            Integer.parseInt(reader.readLine())
+        } catch (e: NumberFormatException) {
+            null
+        }
+
+    println(number)
+}
+
+fun main() {
+    val reader = BufferedReader(StringReader("not a number"))
+    readNumber(reader)
+    // null
+}
+```
