@@ -35,12 +35,31 @@ __Interviewer:__ It can contain media files, including both images and videos.
 
 The design is divided into two flows: feed publishing and newsfeed building.
 
-- Feed publishing: when a user publishes a post, corresponding data is written into cache and database. A post is populated to her friends' newsfeed.
+- Feed publishing: when a user publishes a post, corresponding data is written into cache and database. A post is populated to friends' newsfeed.
 - Newsfeed building: for simplicity, let us assume the newsfeed is built by aggregating friends' posts in reverse chronological order.
 
 ### Newsfeed APIs
 
+To publish a post.
+
+`POST /v1/me/feed`
+
+Params:
+
+- `content`: content is the text of the post.
+- `auth_token`: used to authenticate API requests.
+
+To retrieve newsfeed:
+
+`GET v1/me/feed`
+
+Params:
+
+- `auth_token`: used to authenticate API requests.
+
 #### Feed publishing
+
+
 
 #### Newsfeed building
 

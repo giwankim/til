@@ -212,6 +212,109 @@ Gradle runs these phases in order:
 
 ## 4. Writing Settings Files
 
+![settings file](https://docs.gradle.org/current/userguide/img/author-gradle-7.png)
+
+The initialization phase finds the setting file in the project root directory.
+
+When the settings file `settings.gradle.kts` is found, Gradle instantiates a [`Settings`](https://docs.gradle.org/current/dsl/org.gradle.api.initialization.Settings.html) object.
+
+One of the purposes of the `Settings` object is to allow you to declare all the projects to be included in the build.
+
+### Settings Scripts
+
+Before Gradle assembles the projects for a build, it creates a `Settings` instance and executes the settings file against it.
+
+```mermaid
+flowchart LR
+  A["setting.gradle.kts"] --> B["Settings()"]
+```
+
+### The `Settings` Object
+
+Many top-level properties and blocks in a settings script are part of the Settings API.
+
+#### Standard `Settings` properties
+
+The `Settings` object exposes a standard set of properties in your settings script.
+
+The following table lists a few commonly used properties:
+
+| Name | Description |
+| --- | ---- |
+| buildCache | The build cache configuration. |
+| plugins | The container of plugins that have been applied to the settings. |
+| rootDir | The root directory of the build. |
+| rootProject | The root project of the build |
+| settings | Returns this settings object |
+
+The following table lists a few commonly used methods:
+
+| Name | Description |
+| --- | ---- |
+| include() | Adds the given projects to the build. |
+| includeBuild() | Includes a build at the specified path to the composite build. |
+
+### Settings Script structure
+
+Let's take a look at an example `settings.gradle.kts` file and break it down:
+
+```kotlin
+pluginManagement {
+  repositories {
+    gradlePluginPortal()
+    google()
+  }
+}
+
+plugins {
+  id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
+}
+
+rootProject.name = "root-project"
+
+dependencyResolutionManagement {
+  repositories {
+    mavenCentral()
+  }
+}
+
+include("sub-project-a")
+include("sub-project-b")
+include("sub-project-c")
+```
+
 ## 5. Writing Build Scripts
 
+The initialization phase in the Gradle Build lifecycle finds the root project and subprojects included in your project root directory using the settings file.
+
+Then, for each project included in the settings file, Gradle creates a `Project` instance.
+
+Gradle then looks for a corresponding build script file, which is used in the configuration phase.
+
+### Build Scripts
+
+Every Gradle build comprises one or more projects; a root project and subprojects.
+
+A build script configures a project and is associated with an object of type `Project`.
+
+```mermaid
+flowchart LR
+  A["build.gradle.kts"] --> B["Project()"]
+```
+
+#### Build Script structure
+
+```kotlin
+```
+
 ## 6. Using Tasks
+
+The work that Gradle can do on a project is defined by one or more _tasks_.
+
+A task represents some independent unit of work that a build performs.
+
+## 7. Writing Tasks
+
+## 8. Using Plugins
+
+## 9. Writing Plugins

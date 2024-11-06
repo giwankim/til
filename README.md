@@ -14,12 +14,15 @@
   - [1. Kotlin: What and why](kotlin/kia/01-what-and-why.md)
   - [2. Kotlin basics](kotlin/kia/02-basics.md)
   - [3. Defining and calling functions](kotlin/kia/03-functions.md)
+  - [4. Classes, objects, and interfaces](kotlin/kia/04-classes.md)
 
 ## CS
 
 - TODO: Two's complement
 - TODO: Master theorem
 - TODO: Floating point
+- TODO: WebSockets vs Server-Sent-Events vs Long-Polling (vs WebRTC vs WebTransport)
+- TODO: Distributed Locking
 
 ## PS
 
