@@ -333,4 +333,109 @@ This feature is called a _destructuring declaration_.
 
 ## Working with strings and regular expressions
 
+Kotlin makes working with standard Java string more convenient by providing several useful extension functions. Also, it hides some confusing methods, adding extensions that are clearer.
+
+### Splitting strings
+
+It's a common trap to write `"12.345-6.A".split(".")` and expect an array `[12, 345-6, A]` as a result. But Java's `split` methods returns an empty array. That happens because it takes a regular expression as a parameter and splits a string into several strings. Here, the dot (.) is a regular expression that denotes any character.
+
+Kotlin hides the confusing method and provides as replacements several overloaded extensions named `split` that have different arguments. The one that takes a regular expression requires a value of type `Regex` or `Pattern`, not `String`.
+
+```kotlin
+fun main() {
+    println("12.345-6.A".split("\\.|-".toRegex()))
+    // [12, 345, 6, A]
+}
+```
+
+```kotlin
+fun main() {
+    println("12.345-6.A".split(".", "-"))
+    // [12, 345, 6, A]
+}
+```
+
+### Regular expressions and triple-quoted strings
+
+### Multiline triple-quoted strings
+
+The purpose of triple-quoted strings is not only to avoid escaping characters. Such a strong literal can contain any characters, including line breaks.
+
+By calling `trimIndent`, you can remove that common minimal indent of all the lines of your string and remove the first and last lines of the string, given they are blank.
+
 ## Local functions and extensions
+
+You can nest functions you've extracted in the containing function.
+
+Let's see how to use local functions to fix a fairly common case of code duplication.
+
+```kotlin
+class User(
+    val id: Int,
+    val name: String,
+    val address: String,
+)
+
+fun saveUser(user: User) {
+    if (user.name.isEmpty()) {
+        throw IllegalArgumentException("Can't save user ${user.id}: empty Name")
+    }
+
+    if (user.address.isEmpty()) {
+        throw IllegalArgumentException("Can't save user ${user.id}: empty Address")
+    }
+
+    // Save user to the database
+}
+
+fun main() {
+    saveUser(User(1, "", ""))
+    // java.lang.IllegalArgumentException: Can't save user 1: empty Name
+}
+```
+
+If you put the validation code into a local function, you can get rid of the duplication.
+
+```kotlin
+fun saveUser(user: User) {
+    fun validate(
+        value: String,
+        fieldName: String,
+    ) {
+        if (value.isEmpty()) {
+            throw IllegalArgumentException("Can't save user ${user.id}: empty $fieldName")
+        }
+    }
+
+    validate(user.name, "Name")
+    validate(user.address, "Address")
+
+    // Save user to the database
+}
+```
+
+To further improve this example, you can move the validation logic into an extension function of the `User` class.
+
+```kotlin
+fun User.validateBeforeSave() {
+    fun validate(
+        value: String,
+        fieldName: String,
+    ) {
+        if (value.isEmpty()) {
+            throw IllegalArgumentException("Can't save user $id: empty $fieldName")
+        }
+    }
+
+    validate(name, "Name")
+    validate(address, "Address")
+}
+
+fun saveUser(user: User) {
+    user.validateBeforeSave()
+
+    // Save user to the database
+}
+```
+
+Extracting a piece of code into an extension function turn out to be surprisingly useful. If you follow this approach, the API of the class contains only the essential methods used everywhere, so the class remains small and easy to wrap your head around. On the other hand, functions that primarily deal with a single object and don't need access to its private data can access its members without extra qualification, as in the above example.
