@@ -101,9 +101,50 @@ The _fragile base class_ problem occurs when modifications of a base class can c
 
 If you want to allow the creation of subclasses of a class, you need to mark the class with the `open` modifier. In addition, you need to add the `open` modifier to every property or method that can be overridden.
 
+Let's say you want to create a clickable `RickButton`. You could declare the class as follow.
+
+```kotlin
+open class RichButton : Clickable { // This class is open: others can inherit from it.
+  fun disable() { /* ,,, */ } // This function is final: you can't override it in a subclass.
+  open fun animate() { /* ,,, */ } // This function is open: you may override it in  a subclass.
+  override fun click() { /* ,,, */ } // This function overrides an open function and is open as well.
+}
+```
+
+This means a subclass of `RichButton` could, in turn, look like the following.
+
+```kotlin
+class ThemedButton : RichButton() { // Because disable is final in RichButton by default, you can't override it here.
+  override fun animate() { /* ,,, */ } // animate is explicitly open, so you can override it.
+  override fun click() { /* ,,, */ } // You can override click because RichButton didn't explicitly mark it as final.
+  override fun showOff() { /* ,,, */ } // You can override showOff even though RichButton didn't provide an override.
+}
+```
+
 Note that if you override a member of a base class or interface, the overriding member will also be `open` by default. If you want to change this and forbid the subclasses from overriding your implementation, you can explicitly mark the overridden member as `final`.
 
+```kotlin
+open class RichButton : Clickable {
+  final override fun click() { /* ,,, */ } // final
+}
+```
+
 You can also declare a class as `abstract`, making it so the class can't be instantiated. An abstract class usually contains abstract members that don't have implementations and must be overridden in subclasses.
+
+An example of an abstract class is a class that defines the properties of an animation, like the animation speed and number of frames, as well as behavior for running the animation. Since these properties and methods only make sense when implemented by another object, `Animated` is marked as `abstract`.
+
+```abstract class Animated { // This class is abstract: you can't create an instance of it.
+  abstract val animationSpeed: Double // This property is abstract: it doesn't have a value, and subclasses need to override its value or accessor.
+  val keyframes: Int = 20 // Properties in abstract classes aren't open by
+  open val frames: Int = 60 // default but can be explicitly marked as open.
+
+  abstract fun animate()  // This function is abstract: must be overridden in subclasses.
+  open fun stopAnimating() { /* ... */ } // Non-abstract functions in abstract classes
+  fun animateTwice() { /* ... */ } // aren't open by default but can be marked as such.
+}
+```
+
+In interfaces you don't use `final`, `open`, or `abstract`. A member in an interface is always `open`; you can't declare it as `final`. It's `abstract` if it has no body but the keyword isn't required.
 
 ### Visibility modifiers: Public by default
 
