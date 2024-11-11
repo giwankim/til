@@ -150,20 +150,69 @@ In interfaces you don't use `final`, `open`, or `abstract`. A member in an inter
 
 Visibility modifiers help to control access to declarations in your code base. By restricting the visibility of a class's implementation details, you ensure that you can change them without risk of breaking code that depends on the class.
 
-Kotlin provides `public`, `protected`, and `private` modifiers. In Kotlin, not specifying a modifier means the declaration is `public`.
+Kotlin provides `public`, `protected`, and `private` modifiers: `public` declarations are visible everywhere; `protected` declarations are visible in subclasses; and `private` declarations are visible inside a class or, in the case of top-level declarations, visible inside a file. In Kotlin, not specifying a modifier means the declaration is `public`.
 
 For restricting visibility inside a module, Kotlin provides the visibility modifier `internal`. A _module_ is a set of Kotlin files compiled together. This could be a Gradle source set, a Maven project, or an IntelliJ IDEA modules.
 
 > [!NOTE]
 > No package private in Kotlin
 > Kotlin uses packages only as a way of organizing code in namespaces; it doesn't use them for visibility control.
-> The advantage of `internal` visibility is that it provides real encapsulation. In Java, the encapsulation can be easily broken because external code can define classes in the same packages as used by your code.
+> The advantage of `internal` visibility is that it provides real encapsulation. In Java, the encapsulation can be easily broken because external code can define classes in the same packages as used by your code, and thus, gain access to your package-private declarations.
+
+Every line in the `giveSpeech` function tries to violate the visibility rules.
+
+```kotlin
+internal open class TalkativeButton {
+  private fun yell() = println("Hey!")
+  protected fun whisper() = println("Let's talk!")
+}
+
+fun TalkativeButton.giveSpeech() { // Error: public member exposes its internal receiver type TalkativeButton
+  yell() // Error: Cannot access yell; it is private in TalkativeButton
+
+  whisper() // Error: Cannot access whisper; it is protected in TalkativeButton
+}
+```
+
+Note the difference in behavior for the `protected` modifier in Java and Kotlin. In Java, you can access `protected` member from the same package, but Kotlin doesn't allow that.
+
+A `protected` member is _only_ visible in the class and its subclasses. Also note that extension functions of a class don't get access to its `private` and `protected` members.
+
+Another difference in visibility rules between Kotlin and Java is that an outer class doesn't see `private` members of its inner (or nested) classes in Kotlin.
 
 ### Inner and nested classes: Nested by default
+
+If you want to encapsulate a helper class or keep code close to where it it used, you can declare a class inside another class. Unlike in Java, nested classes in Kotlin don't have access to the outer class instance, unless you specifically request that.
 
 ### Sealed classes: Defining restricted class hierarchies
 
 ## Declaring a class with nontrivial constructors or properties
+
+Kotlin differentiates between a _primary_ constructor (which is usually the main, concise way to initialize a class and is declared outside of the class body) and a _secondary_ constructor (which is declared in the class body). It also allows you to put additional initialization logic in _initializer blocks_.
+
+### Initializing classes: Primary constructor and initializer blocks
+
+In a previous chapter we saw how to declare a simple class:
+
+```kotlin
+class User(val nickname: String)
+```
+
+The block of code surrounded by parentheses is called a _primary constructor_. It serves two purposes: specifying constructor parameters and defining properties that are initialized by those parameters. Here is a more explicit code that does the same thing:
+
+```kotlin
+class User constructor(_nickname: String) {
+  val nickname: String
+
+  init {
+    nickname = _nickname
+  }
+}
+```
+
+The `constructor` keyword begins the declaration of a primary or secondary constructor, and the `init` keyword introduces an _initializer block_.
+
+### Secondary constructors: Initializing the superclass in different ways
 
 ## Compiler-generated methods: Data classes and class delegation
 
