@@ -184,6 +184,70 @@ Another difference in visibility rules between Kotlin and Java is that an outer 
 
 If you want to encapsulate a helper class or keep code close to where it it used, you can declare a class inside another class. Unlike in Java, nested classes in Kotlin don't have access to the outer class instance, unless you specifically request that.
 
+Imagine we want to define a `View` element, the state of which can be serialized. We declare a `State` interface that implements `Serializable`. The `View` interface methods that can be used to save the state of a view.
+
+```kotlin
+interface State : Serializable
+
+interface View {
+    fun getCurrentState(): State
+
+    fun restoreState(state: State) { /* ... */ }
+}
+```
+
+It's handy to define a class that saves a button state in the `Button` class. Let's see how it can be done in Java.
+
+```java
+public class Button implements View {
+  @Override
+  public State getCurrentState() {
+    return new ButtonState();
+  }
+
+  @Override
+  public void restoreState(State state) { /* ... */ }
+
+  public class ButtonState implements State { /* ... */ }
+}
+```
+
+What's wrong with this code? Why do you get a `java.io.NotSerializableException:Button` exception if you try to serialize the state of the declared button?
+
+Recall in Java, when you declare a class in another class, it becomes an inner class by default. The `ButtonState` class implicitly stores a reference to its outer `Button` class. That explains why `ButtonState` can't be serialized: `Button` isn't serializable, and the reference to it breaks the serialization of `ButtonState`.
+
+To fix this problem, you need to declare the `ButtonState` class as `static`. Declaring a nested class as `static` removes the implicit reference from that class to its enclosing class.
+
+In Kotlin, the default behavior of inner classes is the opposite of what we've just described.
+
+```kotlin
+class Button : View {
+    override fun getCurrentState(): State = ButtonState()
+
+    override fun restoreState(state: State) { /* ... */ }
+
+    class ButtonState : State
+}
+```
+
+A nested class in Kotlin with no explicit modifiers is the same as a `static` nested class in Java. To turn it into an inner class so that it contains a reference to an outer class, you use the `inner` modifier.
+
+| Class A declared within another class B | In Java | In Kotlin |
+| --- | --- | --- |
+| Nested class (doesn't store a reference to an outer class) | `static class A` | `class A` |
+| Inner class (stores a reference to an outer class) | `class A` | `inner class A` |
+
+The syntax to reference an instance of an outer class in Kotlin also differs from Java. You write `this@Outer` to access the `Outer` class from the `Inner` class:
+
+```kotlin
+class Outer {
+    inner class Inner {
+        fun getOuterReference(): Outer = this@Outer
+    }
+}
+```
+
+
 ### Sealed classes: Defining restricted class hierarchies
 
 ## Declaring a class with nontrivial constructors or properties
