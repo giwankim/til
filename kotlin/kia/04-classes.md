@@ -247,12 +247,55 @@ class Outer {
 }
 ```
 
-
 ### Sealed classes: Defining restricted class hierarchies
+
+Recall the following example:
+
+```kotlin
+interface Expr
+class Num(val value: Int) : Expr
+class Sum(val left: Expr, val right: Expr) : Expr
+
+fun eval(e: Expr): Int =
+  when (e) {
+    is Num -> e.value
+    is Sum -> eval(e.left) + eval(e.right)
+    else -> throw IllegalArgumentException("Unknown expression")
+  }
+```
+
+It's convenient to handle all the possible cases in a `when` expression. But you must provide the `else` branch to specify what should happen if none of the other branches match.
+
+Always having to add a default branch isn't convenient. This can also become a problem, since if you add a new subclass, the compiler won't alert you that you're missing a case. If you forget to add a branch to handle that new subclass, it will simply choose the default branch, which can lead to subtle bugs.
+
+Kotlin comes with a solution to this problem: `sealed` classes. You mark a superclass with the `sealed` modifier, which restricts the possibility of creating subclasses. All _direct_ subclasses of a sealed class must be known at compile time and declared in the same package as the sealed class itself, and _all_ subclasses needed to be located within the same module.
+
+```kotlin
+sealed class Expr
+
+class Num(
+    val value: Int,
+) : Expr()
+
+class Sum(
+    val left: Expr,
+    val right: Expr,
+) : Expr()
+
+fun eval(e: Expr): Int =
+    when (e) {
+        is Num -> e.value
+        is Sum -> eval(e.left) + eval(e.right)
+    }
+```
+
+Note that the `sealed` modifier implies that the class is abstract; you don't need an explicit `abstract` modifier and can declare abstract members.
 
 ## Declaring a class with nontrivial constructors or properties
 
 Kotlin differentiates between a _primary_ constructor (which is usually the main, concise way to initialize a class and is declared outside of the class body) and a _secondary_ constructor (which is declared in the class body). It also allows you to put additional initialization logic in _initializer blocks_.
+
+Sealed interfaces follow the same rules: once the module that contains the sealed interface is compiled, no new implementations for it can be provided.
 
 ### Initializing classes: Primary constructor and initializer blocks
 
