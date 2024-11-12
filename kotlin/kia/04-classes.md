@@ -291,21 +291,21 @@ fun eval(e: Expr): Int =
 
 Note that the `sealed` modifier implies that the class is abstract; you don't need an explicit `abstract` modifier and can declare abstract members.
 
+Sealed interfaces follow the same rules: once the module that contains the sealed interface is compiled, no new implementations for it can be provided.
+
 ## Declaring a class with nontrivial constructors or properties
 
-Kotlin differentiates between a _primary_ constructor (which is usually the main, concise way to initialize a class and is declared outside of the class body) and a _secondary_ constructor (which is declared in the class body). It also allows you to put additional initialization logic in _initializer blocks_.
-
-Sealed interfaces follow the same rules: once the module that contains the sealed interface is compiled, no new implementations for it can be provided.
+In object-oriented languages, class can typically have one or more constructors. Kotlin is the same, but it makes an important, explicit distinction: it differentiates between a _primary_ constructor (which is usually the main, concise way to initialize a class and is declared outside of the class body) and a _secondary_ constructor (which is declared in the class body). It also allows you to put additional initialization logic in _initializer blocks_.
 
 ### Initializing classes: Primary constructor and initializer blocks
 
-In a previous chapter we saw how to declare a simple class:
+Prviously, we saw how to declare a simple class:
 
 ```kotlin
 class User(val nickname: String)
 ```
 
-The block of code surrounded by parentheses is called a _primary constructor_. It serves two purposes: specifying constructor parameters and defining properties that are initialized by those parameters. Here is a more explicit code that does the same thing:
+The block of code surrounded by parentheses is called a _primary constructor_. It serves two purposes: specifying constructor parameters and defining properties that are initialized by those parameters. Let's unpack what happens here and look at the most explicit code we can write that does the same thing:
 
 ```kotlin
 class User constructor(_nickname: String) {
@@ -319,7 +319,76 @@ class User constructor(_nickname: String) {
 
 The `constructor` keyword begins the declaration of a primary or secondary constructor, and the `init` keyword introduces an _initializer block_.
 
+In this example, you don't need to place the initialization code in the initializer block, because it can be combined with the declaration of the `nickname` property. You can also omit the `constructor` keyword if there are no annotations or visibility modifiers on the primary constructor.
+
+```kotlin
+class User(_nickname: String) {
+  val nickname = _nickname
+}
+```
+
+If the property is initialized with the corresponding constructor parameter, the code can be simplified by adding the `val` keyword before the parameter. This replaces the property definition in the class body:
+
+```kotlin
+class User(val nickname: String)
+```
+
+You can declare default values for constructor parameters just as you can for function parameters:
+
+```kotlin
+class User(
+    val nickname: String,
+    val isSubscribed: Boolean = true,
+)
+
+fun main() {
+    val alice = User("Alice")
+    println(alice.isSubscribed)
+    // true
+    val bob = User("Bob", false)
+    println(bob.isSubscribed)
+    // false
+    val carol = User("Carol", isSubscribed = false)
+    println(carol.isSubscribed)
+    // false
+}
+```
+
+If the constructor of a superclass takes arguments, then the primary constructor of your class also needs to initialize them. You can do so by providing the superclass constructor parameters after the superclass reference in the base class list:
+
+```kotlin
+open class User(val nickname: String) { /* ... */ }
+
+class SocialUser(nickname: String) : User(nickname) { /* ... */ }
+```
+
+If you don't declare any constructors for a class, a default constructor without parameters that does nothing will be generated for you:
+
+```kotlin
+open class Button
+```
+
+If you inherit from the `Button` class and don't provide any constructors, you have to explicitly invoke the constructor of the superclass even if it doesn't have any parameters.
+
+```kotlin
+class RadioButton: Button()
+```
+
+If you want to ensure that your class can't be instantiated by code outside the class itself, you have to make the constructor `private`.
+
+```kotlin
+class Secret private constructor(private val agentName: String) {}
+```
+
+> [!NOTE]
+> Alternative to private constructors
+> In Java, you can use a `private` constructor that prohibits class instantiation to express a more general idea: the class is a container of static utility members or is a singleton. Kotlin has built-in language features for these purposes. You use top-level functions as static utilities. To express singletons, you use object declarations.
+
+In most real use cases, the constructor of a class is straightforward: it contains no parameters or assigns the parameters to the corresponding properties.
+
 ### Secondary constructors: Initializing the superclass in different ways
+
+### Implementing properties declared in interfaces
 
 ## Compiler-generated methods: Data classes and class delegation
 
