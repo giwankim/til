@@ -308,7 +308,7 @@ class User(val nickname: String)
 The block of code surrounded by parentheses is called a _primary constructor_. It serves two purposes:
 
 - specifying constructor parameters and
--  defining properties that are initialized by those parameters. 
+- defining properties that are initialized by those parameters.
   
 The most explicit code we can write that does the same thing is
 
@@ -389,9 +389,7 @@ class Secret private constructor(private val agentName: String) {}
 
 ### Secondary constructors: Initializing the superclass in different ways
 
-Generally speaking, classes with multiple constructors are much less common in Kotlin. Most situations where you'd need overloaded constructors are covered by default parameter values and named argument syntax.
-
-But there are still situations when multiple constructors are required. The most common one comes up when you need to extend a framework class that provides multiple constructors that initialize the class in different ways. Take, for example, a `Downloader` class that's declared in Java and has two constructors:
+Take, for example, a `Downloader` class that's declared in Java and has two constructors:
 
 ```java
 import java.net.URI;
@@ -413,17 +411,28 @@ open class Downloader {
 }
 ```
 
-This class doesn't declare primary constructor, but it declares two secondary constructors.
+This class doesn't declare primary constructor, but it declares two secondary constructors. A secondary constructor is introduced using the `constructor` keyword.
 
 If you want to extend this class, you can declare the same constructors:
 
 ```kotlin
 class MyDownloader : Downloader {
-  constructor(): super(url) { /* ... */ }
+  constructor(url: String?): super(url) { /* ... */ }
+
+  constructor(uri: URI?): super(url) { /* ... */ }
 }
 ```
 
-If the class has no primary constructor, then each secondary constructor
+Just as in Java, you also have an option to call another constructor of your own class from a constructor, using the `this()` keyword.
+
+```kotlin
+class MyDownloader : Downloader {
+  constructor(url: String?) : this(URI(url))
+  constructor(uri: URI?) : super(uri)
+}
+```
+
+If the class has no primary constructor, then each secondary constructor must initialize the base class or delegate to another constructor that does so.
 
 ### Implementing properties declared in interfaces
 
