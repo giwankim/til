@@ -444,6 +444,81 @@ If the class has no primary constructor, then each secondary constructor must in
 
 ## The `object` keyword: Declaring a class and creating an instance, combined
 
+The `object` keyword comes up in Kotlin in a number of cases, but they all share the same core idea: the keyword defines a class and creates an instance of that class at the same time.
+
+- _Object declaration_: A way to define a singleton.
+- _Companion objects_: Can contain factory methods and other methods related to this class but which don't require a class instance to be called. Their members can be accessed via class name.
+- _Object expressions_: Used instead of Java's anonymous inner class.
+
+### Object declarations: Singletons made easy
+
+Kotlin provides first-class language support for _singleton pattern_ using the _object declaration_ feature. The object declaration combines a _class declaration_ and a declaration of a _single instance_ of that class.
+
+```kotlin
+object Payroll {
+  val allEmployees = mutableListOf<Person>()
+
+  fun calculateSalary() {
+    for (person in allEmployees) {
+      /* ... */
+    }
+  }
+}
+```
+
+Object declaration can also inherit from classes and interfaces.
+
+```kotlin
+object CaseInsensitiveFileComparator : Comparator<File> {
+    override fun compare(
+        file1: File,
+        file2: File,
+    ): Int = file1.path.compareTo(file2.path, ignoreCase = true)
+}
+
+fun main() {
+    println(CaseInsensitiveFileComparator.compare(File("/User"), File("/user")))
+    // 0
+}
+```
+
+You can use singleton objects in any context where an ordinary object can be used.
+
+```kotlin
+fun main() {
+    val files = listOf(File("/Z"), File("/a"))
+    println(files.sortedWith(CaseInsensitiveFileComparator))
+    // [/a, /Z]
+}
+```
+
+You can also declare objects in a class. Such objects also have only a single instance; they don't have a separate instance for each instance of the containing class.
+
+```kotlin
+data class Person(
+    val name: String,
+) {
+    object NameComparator : Comparator<Person> {
+        override fun compare(
+            p1: Person,
+            p2: Person,
+        ): Int = p1.name.compareTo(p2.name)
+    }
+}
+
+fun main() {
+    val persons = listOf(Person("Bob"), Person("Alice"))
+    println(persons.sortedWith(Person.NameComparator))
+    // [Person(name=Alice), Person(name=Bob)]
+}
+```
+
+### Companion objects: A place for factory methods and static methods
+
+### Companion objects as regular objects
+
+### Object expressions: Anonymous inner classes rephrased
+
 ## Extra type safety without overhead: Inline classes
 
 ```kotlin
