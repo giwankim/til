@@ -295,17 +295,22 @@ Sealed interfaces follow the same rules: once the module that contains the seale
 
 ## Declaring a class with nontrivial constructors or properties
 
-In object-oriented languages, class can typically have one or more constructors. Kotlin is the same, but it makes an important, explicit distinction: it differentiates between a _primary_ constructor (which is usually the main, concise way to initialize a class and is declared outside of the class body) and a _secondary_ constructor (which is declared in the class body). It also allows you to put additional initialization logic in _initializer blocks_.
+In object-oriented languages, classes can typically have one or more constructors. Kotlin is the same, but it makes an important, explicit distinction: it differentiates between a _primary_ constructor and a _secondary_ constructor. It also allows you to put additional initialization logic in _initializer blocks_.
 
 ### Initializing classes: Primary constructor and initializer blocks
 
-Prviously, we saw how to declare a simple class:
+We can declare a simple class as follows:
 
 ```kotlin
 class User(val nickname: String)
 ```
 
-The block of code surrounded by parentheses is called a _primary constructor_. It serves two purposes: specifying constructor parameters and defining properties that are initialized by those parameters. Let's unpack what happens here and look at the most explicit code we can write that does the same thing:
+The block of code surrounded by parentheses is called a _primary constructor_. It serves two purposes:
+
+- specifying constructor parameters and
+-  defining properties that are initialized by those parameters. 
+  
+The most explicit code we can write that does the same thing is
 
 ```kotlin
 class User constructor(_nickname: String) {
@@ -317,9 +322,9 @@ class User constructor(_nickname: String) {
 }
 ```
 
-The `constructor` keyword begins the declaration of a primary or secondary constructor, and the `init` keyword introduces an _initializer block_.
+The `constructor` keyword begins the declaration of a primary or secondary constructor, and the `init` keyword introduces an _initializer block_. Such blocks contain initialization code that's executed when the class is created and are intended to be used together with primary constructors.
 
-In this example, you don't need to place the initialization code in the initializer block, because it can be combined with the declaration of the `nickname` property. You can also omit the `constructor` keyword if there are no annotations or visibility modifiers on the primary constructor.
+The initialization code in the initializer block can be combined with the declaration of the `nickname` property. You can also omit the `constructor` keyword if there are no annotations or visibility modifiers on the primary constructor.
 
 ```kotlin
 class User(_nickname: String) {
@@ -354,7 +359,7 @@ fun main() {
 }
 ```
 
-If the constructor of a superclass takes arguments, then the primary constructor of your class also needs to initialize them. You can do so by providing the superclass constructor parameters after the superclass reference in the base class list:
+If the constructor of a superclass takes arguments, then the primary constructor of your class also needs to initialize them.
 
 ```kotlin
 open class User(val nickname: String) { /* ... */ }
@@ -367,8 +372,6 @@ If you don't declare any constructors for a class, a default constructor without
 ```kotlin
 open class Button
 ```
-
-If you inherit from the `Button` class and don't provide any constructors, you have to explicitly invoke the constructor of the superclass even if it doesn't have any parameters.
 
 ```kotlin
 class RadioButton: Button()
@@ -384,14 +387,79 @@ class Secret private constructor(private val agentName: String) {}
 > Alternative to private constructors
 > In Java, you can use a `private` constructor that prohibits class instantiation to express a more general idea: the class is a container of static utility members or is a singleton. Kotlin has built-in language features for these purposes. You use top-level functions as static utilities. To express singletons, you use object declarations.
 
-In most real use cases, the constructor of a class is straightforward: it contains no parameters or assigns the parameters to the corresponding properties.
-
 ### Secondary constructors: Initializing the superclass in different ways
 
+Generally speaking, classes with multiple constructors are much less common in Kotlin. Most situations where you'd need overloaded constructors are covered by default parameter values and named argument syntax.
+
+But there are still situations when multiple constructors are required. The most common one comes up when you need to extend a framework class that provides multiple constructors that initialize the class in different ways. Take, for example, a `Downloader` class that's declared in Java and has two constructors:
+
+```java
+import java.net.URI;
+
+public class Downloader {
+  public Downloader(String url) { /* ... */ }
+
+  public Downloader(URI uri) { /* ... */ }
+}
+```
+
+In Kotlin, the same declaration would look as follows:
+
+```kotlin
+open class Downloader {
+  constructor(url: String?) { /* ... */ }
+
+  constructor(uri: URI?) { /* ... */ }
+}
+```
+
+This class doesn't declare primary constructor, but it declares two secondary constructors.
+
+If you want to extend this class, you can declare the same constructors:
+
+```kotlin
+class MyDownloader : Downloader {
+  constructor(): super(url) { /* ... */ }
+}
+```
+
+If the class has no primary constructor, then each secondary constructor
+
 ### Implementing properties declared in interfaces
+
+### Accessing a backing field from a getter or setter
+
+### Changing accessor visibility
 
 ## Compiler-generated methods: Data classes and class delegation
 
 ## The `object` keyword: Declaring a class and creating an instance, combined
 
 ## Extra type safety without overhead: Inline classes
+
+```kotlin
+class UsdCent(val amount: Int)
+
+fun addExpense(expense: UsdCent) {
+  // save the expense as USD cent
+}
+
+fun main() {
+  addExpense(UsdCEnt(147))
+}
+```
+
+While this approach makes it less likely to accidentally pass a value with the wrong semantics to the function, it comes with a few performance considerations: a new `UsdCent` object needs to be created with each `addExpense` function call, which is then unwrapped inside the function body and discarded.
+
+This is where _inline classes_ come into play. They allow you to introduce a layer of type safety without compromising performance.
+
+To turn the `UsdCent` class into an inline class, mark it with the `value` keyword, and then annotate it with `@JvmInline`:
+
+```kotlin
+@JvmInline
+value class UsdCent(val amount: Int)
+```
+
+This small change avoids the needless instantiation of objects without giving up on the type safety provided by your `UsdCent` wrapper type.
+
+To qualify as "inline", your class must have exactly one property, which needs to be instantiated in the primary constructor.
