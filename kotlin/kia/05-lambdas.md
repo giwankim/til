@@ -4,7 +4,7 @@
 
 _Lambdas with receivers_ are lambdas that allow you to directly call methods on a special receiver object.
 
-The `with` standard library function ...
+The `with` standard library function allows you to call multiple methods on the same object without repeating the reference to the object. `apply` lets you construct and initialize any object, using a builder-style API. `also` lets you perform additional actions with an object.
 
 ### Performing multiple operations on the same object: with
 
@@ -98,4 +98,27 @@ val medals =
         put("Gold", 1)
         putAll(listOf("Silver" to 2, "Bronze" to 3))
     }
+```
+
+### Performing additional actions with an object: also
+
+Just like `apply`, you can use the `also` function to take a receiver object, perform an action on it, and then return the receiver object. The main difference is that within the lambda of `also`, you access the receiver object as an argument--either by giving it a name, or using the default name `it`.
+
+```kotlin
+fun main() {
+    val fruits = listOf("Apple", "Banana", "Cherry")
+    val uppercaseFruits = mutableListOf<String>()
+    val reversedLongFruits =
+        fruits
+            .map { it.uppercase() }
+            .also { uppercaseFruits.addAll(it) }
+            .filter { it.length > 5 }
+            .also { println(it) }
+            .reversed()
+    // [BANANA, CHERRY]
+    println(uppercaseFruits)
+    // [APPLE, BANANA, CHERRY]
+    println(reversedLongFruits)
+    // [CHERRY, BANANA]
+}
 ```
