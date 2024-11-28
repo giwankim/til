@@ -2,7 +2,9 @@
 
 ## Lambdas with receivers: with, apply, and also
 
-_Lambdas with receivers_ call methods of a different object in its lambda body without any additional qualifiers.
+_Lambdas with receivers_ are lambdas that allow you to directly call methods on a special receiver object.
+
+The `with` standard library function ...
 
 ### Performing multiple operations on the same object: with
 
@@ -44,3 +46,56 @@ The value `with` returns is the result of executing the lambda code. The result 
 
 ### Initializing and configuring objects: apply
 
+The `apply` function works almost exactly the same as `with`; the main difference is that `apply` always returns the object passed to it as an argument.
+
+```kotlin
+fun alphabet() =
+    StringBuilder()
+        .apply {
+            for (letter in 'A'..'Z') {
+                append(letter)
+            }
+            append("\nNow I know the alphabet!")
+        }.toString()
+```
+
+One of many cases in which this is useful is when you're creating an instance of an object and need to initialize some properties right away.
+
+More specific functions can also use the same pattern. For example, you can simplify the `alphabet` function even further by using the `buildString` standard library function, which will take care of creating a `StringBuilder` and calling `toString`.
+
+```kotlin
+fun alphabet() =
+    buildString {
+        for (letter in 'A'..'Z') {
+            append(letter)
+            append("\nNow I know the alphabet!")
+        }
+    }
+```
+
+The Kotlin standard library also comes with collection builder functions, which help you create a read-only, `List`, `Set`, or `Map`, while allowing you to treat the collection as mutable during the construction phase.
+
+```kotlin
+val fibonacci =
+    buildList {
+        addAll(listOf(1, 1, 2))
+        add(3)
+        add(index = 0, element = 3)
+    }
+
+val shouldAdd = true
+
+val fruits =
+    buildSet {
+        add("Apple")
+        if (shouldAdd) {
+            addAll(listOf("Apple", "Banana", "Cherry"))
+        }
+    }
+
+val medals =
+    buildMap {
+        put("Gold", 1)
+        putAll(listOf("Silver" to 2, "Bronze" to 3))
+    }
+```
