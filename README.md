@@ -16,6 +16,7 @@
   - [3. Defining and calling functions](kotlin/kia/03-functions.md)
   - [4. Classes, objects, and interfaces](kotlin/kia/04-classes.md)
   - [5. Programming with lambdas](kotlin/kia/05-lambdas.md)
+  - [13. DSL construction](kotlin/kia/13-dsl.md)
 - [Kotest](kotlin/kotest.md)
 
 ## CS
