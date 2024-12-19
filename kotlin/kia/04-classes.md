@@ -515,6 +515,12 @@ fun main() {
 
 ### Companion objects: A place for factory methods and static methods
 
+Classes in Kotlin can't have static members.
+
+An example of such a function that needs access to `private` members is a _factory method_.
+
+Exactly one of the object declarations defined in a class can be marked with a special keyword: _companion_.
+
 ### Companion objects as regular objects
 
 ### Object expressions: Anonymous inner classes rephrased

@@ -17,7 +17,8 @@
   - [4. Classes, objects, and interfaces](kotlin/kia/04-classes.md)
   - [5. Programming with lambdas](kotlin/kia/05-lambdas.md)
   - [13. DSL construction](kotlin/kia/13-dsl.md)
-- [Kotest](kotlin/kotest.md)
+- [Effective Kotlin](https://kt.academy/book/effectivekotlin)
+  - [Item 36: Prefer composition over inheritance](kotlin/effective-kotlin/36-composition-over-inheritance.md)
 
 ## CS
 
