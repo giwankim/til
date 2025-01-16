@@ -52,11 +52,13 @@
   - [2. Enhance your Domain Model](diagram/mermaid/02-enhance-domain.md)
   - [3. Visualize Application and User Flows](diagram/mermaid/03-user-flows.md)
 
-## Build
+## Build Tool
 
 - Gradle
-  - [Core Concepts](build/gradle/core-concepts.md)
-  - [Authoring Builds](build/gradle/authoring-builds.md)
+  - Running Gradle Builds
+    - [Learning the Basics](build-tool/gradle/running-builds/basics.md)
+  - [Core Concepts](build-tool/gradle/core-concepts.md)
+  - [Authoring Builds](build-tool/gradle/authoring-builds.md)
 
 ## System Design
 
@@ -77,15 +79,6 @@
 - [The Pragmatic Programmer](books/tpp.md)
 
 ## SQL
-
-- SQLD
-  - 과목 I. 데이터 모델링의 이해
-    - [제1장 데이터 모델링의 이해](sql/sqld/modeling/01-modeling.md)
-    - 제2장 데이터 모델과 SQL
-  - 과목 II. SQL 기본 및 활용
-    - 제1장 SQL 기본
-    - 제2장 SQL 활용
-    - 제3장 관리 구문
 
 ## 잡담
 

@@ -1,13 +1,10 @@
 # Core Concepts
 
-Gradle 공식문서[^1]를 읽으면서 요약한 내용입니다.
+Gradle automates building, testing, and deployment of software from information in build scripts.
 
 ![gradle](../../assets/gradle.png)
 
-
 ## Basics
-
-Gradle automates building, testing, and deployment of software from information in build scripts.
 
 ### Core concepts
 
@@ -89,7 +86,6 @@ $ ./gradlew --version
 $ ./gradlew wrapper --gradle-version 8.10.2
 ```
 
-
 ## Settings File
 
 Settings file is the entry point of every Gradle project.
@@ -108,7 +104,6 @@ include("sub-project-a")
 include("sub-project-b")
 include("sub-project-c")
 ```
-
 
 ### Build File
 
@@ -214,15 +209,12 @@ compileClasspath - Compile classpath for source set 'main'.
 
 compileOnly - Compile-only dependencies for the 'main' feature. (n)
 No dependencies
-
 ...
 ```
-
 
 ### Task
 
 A task represents some independent unit of work that a build performs, such as compiling classes, creating a JAR, generating Javadoc, or publishing archives to a repository.
-
 
 ### Plugins
 
@@ -231,6 +223,5 @@ Gradle is built on a plugin system. Gradle itself is primarily composed of infra
 A plugin is a piece of software that provides additional functionality to the Gradle build system.
 
 Plugins can be applied to a Gradle build script to add new task, configurations, or other build-related capabilities.
-
 
 [^1]: [Gradle User Manual](https://docs.gradle.org/current/userguide/userguide.html)
