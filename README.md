@@ -2,8 +2,6 @@
 
 ## Spring
 
-- Batch
-  - [Batch 기초](spring/batch/basic.md)
 - JPA
   - Java Persistence with Spring Data and Hibernate
     - [1장](spring/jpa/java-persistence-with-spring-data-and-hibernate/1.md)
@@ -57,8 +55,8 @@
 - Gradle
   - Running Gradle Builds
     - [Learning the Basics](build-tool/gradle/running-builds/basics.md)
-  - [Core Concepts](build-tool/gradle/core-concepts.md)
-  - [Authoring Builds](build-tool/gradle/authoring-builds.md)
+  - Authoring Gradle Builds
+    - [Learning the Basics](build-tool/gradle/authoring-builds/basics.md)
 
 ## System Design
 
@@ -77,8 +75,6 @@
 ## Books
 
 - [The Pragmatic Programmer](books/tpp.md)
-
-## SQL
 
 ## 잡담
 
