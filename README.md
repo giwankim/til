@@ -1,22 +1,16 @@
 # Today I Learned
 
-## Spring
+## Books
 
-- JPA
-  - Java Persistence with Spring Data and Hibernate
-    - [1장](spring/jpa/java-persistence-with-spring-data-and-hibernate/1.md)
+- [The Pragmatic Programmer](books/tpp.md)
 
-## Kotlin
+## Build Tool
 
-- [Kotlin in Action](https://www.manning.com/books/kotlin-in-action-second-edition)
-  - [1. Kotlin: What and why](kotlin/kia/01-what-and-why.md)
-  - [2. Kotlin basics](kotlin/kia/02-basics.md)
-  - [3. Defining and calling functions](kotlin/kia/03-functions.md)
-  - [4. Classes, objects, and interfaces](kotlin/kia/04-classes.md)
-  - [5. Programming with lambdas](kotlin/kia/05-lambdas.md)
-  - [13. DSL construction](kotlin/kia/13-dsl.md)
-- [Effective Kotlin](https://kt.academy/book/effectivekotlin)
-  - [Item 36: Prefer composition over inheritance](kotlin/effective-kotlin/36-composition-over-inheritance.md)
+- Gradle
+  - Running Gradle Builds
+    - [Learning the Basics](build-tool/gradle/running-builds/basics.md)
+  - Authoring Gradle Builds
+    - [Learning the Basics](build-tool/gradle/authoring-builds/basics.md)
 
 ## CS
 
@@ -38,10 +32,6 @@
   - [OAuth from First Principles](https://stack-auth.com/blog/oauth-from-first-principles)
   - [OAuth 원리와 이해 (feat. 카카오 로그인)](https://yejipro.tistory.com/entry/OAuth-%EC%9B%90%EB%A6%AC%EC%99%80-%EC%9D%B4%ED%95%B4-feat-%EC%B9%B4%EC%B9%B4%EC%98%A4-%EB%A1%9C%EA%B7%B8%EC%9D%B8)
 
-## PS
-
-- [컬렉션 프레임워크](ps/collections.md)
-
 ## Diagram
 
 - [Creating Sofware with Modern Diagramming Techniques](https://pragprog.com/titles/apdiag/creating-software-with-modern-diagramming-techniques/)
@@ -50,13 +40,27 @@
   - [2. Enhance your Domain Model](diagram/mermaid/02-enhance-domain.md)
   - [3. Visualize Application and User Flows](diagram/mermaid/03-user-flows.md)
 
-## Build Tool
+## Kotlin
 
-- Gradle
-  - Running Gradle Builds
-    - [Learning the Basics](build-tool/gradle/running-builds/basics.md)
-  - Authoring Gradle Builds
-    - [Learning the Basics](build-tool/gradle/authoring-builds/basics.md)
+- [Kotlin in Action](https://www.manning.com/books/kotlin-in-action-second-edition)
+  - [1. Kotlin: What and why](kotlin/kia/01-what-and-why.md)
+  - [2. Kotlin basics](kotlin/kia/02-basics.md)
+  - [3. Defining and calling functions](kotlin/kia/03-functions.md)
+  - [4. Classes, objects, and interfaces](kotlin/kia/04-classes.md)
+  - [5. Programming with lambdas](kotlin/kia/05-lambdas.md)
+  - [13. DSL construction](kotlin/kia/13-dsl.md)
+- [Effective Kotlin](https://kt.academy/book/effectivekotlin)
+  - [Item 36: Prefer composition over inheritance](kotlin/effective-kotlin/36-composition-over-inheritance.md)
+
+## PS
+
+- [컬렉션 프레임워크](ps/collections.md)
+
+## Spring
+
+- JPA
+  - Java Persistence with Spring Data and Hibernate
+    - [1장](spring/jpa/java-persistence-with-spring-data-and-hibernate/1.md)
 
 ## System Design
 
@@ -71,10 +75,6 @@
   - [10. Design a Notification System](system-design/interview/10-notification-system.md)
   - [11. Design a News Feed System](system-design/interview/11-news-feed-system.md)
   - [12. Design a Chat System](system-design/interview/12-chat-system.md)
-
-## Books
-
-- [The Pragmatic Programmer](books/tpp.md)
 
 ## 잡담
 
