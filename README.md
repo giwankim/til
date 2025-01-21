@@ -56,6 +56,16 @@
 
 - [컬렉션 프레임워크](ps/collections.md)
 
+## Redis
+
+- [개발자를 위한 레디스](http://www.acornpub.co.kr/book/redis_for_developers)
+  - [1장 마이크로서비스 아키텍처와 레디스](redis/redis-for-developer/01-msa.md)
+
+## Refactoring
+
+- [Refactoring: Improving the Design of Existing Code](https://martinfowler.com/books/refactoring.html)
+  - [Refactoring: A First Example](https://github.com/giwankim/refactoring/blob/main/docs/chapter01.md)
+
 ## Spring
 
 - JPA
