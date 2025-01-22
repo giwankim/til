@@ -63,8 +63,9 @@
 
 ## Refactoring
 
-- [Refactoring: Improving the Design of Existing Code](https://martinfowler.com/books/refactoring.html)
-  - [Refactoring: A First Example](https://github.com/giwankim/refactoring/blob/main/docs/chapter01.md)
+- [토비님의 리팩토링 읽기 모임](https://discord.com/channels/687618003717587011/1327448191091867783)
+  - [Refactoring: Improving the Design of Existing Code](https://martinfowler.com/books/refactoring.html)
+    - [Chapter 1 - Refactoring: A First Example](https://github.com/giwankim/refactoring/blob/main/docs/chapter01.md)
 
 ## Spring
 
