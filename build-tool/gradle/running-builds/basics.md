@@ -4,7 +4,7 @@
 
 Gradle automates building, testing, and deployment of software from information in __build scripts__.
 
-![gradle](../../../assets/build-tool/gradle/gradle.png)
+![gradle](../../../assets/build-tool/gradle/running-builds/gradle.png)
 
 ### Gradle core concepts
 
@@ -56,7 +56,7 @@ The recommended way to execute any Gradle build is with the Gradle Wrapper.
 
 The _Wrapper_ script invokes a declared version of Gradle, downloading it beforehand if necessary.
 
-![gradle-wrapper](../../../assets/build-tool/gradle/gradle-wrapper.png)
+![gradle-wrapper](../../../assets/build-tool/gradle/running-builds/gradle-wrapper.png)
 
 ### Understanding the Wrapper files
 
