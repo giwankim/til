@@ -40,6 +40,11 @@
   - [2. Enhance your Domain Model](diagram/mermaid/02-enhance-domain.md)
   - [3. Visualize Application and User Flows](diagram/mermaid/03-user-flows.md)
 
+## Java
+
+- Effective Java
+  - [Item 24: Favor static member classes over nonstatic](java/effective-java/04-classes-interfaces/item24.md)
+
 ## Kotlin
 
 - [Kotlin in Action](https://www.manning.com/books/kotlin-in-action-second-edition)
@@ -66,6 +71,7 @@
 - [토비님의 리팩토링 읽기 모임](https://discord.com/channels/687618003717587011/1327448191091867783)
   - [Refactoring: Improving the Design of Existing Code](https://martinfowler.com/books/refactoring.html)
     - [Chapter 1 - Refactoring: A First Example](https://github.com/giwankim/refactoring/blob/main/docs/chapter01.md)
+    - [Chapter 2 - Principles in Refactoring](https://github.com/giwankim/refactoring/blob/main/docs/chapter02.md)
 
 ## Spring
 
