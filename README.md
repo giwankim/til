@@ -45,6 +45,15 @@
 - Effective Java
   - [Item 24: Favor static member classes over nonstatic](java/effective-java/04-classes-interfaces/item24.md)
 
+## JPA
+
+- [JPA의 사실과 오해](https://event-us.kr/choyoungho/event/98186)
+  - [1일차 JPA와 아키텍처](jpa/사실과오해/orm-and-architecture)
+  - [2일차 고급 설계 이슈](jpa/사실과오해/2-advanced-design-issues.md)
+
+- Java Persistence with Spring Data and Hibernate
+    - [1장](spring/jpa/java-persistence-with-spring-data-and-hibernate/1.md)
+
 ## Kotlin
 
 - [Kotlin in Action](https://www.manning.com/books/kotlin-in-action-second-edition)
@@ -74,10 +83,6 @@
     - [Chapter 2 - Principles in Refactoring](https://github.com/giwankim/refactoring/blob/main/docs/chapter02.md)
 
 ## Spring
-
-- JPA
-  - Java Persistence with Spring Data and Hibernate
-    - [1장](spring/jpa/java-persistence-with-spring-data-and-hibernate/1.md)
 
 ## System Design
 
