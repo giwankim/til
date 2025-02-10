@@ -33,3 +33,79 @@ Assume we have 100 million daily active users and 200 million businesses.
 - Seconds in a day = $24 * 60 * 60 = 86,400$. We can round it up to $10^5$ for easier calculation.
 - Assume a user makes 5 search queries per day.
 - Search QPS = $100 million * 5 / 10^5$
+
+## Step 2 - Propose High-Level Design and Get Buy-In
+
+### API Design
+
+#### `GET /v1/search/nearby`
+
+This endpoint returns businesses based on certain search criteria.
+
+Request parameters:
+
+| Field | Description | Type |
+| ----- | ----------- | ---- |
+| latitude | Latitude of a given location | decimal |
+| longitude | Longitude of a given location | decimal |
+| radius | Optional. Default is 5000 meters | int |
+
+Response body:
+
+```json
+{
+  "total": 10,
+  "businesses": [{business object}]
+}
+```
+
+#### APIs for business
+
+| API | Detail |
+| --- | ------ |
+| `GET /v1/businesses/{:id}` | Return detailed information about a business |
+| `POST /v1/businesses` | Add a business |
+| `PUT /v1/businesses/{:id}` | Update details of a business |
+| `DELETE /v1/businesses/{:id}` | Delete a business |
+
+### Data model
+
+In this section, we discuss the read/write ratio and the schema design.
+
+#### Read/write ratio
+
+Read volume is high because the following two features are commonly used:
+
+- Search for nearby businesses.
+- View the detailed information of a business.
+
+On the other hand, the write volume is low because adding, removing, and editing business info are infrequent operations.
+
+#### Data schema
+
+##### Business table
+
+```mermaid
+erDiagram
+  business {
+    long business_id PK
+    string address
+    string city
+    string state
+    string country
+    decimal latitude
+    decimal longitude
+  }
+```
+
+##### Geo index table
+
+A geo index table is used for the efficient processing of spatial operations. This table requires some knowledge about geohash, so will discuss in the "Scale the database" section in deep dive.
+
+### High-level design
+
+The system comprises of two parts: location-based service (LBS) and business-related service.
+
+![proxity service design](../../assets/system-design/interview2/proximity-service.png)
+
+### Algorithm to find nearby businesses
