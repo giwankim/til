@@ -106,6 +106,57 @@ A geo index table is used for the efficient processing of spatial operations. Th
 
 The system comprises of two parts: location-based service (LBS) and business-related service.
 
-![proxity service design](../../assets/system-design/interview2/proximity-service.png)
+![proximity service design](../../assets/system-design/interview2/proximity-service.png)
+
+#### Location-based service (LBS)
+
+LBS service is the core part of the system which finds nearby businesses for a given radius and location.
+
+- It is a read-heavy service with no write requests.
+- QPS is high, especially during peak hours in dense areas.
+- This service is stateless so it's easy to scale horizontally.
+
+#### Business service
+
+- Business owners create, update, or delete businesses. Those requests are mainly write operations, and the QPS is not high.
+- Customers view detailed information about a business. QPS is high during peak hours.
+
+#### Database cluster
+
+The database cluster can use primary-secondary setup. Due to the replication delay, there might be some discrepancy between data read by the LBS and the data written to the primary database.
+
+#### Scalability
+
+Both the services are stateless, so it's easy to automatically add more servers and remove servers during off-peak hours. Set up different regions and availability zones to further improve availability.
 
 ### Algorithm to find nearby businesses
+
+#### Option 1: Two-dimensional search
+
+The most intuitive but naive way to get nearby businesses is to draw a circle with the predefined radius and find all businesses within the circle.
+
+```sql
+SELECT business_id, latitude, longitude
+FROM business
+WHERE latitude BETWEEN :minLat AND :maxLat
+  AND longitude BETWEEN :minLon AND :maxLon;
+```
+
+Even if we have indexes on longitude and latitude columns, the dataset returned from each dimension could still be large since we have two-dimensional data. We would need to perform an intersect operation.
+
+![intersect latitude and longitude](../../assets/system-design/interview2/intersect-lat-long-indexes.png)
+
+In a broad sense, there are two types of geospatial indexing approaches.
+
+- Hash: even grid, geohash, cartesian tiers, etc.
+- Tree: quadtree, Google S2, RTree, etc.
+
+![geospatial indexes](../../assets/system-design/interview2/geospatial-indexes.png)
+
+#### Option 2: Evenly divided grid
+
+One simple approach is to evenly divide the world into small grids.
+
+This approach works to some extend, but it has one major issue: the distribution of businesses is not even. Another potential challenge is to find neighboring grids of a fixed grid.
+
+#### Option 3: Geohash
