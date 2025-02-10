@@ -98,6 +98,9 @@
   - [11. Design a News Feed System](system-design/interview/11-news-feed-system.md)
   - [12. Design a Chat System](system-design/interview/12-chat-system.md)
 
+- [System Design Interview: Volume 2](https://www.amazon.com/dp/1736049119)
+  - [1. Proximity Service](system-design/interview2/01-proximity-service.md)
+
 ## 잡담
 
 - [원영적 사고와 에자일](etc/lucky-vicky.md)
