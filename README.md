@@ -51,8 +51,9 @@
   - [1일차 JPA와 아키텍처](jpa/사실과오해/orm-and-architecture)
   - [2일차 고급 설계 이슈](jpa/사실과오해/2-advanced-design-issues.md)
 
-- Java Persistence with Spring Data and Hibernate
-    - [1장](spring/jpa/java-persistence-with-spring-data-and-hibernate/1.md)
+- [Java Persistence with Spring Data and Hibernate](https://www.manning.com/books/java-persistence-with-spring-data-and-hibernate)
+    - Part 3: Transactional data processing
+      - [10. Managing data](jpa/java-persistence/10-managing-data.md)
 
 ## Kotlin
 
