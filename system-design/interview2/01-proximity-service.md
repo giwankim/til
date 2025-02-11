@@ -160,3 +160,19 @@ One simple approach is to evenly divide the world into small grids.
 This approach works to some extend, but it has one major issue: the distribution of businesses is not even. Another potential challenge is to find neighboring grids of a fixed grid.
 
 #### Option 3: Geohash
+
+First, divide the planet into four quadrants along the prime meridian and equator.
+
+![geohash](../../assets/system-design/interview2/geohash1.png)
+
+Second, divide each grid into four smaller grids. Each grid can be represented by alternating between longitude bit and latitude bit.
+
+![geohash](../../assets/system-design/interview2/geohash2.png)
+
+Repeat this subdivision until the grid size is within the precision desired. Geohash usually used base32 representation.
+
+##### Boundary issues
+
+Geohashing guarantees that the longer a shared prefix
+
+#### Option 4: Quadtree
