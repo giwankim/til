@@ -37,4 +37,24 @@ The application still has a _handle_-a reference to the instance we loaded. It's
 
 ### 10.1.2 The persistent context
 
+In Java Persistence applicatoin, an `EntityManager` has a persistence context. We create a persistent context when we call `EntityManagerFactory#createEntityManager()`. The context is closed when we call `EntityManager#close()`. In JPA terminology, this is an *application_managed* persistence context; our application defines the scope of the persistence context, demarcating the unit of work.
+
+The persistence context monitors and manages all entities in the persistent state.
+
+The persistence context also allows the persistence engine to perform _automatic dirty checking_. The provider then synchronizes with the database the state of instances monitored by a persistence context, either automatically or on demand. Typically, when a unit of work completes, the provider propagates state that's held in memory to the database. This _flushing_ procedure may also occur at other times. For example, Hibernate may synchronize with the database before the execution of a query.
+
+The persistence context also acts as a _first-level cache_.
+
+The cache also affects the results of arbitrary queries, such as those executed with the `jakarta.persistence.Query` API. Hibernate ignores any potentially newer data in the result set, due to read-committed transaction isolation at the database level, if the entity instance is already present in the persistence context.
+
+Persistence context cache ensures the following:
+
+- The persistence layer isn't vulnerable to stack overflows in the case of circular references in an object graph.
+- There can never by conflicting representations of the same database row at the end of a unit of work. The provider can safely write all changes made to an entity instance to the database.
+- Changes made in a particular persistence context are always immediately visible to all other code executed inside that unit of work and its persistence context. JPA guarantees repeatable entity-instance reads.
+
+The persistence context provides a _guaranteed scope of object identity_; in the scope of a single persistence context, only one instance represents a particular database row. Within one persistence context, Hibernate guarantees both `entityA == entityB` and `entityA.getId().equals(entityB.getId())` will yield the same result.
+
 ## 10.2 The `EntityManager` interface
+
+Any transparent persistence tool includes a persistence manager API. This persistence manager usually provides services for basic CRUD operations, query execution, and controlling the persistence context. In Jakarta Persistent applications, the main interface we interact with is the `EntityManager` to create units of work.
