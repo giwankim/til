@@ -58,3 +58,13 @@ The persistence context provides a _guaranteed scope of object identity_; in the
 ## 10.2 The `EntityManager` interface
 
 Any transparent persistence tool includes a persistence manager API. This persistence manager usually provides services for basic CRUD operations, query execution, and controlling the persistence context. In Jakarta Persistent applications, the main interface we interact with is the `EntityManager` to create units of work.
+
+### 10.2.1 The canonical unit of work
+
+### 10.2.2 Making data persistent
+
+### 10.2.3 Retrieving and modifying persistent data
+
+### 10.2.4 Getting a reference
+
+### 10.2.5 Making data transient

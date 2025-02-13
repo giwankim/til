@@ -52,8 +52,10 @@
   - [2일차 고급 설계 이슈](jpa/사실과오해/2-advanced-design-issues.md)
 
 - [Java Persistence with Spring Data and Hibernate](https://www.manning.com/books/java-persistence-with-spring-data-and-hibernate)
-    - Part 3: Transactional data processing
-      - [10. Managing data](jpa/java-persistence/10-managing-data.md)
+  - Part 2: Mapping strategies
+    - [5. Mapping persistent classes]()
+  - Part 3: Transactional data processing
+    - [10. Managing data](jpa/java-persistence/10-managing-data.md)
 
 ## Kotlin
 
@@ -80,8 +82,9 @@
 
 - [토비님의 리팩토링 읽기 모임](https://discord.com/channels/687618003717587011/1327448191091867783)
   - [Refactoring: Improving the Design of Existing Code](https://martinfowler.com/books/refactoring.html)
-    - [Chapter 1 - Refactoring: A First Example](https://github.com/giwankim/refactoring/blob/main/docs/chapter01.md)
-    - [Chapter 2 - Principles in Refactoring](https://github.com/giwankim/refactoring/blob/main/docs/chapter02.md)
+    - [1 - Refactoring: A First Example](https://github.com/giwankim/refactoring/blob/main/docs/chapter01.md)
+    - [2 - Principles in Refactoring](https://github.com/giwankim/refactoring/blob/main/docs/chapter02.md)
+    - [3 - Bad Smells in Code](https://github.com/giwankim/refactoring/blob/main/docs/chapter03.md)
 
 ## Spring
 
