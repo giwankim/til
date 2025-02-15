@@ -53,7 +53,8 @@
 
 - [Java Persistence with Spring Data and Hibernate](https://www.manning.com/books/java-persistence-with-spring-data-and-hibernate)
   - Part 2: Mapping strategies
-    - [5. Mapping persistent classes]()
+    - [5. Mapping persistent classes](jpa/java-persistence/05-mapping-persistent-classes.md)
+    - [7. Mapping inheritance](jpa/java-persistence/07-mapping-inheritance.md)
   - Part 3: Transactional data processing
     - [10. Managing data](jpa/java-persistence/10-managing-data.md)
 
