@@ -105,6 +105,7 @@
 
 - [System Design Interview: Volume 2](https://www.amazon.com/dp/1736049119)
   - [1. Proximity Service](system-design/interview2/01-proximity-service.md)
+  - [2. Nearby Friends](system-design/interview2/02-nearby-friends.md)
 
 ## 잡담
 
