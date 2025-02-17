@@ -57,6 +57,7 @@
     - [7. Mapping inheritance](jpa/java-persistence/07-mapping-inheritance.md)
   - Part 3: Transactional data processing
     - [10. Managing data](jpa/java-persistence/10-managing-data.md)
+    - [11. Transactions and concurrency](jpa/java-persistence/11-transactions-and-concurrency.md)
 
 ## Kotlin
 
@@ -86,6 +87,7 @@
     - [1 - Refactoring: A First Example](https://github.com/giwankim/refactoring/blob/main/docs/chapter01.md)
     - [2 - Principles in Refactoring](https://github.com/giwankim/refactoring/blob/main/docs/chapter02.md)
     - [3 - Bad Smells in Code](https://github.com/giwankim/refactoring/blob/main/docs/chapter03.md)
+    - [4 - Building Tests](https://github.com/giwankim/refactoring/blob/main/docs/chapter04.md)
 
 ## Spring
 
