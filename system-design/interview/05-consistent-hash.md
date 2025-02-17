@@ -31,11 +31,11 @@ For example, consider the case of 4 servers (0, 1, 2, 3) and 9 keys with their h
 
 Then, the keys are distributed among the 4 servers as follows:
 
-![servers](../../assets/hashing.png)
+![servers](../../assets/system-design/interview1/hashing.png)
 
 If server 1 goes offline keys are redistributed as follows as a result of modular operation with number of server reduced by 1:
 
-![rehashed](../../assets/rehashed.png)
+![rehashed](../../assets/system-design/interview1/rehashed.png)
 
 | key | hash | hash % 3 |
 | --- | ---- | -------- |

@@ -1,6 +1,6 @@
 # 9. Design a Web Crawler
 
-## Step 1 - Understand the prblem and establish design scope
+## Step 1 - Understand the problem and establish design scope
 
 The basic algorithm of a web crawler is simple:
 
@@ -55,7 +55,7 @@ Characteristics of a good web crawler:
 
 ## Step 2 - Propose high-level design and get buy-in
 
-![web crawler](../../assets/web-crawler.png)
+![web crawler](../../assets/system-design/interview1/web-crawler.png)
 
 ### Components
 
@@ -137,7 +137,7 @@ URL Storage stores already visited URLs.
 
 ### Web crawler workflow
 
-![web crawler workflow](../../assets/crawler-workflow.png)
+![web crawler workflow](../../assets/system-design/interview1/crawler-workflow.png)
 
 1. Add seed URLs to the URL Frontier.
 2. HTML Downloader fetches a list of URLs from URL Frontier.

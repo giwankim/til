@@ -155,7 +155,7 @@ Redis is a popular option to implement rate limiting. It offers two commands: IN
 - INCR: increases the stored counter by 1.
 - EXPIRE: sets a timeout for the counter.
 
-![rate-limit](../../assets/rate-limit-high-level.png)
+![rate-limit](../../assets/system-design/interview1/rate-limit-high-level.png)
 
 1. Client sends a request to the rate limiting middleware.
 2. Rate limiting middleware fetches the counter from the corresponding bucket in Redis and checks if the limit is reached or not.
@@ -203,7 +203,7 @@ When a user has sent too many requests, a 429 HTTP response status code and _X-R
 
 ### Detailed design
 
-![rate-limiter](../../assets/rate-limiter-design.png)
+![rate-limiter](../../assets/system-design/interview1/rate-limiter-design.png)
 
 - Rules are stored on disk. Workers frequently pull rules from disk and store them in the cache.
 - Client request is first routed the rate limiter middleware.
