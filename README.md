@@ -109,6 +109,7 @@
   - [1. Proximity Service](system-design/interview2/01-proximity-service.md)
   - [2. Nearby Friends](system-design/interview2/02-nearby-friends.md)
   - [3. Google Maps](system-design/interview2/03-google-maps.md)
+  - [4. Distributed Message Queue](system-design/interview2/04-distributed-message-queue.md)
 
 ## 잡담
 
