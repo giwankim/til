@@ -110,6 +110,7 @@
   - [2. Nearby Friends](system-design/interview2/02-nearby-friends.md)
   - [3. Google Maps](system-design/interview2/03-google-maps.md)
   - [4. Distributed Message Queue](system-design/interview2/04-distributed-message-queue.md)
+  - [6. Ad Click Event Aggregation](system-design/interview2/06-ad-click-event-aggregation.md)
 
 ## 잡담
 

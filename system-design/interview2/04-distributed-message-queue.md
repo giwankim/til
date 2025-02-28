@@ -30,3 +30,5 @@ What benefits do message queues bring?
 
 > [!NOTE]
 > Message queues like RabbitMQ do not have as strong a retention requirement as event streaming platforms. Queues do not typically maintain message ordering. These differences greatly simplify the design which we will discuss where appropriate.
+
+## Step 2 - Propose High-Level Design and Get Buy-In
