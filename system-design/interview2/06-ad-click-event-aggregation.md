@@ -37,3 +37,45 @@ Ad click event aggregation plays a critical role in measuring the effectiveness 
 ### Data model
 
 ### High-level design
+
+In aggregation service, the input is the raw data (unbounded data streams), and the output is the aggregated results.
+
+![aggregation workflow](../../assets/system-design/interview2/aggregation-workflow.png)
+
+#### Asynchronous processing
+
+A common solution is to adopt a message queue (Kafka) to decouple producers and consumers.
+
+The database writer polls data from the message queue, transforms the data into the database format, and write it to the database.
+
+![high level design](../../assets/system-design/interview2/aggregate-ad-click-design.png)
+
+First message queue ad click event data:
+
+| ad_id | click_timestamp | user_id | ip | country |
+| ----- | --------------- | ------- | -- | ------- |
+
+Second message queue contains two types of data:
+
+1. Ad click counts aggregated at per-minute granularity.
+    | ad_id | click_minute | count |
+    | ----- | ------------ | ----- |
+1. Top N most clicked ads at per-minute granularity.
+    | update_time_minute | most_clicked_ads |
+    | ------------------ | ---------------- |
+
+Why we don't write the aggregated result to the database directly: we need a second message queue like Kafka to achieve end-to-end exactly-once semantics (atomic commit).
+
+#### Aggregation service
+
+MapReduce framework is good option to aggregate ad click events.
+
+![map reduce](../../assets/system-design/interview2/map-reduce.png)
+
+##### Map node
+
+Map node reads data from a data source, and then filters and transforms the data.
+
+##### Aggregate node
+
+##### Reduce node
