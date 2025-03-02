@@ -34,3 +34,55 @@ Rough calculation of the QPS of all pages in the system.
 3. Reserve a room.
 
 ![qps](../../assets/system-design/interview2/booking-qps.png)
+
+## Step 2 - High-Level Design
+
+### API design
+
+#### Hotel-related APIs
+
+| API | Detail |
+| --- | ------ |
+| GET /v1/hotels/{id} | Get detailed information about a hotel |
+| POST /v1/hotels | Add a new hotel. (Only available to hotel staff) |
+| PUT /v1/hotels/{id} | Update hotel information. (Only available to hotel staff) |
+| DELETE /v1/hotels/{id} | Delete a hotel. (Only available to hotel staff) |
+
+
+#### Room-related APIs
+
+| API | Detail |
+| --- | ------ |
+| GET /v1/hotels/{hotelID}/rooms/{id} | Get detailed information about a room |
+| POST /v1/hotels/{hotelId}/rooms | Add a room. (Only available to hotel staff) |
+| PUT /v1/hotels/{hotelId}/rooms | Update room information. (Only available to hotel staff) |
+| DELETE /v1/hotels/{hotelId}/rooms | Delete a room. (Only available to hotel staff) |
+
+#### Reservation related APIs
+
+| API | Detail |
+| --- | ------ |
+| GET /v1/reservations | Get the reservation history of the logged-in user |
+| GET /v1/reservations/{id} | Get detailed information about a reservation |
+| POST /v1/reservations | Make a new reservation |
+| DELETE /v1/reservations | Cancel a reservation |
+
+Request parameters of making a new reservation:
+
+```json
+{
+  "startDate": "2021-04-28",
+  "endDate": "2021-04-30",
+  "hotelID": 245,
+  "roomID": "U12345673389",
+  "reservationID": "U12354673390"
+}
+```
+
+`reservationID` is used as the idempotency key to prevent double booking.
+
+### Data model
+
+### High-level design
+
+![msa](../../assets/system-design/interview2/hotel-reservation-msa.png)
