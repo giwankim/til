@@ -1,6 +1,7 @@
 # 7. Hotel Reservation System
 
 The design and techniques used in this chapter are also applicable to other popular booking-related interview topics:
+
 - Design Airbnb
 - Design a flight reservation system
 - Design a movie ticket booking system
@@ -83,6 +84,28 @@ Request parameters of making a new reservation:
 
 ### Data model
 
+Data access patterns:
+
+- Query 1: View detailed information about a hotel
+- Query 2: Find available types of rooms given a data range
+- Query 3: Record a reservation
+- Query 4: Look up a reservation or past history of reservations
+
+![db schema](../../assets/system-design/interview2/resrvation-db-schema.png)
+
+![reservation status](../../assets/system-design/interview2/reservation-status.png)
+
 ### High-level design
 
 ![msa](../../assets/system-design/interview2/hotel-reservation-msa.png)
+
+- User: User books a hotel room on their mobile phone or computer.
+- Admin (hotel staff): Authorized hotel staff perform administrative operations such as refunding a customer, canceling a reservation, updating room information, etc.
+- CDN: Used to cache all static assets.
+- Public API Gateway: Fully managed service that supports rate limiting, authentication, etc. API gateway direct requests to specific service based on the endpoints.
+- Internal APIs: Only available to authorized hotel staff. Usually further protected by a VPN.
+- Hotel Service: Provides detailed information on hotels and rooms. Hotel and room data are generally static, so can be easily cached.
+- Rate Service: Provides room rates for different future dates.
+- Reservation Service: Receives reservation requests and reserves the hotel rooms. Also tracks room inventory as rooms are reserved and reservations are canceled.
+- Payment Service: Executes payment from a customer and updates the reservation status to "paid" once a payment transaction succeeds, or "rejected" if the transaction fails.
+- Hotel Management Service: Only available to authorized hotel staff. Hotel staff is eligible to use the following features: view the record of an upcoming reservation, reserve a room for a customer, cancel a reservation, etc.
