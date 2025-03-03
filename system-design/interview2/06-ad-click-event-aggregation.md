@@ -79,6 +79,31 @@ Assume ad click events are aggregated every minute.
 | ad001 | 202101010000 | 5 |
 | ad001 | 202101010001 | 7 |
 
+To support ad filtering, add an additional field called `filter_id`. Records with the same `ad_id` and `click_minute` are grouped by `filter_id`.
+
+| ad_id | click_minute | filter_id | count |
+| ----- | ------------ | --------- | ----- |
+| ad001 | 202101010000 | 0012 | 2 |
+| ad001 | 202101010000 | 0023 | 3 |
+| ad001 | 202101010001 | 0012 | 1 |
+| ad001 | 202101010001 | 0023 | 6 |
+
+| filter_id | region | ip | user_id |
+| --------- | -------| ---| ------- |
+| 0012 | US | * | 0012 |
+| 0013 | * | 123.1.2.3 | 0023 |
+
+To support the query to return the top N most clicked ads in the last M minutes:
+
+```mermaid
+erDiagram
+    MOST_CLICKED_ADS {
+        integer window_size "Aggregation window size (M) in minutes"
+        timestamp update_time_minute
+        array most_clicked_ads
+    }
+```
+
 #### Comparison
 
 |   | Raw data only | Aggregated data only |
@@ -98,7 +123,7 @@ A common solution is to adopt a message queue (Kafka) to decouple producers and 
 
 The database writer polls data from the message queue, transforms the data into the database format, and write it to the database.
 
-![high level design](../../assets/system-design/interview2/aggregate-ad-click-design.png)
+![high level design](../../assets/system-design/interview2/ad-click-aggregation-design.png)
 
 First message queue ad click event data:
 
@@ -108,9 +133,12 @@ First message queue ad click event data:
 Second message queue contains two types of data:
 
 1. Ad click counts aggregated at per-minute granularity.
+
     | ad_id | click_minute | count |
     | ----- | ------------ | ----- |
-1. Top N most clicked ads at per-minute granularity.
+
+2. Top N most clicked ads at per-minute granularity.
+
     | update_time_minute | most_clicked_ads |
     | ------------------ | ---------------- |
 
@@ -122,10 +150,25 @@ MapReduce framework is good option to aggregate ad click events.
 
 ![map reduce](../../assets/system-design/interview2/map-reduce.png)
 
-##### Map node
+##### MapReduce
+
+###### Map node
 
 Map node reads data from a data source, and then filters and transforms the data.
 
-##### Aggregate node
+![map operation](../../assets/system-design/interview2/map-operation.png)
 
-##### Reduce node
+Alternative option is to set up Kafka partitions or tags and let the aggregate nodes subscribe to Kafka directly. Input data may need to be cleaned or normalized or we may not have control over how data is produced and therefore events with the same `ad_id` might land in different Kafka partitions.
+
+###### Aggregate node
+
+Aggregate node counts ad click events by `ad_id` in memory every minute.
+
+###### Reduce node
+
+Reduce node reduces aggregated results fromm all "Aggregate" nodes to the final result.
+
+![reduce node](../../assets/system-design/interview2/reduce-node.png)
+
+#### Main use cases
+
