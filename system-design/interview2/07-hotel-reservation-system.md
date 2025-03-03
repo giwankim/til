@@ -109,3 +109,40 @@ Data access patterns:
 - Reservation Service: Receives reservation requests and reserves the hotel rooms. Also tracks room inventory as rooms are reserved and reservations are canceled.
 - Payment Service: Executes payment from a customer and updates the reservation status to "paid" once a payment transaction succeeds, or "rejected" if the transaction fails.
 - Hotel Management Service: Only available to authorized hotel staff. Hotel staff is eligible to use the following features: view the record of an upcoming reservation, reserve a room for a customer, cancel a reservation, etc.
+
+## Step 3 - Design Deep Dive
+
+### Improved data model
+
+When we reserve a hotel room, we actually reserve a type of room, as opposed to a specific room.
+
+![updated schema](../../assets/system-design/interview2/reservation-updated-schema.png)
+
+### Concurrency issues
+
+### Scalability
+
+### Data consistency among service
+
+Reservation Service handles both reservation and inventory API, so that inventory and reservation database tables are stored in the same relational database. This arrangement allows us to leverage the ACID properties of the relational database to handle concurrency issues.
+
+Microservice purist:
+
+![purist MSA](../../assets/system-design/interview2/purist-msa.png)
+
+In a monolithic architecture, different operations can be wrapped within a single transaction to ensure ACID properties.
+
+```mermaid
+sequenceDiagram
+  participant User
+  participant Database
+
+  rect rgb(191, 223, 255)
+  Note right of Database: Single Transaction
+  User->>+Database: Manage room inventory
+  Database-->>-User: Room inventory 
+
+  User->>+Database: Reserve room
+  Database-->>-User: Reservation result
+  end
+```
