@@ -172,3 +172,27 @@ Reduce node reduces aggregated results fromm all "Aggregate" nodes to the final 
 
 #### Main use cases
 
+##### Use case 1: aggregate number of clicks
+
+![aggregate number of clicks](../../assets/system-design/interview2/aggregate-number-of-clicks.png)
+
+##### Use case 2: return top N most clicked ads
+
+Aggregate node maintains a heap data structure to get the top N ads within the node efficiently.
+
+![top N most clicked ads](../../assets/system-design/interview2/top-n-most-clicked-ads.png)
+
+##### Use case 3: data filtering
+
+To support data filtering, pre-define filtering criteria and aggregate based on them.
+
+| ad_id | click_minute | country | count |
+| ----- | ------------ | ------- | ----- |
+| ad0001 | 202101010001 | USA | 100 |
+| ad0001 | 202101010001 | GPB | 200 |
+| ad0001 | 202101010001 | others | 3000 |
+| ad0002 | 202101010001 | USA | 10 |
+| ad0002 | 202101010001 | GPB | 25 |
+| ad0002 | 202101010001 | others | 12 |
+
+This technique is called star schema, which is widely used in data warehouses. Filter fields are called dimensions.
