@@ -34,7 +34,57 @@ Ad click event aggregation plays a critical role in measuring the effectiveness 
 
 ### Query API design
 
+#### API 1: Aggregate the number of clicks of `ad_id` in the last M minutes
+
+| API | Detail |
+| --- | ------ |
+| GET /ads/{ad_id}/aggregated_count | Return aggregated event count for a given `ad_id` |
+
+##### Request parameters
+
+##### Response body
+
+#### API 2: Return top N most clicked `ad_id`s in the last M minutes
+
+| API | Detail |
+| --- | ------ |
+| GET /ads/popular_ads | Return top N most clicked ads in the last M minutes |
+
+##### Request parameters
+
+##### Response body
+
 ### Data model
+
+#### Raw data
+
+Raw data in log files:
+
+```
+[AdClickEvent] ad001,2021-01-01 00:00:01,user1,207.148.22.22,USA
+```
+
+| ad_id | click_timestamp | user_id | ip | country |
+| ----- | --------------- | ------- | -- | ------- |
+| ad001 | 2021-01-01 00:00:01 | user1 | 207.148.22.22 | USA |
+| ad001 | 2021-01-01 00:00:02 | user1 | 207.148.22.22 | USA |
+| ad002 | 2021-01-01 00:00:02 | user2 | 209.153.56.11 | USA |
+
+#### Aggregated data
+
+Assume ad click events are aggregated every minute.
+
+| ad_id | click_minute | count |
+| ----- | ------------ | ----- |
+| ad001 | 202101010000 | 5 |
+| ad001 | 202101010001 | 7 |
+
+#### Comparison
+
+|   | Raw data only | Aggregated data only |
+| - | ------------- | -------------------- |
+| Pros |             |                      |
+| Cons |            |                      |
 
 ### High-level design
 
