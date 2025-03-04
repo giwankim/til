@@ -67,6 +67,7 @@
   - [3. Defining and calling functions](kotlin/kia/03-functions.md)
   - [4. Classes, objects, and interfaces](kotlin/kia/04-classes.md)
   - [5. Programming with lambdas](kotlin/kia/05-lambdas.md)
+  - [7. Working with nullable values](kotlin/kia/07-nullable.md)
   - [13. DSL construction](kotlin/kia/13-dsl.md)
 - [Effective Kotlin](https://kt.academy/book/effectivekotlin)
   - [Item 36: Prefer composition over inheritance](kotlin/effective-kotlin/36-composition-over-inheritance.md)
