@@ -85,10 +85,11 @@
 
 - [토비님의 리팩토링 읽기 모임](https://discord.com/channels/687618003717587011/1327448191091867783)
   - [Refactoring: Improving the Design of Existing Code](https://martinfowler.com/books/refactoring.html)
-    - [1 - Refactoring: A First Example](https://github.com/giwankim/refactoring/blob/main/docs/chapter01.md)
-    - [2 - Principles in Refactoring](https://github.com/giwankim/refactoring/blob/main/docs/chapter02.md)
-    - [3 - Bad Smells in Code](https://github.com/giwankim/refactoring/blob/main/docs/chapter03.md)
-    - [4 - Building Tests](https://github.com/giwankim/refactoring/blob/main/docs/chapter04.md)
+    - [1 - Refactoring: A First Example](https://github.com/giwankim/refactoring/blob/main/docs/ch01.md)
+    - [2 - Principles in Refactoring](https://github.com/giwankim/refactoring/blob/main/docs/ch02.md)
+    - [3 - Bad Smells in Code](https://github.com/giwankim/refactoring/blob/main/docs/ch03.md)
+    - [4 - Building Tests](https://github.com/giwankim/refactoring/blob/main/docs/ch04.md)
+    - [7 - Encapsulation](https://github.com/giwankim/refactoring/blob/main/docs/ch07.md)
 
 ## Spring
 
