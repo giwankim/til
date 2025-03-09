@@ -46,6 +46,8 @@
   - [Item 24: Favor static member classes over nonstatic](java/effective-java/04-classes-interfaces/item24.md)
 
 ## JPA
+- [자바 ORM 표준 JPA 프로그래밍](http://www.acornpub.co.kr/book/jpa-programmig)
+  - [1장. JPA 소개]
 
 - [JPA의 사실과 오해](https://event-us.kr/choyoungho/event/98186)
   - [1일차 JPA와 아키텍처](jpa/사실과오해/orm-and-architecture)
