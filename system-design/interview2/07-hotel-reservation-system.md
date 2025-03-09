@@ -232,11 +232,95 @@ sequenceDiagram
 
 ![race condition](../../assets/system-design/interview2/reservation-race-condition.png)
 
+SQL pseudo-code utilized to reserve a room has two parts:
+
+- Check room inventory
+- Reserve a room
+
+```sql
+# step 1: check room inventory
+START TRANSACTION;
+
+SELECT date, total_inventory, total_reserved
+FROM room_type_inventory
+WHERE
+    room_type_id = :roomTypeId AND
+    hotel_id = :hotelId AND
+    date between :startDate and :endDate
+
+# For every entry returned from step 1
+if (total_reserved + numberOfRoomsToReserve > 110% * total_inventory) {
+  ROLLBACK;
+}
+
+# step 2: reserve rooms
+UPDATE room_type_inventory
+SET total_reserved = total_reserved + :numberOfRoomsToReserve
+WHERE
+    room_type_id = :roomTypeId AND
+    date between :startDate and :endDate
+
+COMMIT;
+```
+
 ##### Option 1: Pessimistic locking
+
+Prevents simultaneous updates by placing a lock on a record as soon as one user starts to update it. Other users who attempt to update the record have to wait until the first user has released the lock (commited the changes).
+
+For MySQL, the "SELECT ... FOR UPDATE" statement works by locking the rows returned by a selection query.
+
+![pessimistic locking](../../assets/system-design/interview2/pessimistic-locking.png)
+
+Pros:
+
+- Prevents applications from updating data that is being-or has been-changed.
+- Easy to implement and it avoids conflict by serializing updates. Pessimistic locking is useful when data contention is heavy.
+
+Cons:
+
+- Deadlocks may occur when multiple resources are locked. Writing deadlock-free application code could be challenging.
+- Not scalable. If a transaction is locked for too long, other transactions cannot access the resource. This has significant impact on database performance, especially when transactions are long-lived or involve a lot of entities.
+
+Due to these limitations, we do not recommend pessimistic locking for the reservation system.
 
 ##### Option 2: Optimistic locking
 
+Allows multiple concurrent users to attempt to update the same resource.
+
+![optimistic locking](../../assets/system-design/interview2/optimistic-locking.png)
+
+Pro:
+
+- Prevents applications from editing stale data.
+- Don't need to lock the database resource. There's no locking from the database point of view. Entirely up to the application to handle the logic with the version number.
+- Used when the data contention is low. When conflicts are rare, transactions can complete without the expense of managing locks.
+
+Cons:
+
+- Performance is poor when data contention is heavy.
+
+Optimistic locking is a good option for a hotel reservation system since the QPS for reservation is usually not high.
+
 ##### Option 3: Database constraints
+
+To the `room_type_inventory` table, add the following constraint:
+
+```sql
+CONSTRAINT check_room_count CHECK(total_inventory - total_reserved >= 0)
+```
+
+Pros:
+
+- Easy to implement
+- Works well data contention is minimal.
+
+Cons:
+
+- When data contention is heavy, it can result in a high volume of failures.
+- Database constraint cannot be version-controlled easily like application code.
+- Not all databases support constraint. Might cause problems when we migrate from one database solution to another.
+
+Easy to implement and data contention is not high (low QPS), so is another good option.
 
 ### Scalability
 
