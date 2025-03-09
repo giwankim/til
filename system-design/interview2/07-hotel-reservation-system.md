@@ -116,11 +116,78 @@ Data access patterns:
 
 When we reserve a hotel room, we actually reserve a type of room, as opposed to a specific room.
 
+For the reservation API, `roomID` is replaced by `roomTypeID` in the request parameter.
+
+POST /v1/reservations
+
+request parameters:
+
+```json
+{
+  "startDate": "2021-04-28",
+  "endDate": "2021-04-30",
+  "hotelID": 245,
+  "roomID": 12354673389,
+  "roomCount": 3,
+  "reservationID": "U12354673390"
+}
+```
+
 ![updated schema](../../assets/system-design/interview2/reservation-updated-schema.png)
 
-`(hotel_id, room_type_id, date)` is the composite primary key of `room_type_inventory` table. Rows of the table are pre-populated by querying the inventory data across all future dates within 2 years. We have a scheduled daily job that pre-populates inventory data when the dates advance further.
+#### `room_type_inventory` table
 
-If the reservation data is too large for a single database...
+`room_type_inventory`: stores inventory data about hotel rooms. Important for reservation system.
+
+- Having one row per date makes managing reservations within a date range and queries easy.
+- `(hotel_id, room_type_id, date)` is the composite primary key
+- Rows of the table are pre-populated by querying the inventory data across all future dates within 2 years. We have a scheduled daily job that pre-populates inventory data when the dates advance further.
+
+#### Storage volume estimation
+
+Storage volume estimation:
+
+- 5,000 hotels
+- Assume each hotel has 20 types of rooms.
+- 5,000 hotels x 20 types of rooms x 2 years x 365 days = 73 million rows
+
+73 million is not a lot of data and a single database is enough to store the data. To achieve high availability, we could set up database replication across multiple regions or availability zones.
+
+#### Reservation
+
+Sample data of the `room_type_inventory` table:
+
+| `hotel_id` | `room_type_id` | `date` | `total_inventory` | `total_reserved` |
+| ---------- | -------------- | ------ | ----------------- | ---------------- |
+| 211 | 1001 | 2021-06-01 | 100 | 80 |
+| 211 | 1001 | 2021-06-02 | 100 | 82 |
+| 211 | 1001 | 2021-06-03 | 100 | 86 |
+| 211 | 1001 | ... | ... | ... |
+| 211 | 1001 | 2023-05-31 | 100 | 0 |
+| 211 | 1002 | 2021-06-01 | 200 | 164 |
+| 2210 | 101 | 2021-06-01 | 30 | 23 |
+| 2210 | 101 | 2021-06-02 | 30 | 25 |
+
+To check if a customer can reserve a specific type of room or not:
+
+- input: `startDate`, `endDate`, `roomTypeId`, `hotelId`, `numberOfRoomsToReserve`
+- output: Returns whether the specified type of room has inventory and users can book it.
+
+From the SQL perspective:
+
+1. Select rows within a date range
+   ```sql
+   SELECT date, total_inventory, total_reserved
+   FROM room_type_inventory
+   WHERE
+      room_type_id = :roomTypeId AND
+      hotel_id = :hotelId AND
+      date between :startDate and :endDate
+   ```
+1. For each entry, the application checks the condition below:
+   `if (total_reserved + numberOfRoomsToReserve) <= 110% * total_inventory` to support 10% overbooking.
+
+#### If the reservation data is too large for a single database
 
 - Store only current and future reservation data. Reservation history can be archived.
 - Database sharding. Most frequent queries include making a reservation or looking up a reservation by name. In both cases, `hotel_id` is a good sharding key. hash(hotel_id) % number_of_servers.
