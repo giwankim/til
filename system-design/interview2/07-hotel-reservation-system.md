@@ -324,9 +324,59 @@ Easy to implement and data contention is not high (low QPS), so is another good 
 
 ### Scalability
 
+Interviewer might follow up with: "what if the hotel reservation system is used not just for a hotel chain, but for a popular travel site such as booking.com or expedia.com?"
+QPS should be 1,000 times higher.
+
+Services are stateless, so can be expanded by adding more servers; however, the database contains all the states and cannot be scaled up by simply adding more databases.
+
 #### Database sharding
 
+Apply database sharding.
+
+Most queries need to filter by `hotel_id`. So we shard data by `hotel_id`. In the following figure, the load is spread among 16 shards.
+
+![sharding](../../assets/system-design/interview2/sharding.png)
+
+Assume the QPS is 30,000. After database sharding, each shard handles 30,000 / 16 = 1875 QPS, which is within a single MySQL server's load capacity.
+
 #### Caching
+
+Only current and future hotel inventory data are meaningful because customers can only book rooms in the near future.
+
+So for storage choice, ideally we want to have a time-to-live (TTL) mechanism to expire old data automatically. Historical data can be queries on a different database. Redis is a good choice because TTL and Least Recently Used (LRU) cache eviction policy helps us make optimal use of memory.
+
+We can add a cache layer on top of the database and move the check room inventory and reserve room logic to the cache layer.
+
+![hotel-reservation-cache](../../assets/system-design/interview2/hotel-reservation-cache.png)
+
+##### Reservation service
+
+Supports the following inventory management APIs:
+
+- Query the number of available rooms for a given room type and date range.
+- Reserve a room by executing `total_reserved` += 1.
+- Update inventory when a user cancels a reservation.
+
+##### Inventory cache
+
+All inventory management query operations are moved to the inventory cache (Redis) and we need to pre-populate inventory data to the cache. Cache is key-value structure:
+
+key: `{hotelID}_{roomTypeID}_{date}`
+value: number of available rooms for a given hotel ID, room type ID and date
+
+Volume of read operations is an order of magnitude higher than write operation.
+
+##### Inventory DB
+
+Stores inventory data as source of truth.
+
+##### New challenges posed by the cache
+
+Adding a caching layer increases scalability and throughput, but it also introduces a new challenge: how to maintain data consistency between the database and the cache.
+
+Pros:
+
+Cons:
 
 ### Data consistency among service
 
@@ -374,7 +424,13 @@ sequenceDiagram
   end
 ```
 
+In microservice architecture, each service has its own database. This means we cannot use a single transaction to ensure data consistency.
+
 To address the data inconsistency, here is a high-level summary of industry-proven techniques.
 
-- Two-phase commit (2PC).
-- Saga.
+- Two-phase commit (2PC). 2PC is a database protocol used to guarantee atomic transaction across multiple nodes. i.e., either all nodes succeeded or all nodes failed. 2PC is a blocking protocol, a single node failure blocks the progress until the node has recovered. It's not performant.
+- Saga. A saga is a sequence of local transactions. Each transaction updates and published a message to trigger the next transaction step. If a step fails, the sage executes compensating transactions to unto the change that were made by preceding transactions.
+
+2PC works as a single commit to perform ACID transactions while Saga consists of multiple steps and relies on eventual consistency.
+
+>[!NOTE] For this problem, we went with a pragmatic approach of storing reservation and inventory data under the same relational database.
