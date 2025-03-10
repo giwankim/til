@@ -374,9 +374,19 @@ Stores inventory data as source of truth.
 
 Adding a caching layer increases scalability and throughput, but it also introduces a new challenge: how to maintain data consistency between the database and the cache.
 
+When a user books a room, two operations are executed in the happy path:
+
+1. Query room inventory to find out if there are enough rooms left. Runs on inventory cache.
+2. Update inventory data. DB is updated first, then the change is propagated to the cache asynchronously. Asynchronous cache update could be invoked by the application code, or propagated using change data capture (CDC).
+
 Pros:
 
+- Reduced database load.
+- High performance.
+
 Cons:
+
+- Maintaining data consistency between database and cache. Need to think carefully about how this inconsistency affects user experience.
 
 ### Data consistency among service
 
