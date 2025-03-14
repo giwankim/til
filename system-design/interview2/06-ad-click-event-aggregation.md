@@ -1,10 +1,16 @@
 # 6. Ad Click Event Aggregation
 
+## Core concepts of online advertising
+
 Digital advertising has a core process called Real-Time Bidding (RTB), in which digital advertising inventory is bought and sold.
 
 ![real-time bidding](../../assets/system-design/interview2/rtb.png)
 
 Ad click event aggregation plays a critical role in measuring the effectiveness of online advertising. The key metrics used in online advertising, including click-through rate and conversion rate, depend on aggregated ad click data.
+
+The speed of the RTB process is important; usually occurs in less than a second.
+
+Data accuracy. Ad click event aggregation plays a critical role in measuring the effectiveness in online advertising. Based on click aggregation results, campaign managers can control the budget or adjust bidding strategies, such as targeted audience groups, keywords, etc. Key metrics used in online advertising, including click-through rate (CTR) and conversion rate (CVR), depend on aggregated ad click data.
 
 ## Step 1 - Establish Design Scope
 
@@ -99,17 +105,39 @@ To support the query to return the top N most clicked ads in the last M minutes:
 erDiagram
     MOST_CLICKED_ADS {
         integer window_size "Aggregation window size (M) in minutes"
-        timestamp update_time_minute
-        array most_clicked_ads
+        timestamp update_time_minute "Last updated timestamp (granularity is minute)"
+        array most_clicked_ads "List if ad IDs in JSON format"
     }
 ```
 
 #### Comparison
 
-|   | Raw data only | Aggregated data only |
-| - | ------------- | -------------------- |
-| Pros |             |                      |
-| Cons |            |                      |
+|      | Raw data only | Aggregated data only |
+| ---- | ------------- | -------------------- |
+| Pros | Full data set                         | Smaller data set |
+|      | Support data filter and recalculation | Fast query |
+| Cons | Huge data storage                     | Data loss |
+|      | Slow query                            | |
+
+Recommend to store both raw and aggregated data:
+
+- Keep raw data. If something goes wrong, we could use raw data for debugging.
+- Store aggregated data as well. Raw data is huge. Run queries on aggregated data.
+- Raw data serves as backup. Old raw data could be moved to cold storage to reduce costs.
+- Aggregated data serves as active data. Tuned for query performance.
+
+#### Choose the right database
+
+Evaluate the following:
+
+- What does the data look like? Relational? Document or a blob?
+- Workflow read-heavy, write-heavy, or both?
+- Is transaction support needed?
+- Do queries rely on many online analytical processing (OLAP) functions like SUM, COUNT?
+
+Average write QPS is 10,000 with peak of 50,000 so the system is write-heavy. Raw data is used as backup and source for recalculation so read volume is low.
+
+
 
 ### High-level design
 
@@ -196,3 +224,5 @@ To support data filtering, pre-define filtering criteria and aggregate based on 
 | ad0002 | 202101010001 | others | 12 |
 
 This technique is called star schema, which is widely used in data warehouses. Filter fields are called dimensions.
+
+## Step 3 - Design Deep Dive
