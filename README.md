@@ -116,6 +116,7 @@
   - [4. Distributed Message Queue](system-design/interview2/04-distributed-message-queue.md)
   - [6. Ad Click Event Aggregation](system-design/interview2/06-ad-click-event-aggregation.md)
   - [7. Hotel Reservation System](system-design/interview2/07-hotel-reservation-system.md)
+  - [8. Distributed Email Service](system-design/interview2/08-distributed-email-service.md)
 
 ## 잡담
 
