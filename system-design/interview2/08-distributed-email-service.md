@@ -29,3 +29,23 @@
 ## Step 2 - High-Level Design
 
 ### Email 101
+
+#### Email Protocols
+
+__SMTP__: Simple Mail Transfer Protocol (SMTP) is the standard protocol for sending emails from one mail server to another.
+
+The most popular protocols for retrieving emails are known as Post Office Protocol (POP) and the Internet Mail Access Protocol (IMAP).
+
+__POP__ is a standard mail protocol to receive and download emails from a remote mail server to a local email client. Once emails are downloaded to your computer or phone, they are deleted from the email server. The details are covered in [RFC 1939](http://www.faqs.org/rfcs/rfc1939.html).
+
+__IMAP__ is also standard mail protocol for receiving emails for a local email client. When you read an email, you are connected to an external mail server, and data is transferred to your local device.
+
+__HTTPS__ is not technically a mail protocol, but it can be used to access your mailbox. For example, it's common for Microsoft Outlook to talk to mobile devices over HTTPS, on a custom-made protocol called ActiveSync.
+
+#### DNS
+
+A DNS server is used to look up the mail exchanger record (MX record) for the recipient's domain. If you run DNS lookup for gmail.com from the command line, you may bet MX records as shown:
+
+![mx records](../../assets/system-design/interview2/dns-mx.png)
+
+#### Attachment
