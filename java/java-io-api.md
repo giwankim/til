@@ -4,7 +4,11 @@ Java I/O is a set of classes that give access to external resources including fi
 
 ## 1. Main Concepts
 
-### Java I/O, Java NIO and Java NIO2
+### 1.1 Introduction
+
+Java I/O API gives the tools to access information from the outside. For your application, "outside" means two elements: your disks, file systems, and your network. It turns out you can access a third element using Java I/O and its extensions: the _off-heap_ memory.
+
+### 1.2 Java I/O, Java NIO and Java NIO2
 
 Java I/O API was created in the mid-90s along with the first versions of the JDK.
 
@@ -12,7 +16,7 @@ In 2002, with Java SE 1.4, Java NIO was released, with new classes, concepts and
 
 In 2011, with Java SE 7, Java NIO2 was released, with more classes and concepts. It also brought new patterns for Java I/O.
 
-### Accessing a File
+### 1.3 Accessing a File
 
 There are two main concepts in Java I/O: locating the resource you need to access, and opening a stream to this resource.
 
@@ -32,7 +36,7 @@ Starting with Java SE 7, the `Path` interface was introduced, as part of the Jav
 
 All these issues are fixed by the `Path` interface. So using the `File` class is not recommended anymore.
 
-#### I/O Streams
+#### 1.4 I/O Streams
 
 An _I/O Stream_ represent an input source and output destination.
 
@@ -58,5 +62,4 @@ All character stream classes are descended from `Reader` and `Writer`.
 
 ## 2. File System Basics
 
-### Accessing Resources using Paths
-
+### 2.1 Accessing Resources using Paths
