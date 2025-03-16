@@ -36,9 +36,9 @@ __SMTP__: Simple Mail Transfer Protocol (SMTP) is the standard protocol for send
 
 The most popular protocols for retrieving emails are known as Post Office Protocol (POP) and the Internet Mail Access Protocol (IMAP).
 
-__POP__ is a standard mail protocol to receive and download emails from a remote mail server to a local email client. Once emails are downloaded to your computer or phone, they are deleted from the email server. The details are covered in [RFC 1939](http://www.faqs.org/rfcs/rfc1939.html).
+__POP__ is a standard mail protocol to receive and download emails from a remote mail server to a local email client. Once emails are downloaded to your computer or phone, they are deleted from the email server. The details are covered in [RFC 1939](http://www.faqs.org/rfcs/rfc1939.html). POP requires mail clients to download the entire email. This can take a long time if an email contains a large attachment.
 
-__IMAP__ is also standard mail protocol for receiving emails for a local email client. When you read an email, you are connected to an external mail server, and data is transferred to your local device.
+__IMAP__ is also standard mail protocol for receiving emails for a local email client. When you read an email, you are connected to an external mail server, and data is transferred to your local device. IMAP only downloads a message when you click it, and emails are not deleted from mail servers, meaning tht you can access emails from multiple devices.
 
 __HTTPS__ is not technically a mail protocol, but it can be used to access your mailbox. For example, it's common for Microsoft Outlook to talk to mobile devices over HTTPS, on a custom-made protocol called ActiveSync.
 
@@ -48,4 +48,8 @@ A DNS server is used to look up the mail exchanger record (MX record) for the re
 
 ![mx records](../../assets/system-design/interview2/dns-mx.png)
 
+The priority numbers indicate preferences, where the mail server with a lower priority number is more preferred. A sending mail server will attempt to connect and send messages to this mail server first. If the connection fails, the sending mail server will attempt to connect to the mail server with the next lowest priority.
+
 #### Attachment
+
+An email attachment is sent along with an email message, commonly with Base64 encoding. There is usually a size limit for an email attachment. For example, Outlook and Gmail limit the size of attachments to 20MB and 25MB respectively as of June 2021. Multipurpose Internet Mail Extension (MIME) is a specification that allows the attachment to be sent over the internet.

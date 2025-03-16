@@ -2,7 +2,11 @@
 
 Java I/O is a set of classes that give access to external resources including file systems and the network.
 
-## 1. Main Concepts
+## Main Concepts
+
+### Introduction
+
+Java I/O API gives the tools to access information from the outside. For your application, "outside" means two elements: your disks, file systems, and your network. It turns out you can access a third element using Java I/O and its extensions: the _off-heap_ memory.
 
 ### 1.1 Introduction
 
@@ -59,7 +63,3 @@ Following this, the Java I/O API defines four base classes, that are abstract, e
 All byte streams are descended from `InputStream` and `OutputStream`.
 
 All character stream classes are descended from `Reader` and `Writer`.
-
-## 2. File System Basics
-
-### 2.1 Accessing Resources using Paths

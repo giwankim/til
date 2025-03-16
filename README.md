@@ -42,7 +42,12 @@
 
 ## Java
 
-- [Java I/O API](java/java-io-api.md)
+- Java I/O API
+  - [1. Main concepts](java/java-io-api/01-main-concepts/main-concepts.md)
+  - [2. File System Basics](java/java-io-api/02-file-system/)
+    - [1. Accessing Resources using Paths](java/java-io-api/02-file-system/01-accessing-resource-using-paths.md)
+  
+
 - [Common I/O Tasks in Modern Java](java/common-io-tasks-in-modern-java.md)
 
 - Effective Java
