@@ -53,3 +53,24 @@ The priority numbers indicate preferences, where the mail server with a lower pr
 #### Attachment
 
 An email attachment is sent along with an email message, commonly with Base64 encoding. There is usually a size limit for an email attachment. For example, Outlook and Gmail limit the size of attachments to 20MB and 25MB respectively as of June 2021. Multipurpose Internet Mail Extension (MIME) is a specification that allows the attachment to be sent over the internet.
+
+### Traditional mail server
+
+#### Traditional mail server architecture
+
+The following figure describes what happens when Alice sends an email to Bob.
+
+![traditional mail servers](../../assets/system-design/interview2/traditional-mail-server.png)
+
+1. Alice logs into her Outlook client, composes an email, and presses "send." The email is sent to the Outlook mail server. The communication protocol between the Outlook client and mail server is SMTP.
+2. Outlook mail server queries the DNS to find the address of the recipient's SMTP server. Next, it transfer the email to the Gmail mail server. The communication protocol between the mail servers is SMTP.
+3. Gmail server stores the email and makes it available to Bob, the recipient.
+4. Gmail client fetches new emails through the IMAP/POP server when Bob logs in to Gmail.
+
+#### Storage
+
+Most email systems at large scale such as Gmail, Outlook, and Yahoo use highly customized databases. In the past, emails were stored in local file directories and each email was stored in a separate file with unique name. Each user maintained a user directory to store configuration data and mailboxes. `Maildir` was a popular way to store email messages on the mail server.
+
+![maildir](../../assets/system-design/interview2/maildir.png)
+
+As the email volume grew and the file structure became more complex, disk I/O became a bottleneck. The local directories also don't satisfy our high availability and reliability requirements.
