@@ -83,6 +83,11 @@
 - [Effective Kotlin](https://kt.academy/book/effectivekotlin)
   - [Item 36: Prefer composition over inheritance](kotlin/effective-kotlin/36-composition-over-inheritance.md)
 
+## Network
+
+- [Netty in Action](https://www.manning.com/books/netty-in-action)
+  - [1. Netty--asynchronous and event-driven](https://github.com/giwankim/netty-in-action/blob/main/docs/ch01.md)
+
 ## PS
 
 - [컬렉션 프레임워크](ps/collections.md)
@@ -101,6 +106,8 @@
     - [3 - Bad Smells in Code](https://github.com/giwankim/refactoring/blob/main/docs/ch03.md)
     - [4 - Building Tests](https://github.com/giwankim/refactoring/blob/main/docs/ch04.md)
     - [7 - Encapsulation](https://github.com/giwankim/refactoring/blob/main/docs/ch07.md)
+    - [8 - Moving Feautres](https://github.com/giwankim/refactoring/blob/main/docs/ch08.md)
+    - [9 - Organizing Data](https://github.com/giwankim/refactoring/blob/main/docs/ch09.md)
 
 ## Spring
 
