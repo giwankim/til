@@ -86,7 +86,7 @@
 ## Network
 
 - [Netty in Action](https://www.manning.com/books/netty-in-action)
-  - [1. Netty--asynchronous and event-driven](https://github.com/giwankim/netty-in-action/blob/main/docs/ch01.md)
+  - [1. Netty-asynchronous and event-driven](https://github.com/giwankim/netty-in-action/blob/main/docs/ch01/ch01.md)
 
 ## PS
 
