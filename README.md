@@ -133,6 +133,9 @@
   - [6. Ad Click Event Aggregation](system-design/interview2/06-ad-click-event-aggregation.md)
   - [7. Hotel Reservation System](system-design/interview2/07-hotel-reservation-system.md)
   - [8. Distributed Email Service](system-design/interview2/08-distributed-email-service.md)
+  - [9. S3-like Object Storage](system-design/interview2/09-s3-like-object-storage.md)
+  - [10. Real-time Gaming Leaderboard](system-design/interview2/10-real-time-gaming-leaderboard.md)
+  - [11. Payment System](system-design/interview2/11-payment-system.md)
 
 ## 잡담
 
