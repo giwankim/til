@@ -140,11 +140,28 @@ Payment order table stores the execution status of each payment order.
 erDiagram
   PAYMENT_ORDER {
     string payment_order_id PK
-
+    string buyer_account
+    string amount
+    string currency
+    string checkout_id FK
+    string payment_order_status
+    ledger_updated boolean
+    wallet_updated boolean
   }
 ```
 
 #### Double-entry ledger system
+
+Very important design principle in the ledger system. Double-entry system is fundamental to any payment system and is key to accurate bookkeeping. It records every payment transaction into two separate ledger accounts with the same amount.
+
+| Account | Debit | Credit |
+| ------- | ----- | ------ |
+| buyer | $1 | |
+| seller | | $1 |
+
+Double-entry system states that the sum of all transaction entries must be 0. It provides end-to-end traceability and ensures consistency throughout the payment cycle.
+
+To find out more about implementing the double-entry system, see Square's engineering blog about [immutable double-entry accounting database service](https://developer.squareup.com/blog/books-an-immutable-double-entry-accounting-database-service).
 
 ### Hosted payment page
 
