@@ -110,3 +110,16 @@ There are two services in this design. The game service allows users to play the
 #### Relational database solution
 
 #### Redis solution
+
+##### Redis sorted sets
+
+Redis operations we will use to build our leaderboard:
+
+- ZADD:
+- ZINCRBY:
+- ZRANGE/ZREVRANGE:
+- ZRANK/ZREVRANK:
+
+##### Workflow with sorted sets
+
+##### Storage requirements

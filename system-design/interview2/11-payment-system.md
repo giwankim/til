@@ -150,6 +150,21 @@ erDiagram
   }
 ```
 
+- `checkout_id` is the foreign key. A single checkout creates a payment event that may contain several payment orders.
+- When we call a third-party PSP to deduct money from the buyer's credit card,
+
+In the `PAYMENT_ORDER` table, `payment_order_Status` is an enumerated type that keeps the execution status of the payment order. Execution status includes `NOT_STARTED`, `EXECUTING`, `SUCCESS`, `FAILED`
+
+```mermaid
+stateDiagram-v2
+  state if_state <<choice>>
+  [*] --> NOT_STATED
+  NOT_STATED --> EXECUTING
+  EXECUTING --> if_state
+  if_state --> SUCCESS: payment execution success
+  if_state --> FAILED: payment execution failed
+```
+
 #### Double-entry ledger system
 
 Very important design principle in the ledger system. Double-entry system is fundamental to any payment system and is key to accurate bookkeeping. It records every payment transaction into two separate ledger accounts with the same amount.
