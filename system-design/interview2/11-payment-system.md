@@ -78,4 +78,24 @@ Typical pay-in flow works like this:
 
 ### Data model for payment
 
+Need two tables: payment event and payment order.
+
+When we select a storage solution, performance is usually not the most important factor. Instead, we focus on the following:
+
+1. Proven stability
+
 #### Double-entry ledger system
+
+### Hosted payment page
+
+Most companies prefer not to store credit card information internally (regulation such as Payment Card Industry Data Security Standard (PCI DSS) in the US). To avoid handling credit card information, companies use hosted credit card pages provided by PSPs. For websites, it is a widget or an iframe, while for mobile applications, it may be a pre-built page from the payment SDK.
+
+Exmaple of the checkout experience with PayPal integration. The point is that the PSP provides a hosted payment page that captures the customer card information directly.
+
+![hosted payment page](../../assets/system-design/interview2/hosted-payment-page.png)
+
+### Pay-out flow
+
+The components of the pay-out flow are very similar to pay-in flow. One difference is that instead of using PSP to move money from the buyer's credit card to the e-commerce website's bank account, the pay-out flow uses a third-party pay-out provider to move money from the e-commerce website's bank account to the seller's bank account.
+
+Usually, the payment system uses third-party account payable providers like Tipalti to handle pay-outs. There are a lot of bookkeeping and regulatory requirements with pay-outs as well.
