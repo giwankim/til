@@ -76,13 +76,73 @@ Typical pay-in flow works like this:
 
 ### APIs for payment service
 
+#### POST /v1/payments
+
+This endpoint executes a payment event. A single payment event may contain multiple payment orders.
+
+##### Request
+
+| Field | Description | Type |
+| ----- | ----------- | ---- |
+| `buyer_info` | Information of the buyer | json |
+| `checkout_id` | Globally unique ID for this checkout | string |
+| `credit_card_info` | Could be encrypted credit card information or a payment token. The value is PSP-specific | json |
+| `payment_orders` | List of payment orders | list |
+
+`payment_orders` look like this:
+
+| Field | Description | Type |
+| ----- | ----------- | ---- |
+| `seller_account` | Which seller will receive the money | string |
+| `amount` | Transaction amount for the order | string |
+| `currency` | Currency of the order | string (ISO 4217) |
+| `payment_order_id` | Globally unique ID for this payment | string |
+
+> [!NOTE] `payment_order_id` is globally unique. When the payment executor sends a payment request to a third-party PSP, `payment_order_id` is used by the PSP as the deduplication ID, also called the idempotency key.
+
+> [!TIP] Data type of the "amount" field is "string". Double is not a good choice because:
+>
+> 1. Different protocols, software, and hardware may support different numberic precisions in serialization and deserialization. This difference might cause unintended rounding errors.
+> 2. The number could be extremely big (for example, Japan's GDP is around $5 * 10^{14}$ yen for 2020), or extremely small (a satoshi of Bitcoin is $10^{-8}$).
+
+#### GET /v1/payments/{id}
+
+Returns the execution status of a single payment order based on `payment_order_id`
+
 ### Data model for payment
 
 Need two tables: payment event and payment order.
 
 When we select a storage solution, performance is usually not the most important factor. Instead, we focus on the following:
 
-1. Proven stability
+1. Proven stability. Whether the storage system has been used by other big financial firms for many years (for example more than 5 years) with positive feedback.
+2. The richness of supporting tools, such as monitoring and investigation tools.
+3. Maturity of the DBA job market.
+
+Usually, we prefer a traditional relational database with ACID transaction support over NoSQL.
+
+Payment event table contains detailed payment event information.
+
+```mermaid
+erDiagram
+  PAYMENT_EVENT {
+    string checkout_id PK
+    string buyer_info
+    string seller_info
+    depends credit_card_info
+    boolean is_payment_done
+  }
+```
+
+Payment order table stores the execution status of each payment order.
+
+```mermaid
+erDiagram
+  PAYMENT_ORDER {
+    string payment_order_id PK
+
+  }
+```
 
 #### Double-entry ledger system
 
