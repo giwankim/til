@@ -29,3 +29,30 @@ Each transfer command requires two operations: deducting money from one account 
 | 100 | 20,000 |
 | 1,000 | 2,0000 |
 | 10,000 | 200 |
+
+## Step 2 - High-Level Design
+
+### API Design
+
+| API | Detail |
+| --- | ------ |
+| POST /v1/wallet/balance_transfer | Transfer balance from one wallet to another |
+
+#### Request parameters
+
+| Field | Description | Type |
+| ----- | ----------- | ---- |
+| from_account | Debit account | string |
+| to_account | Credit account | string |
+| amount | Amount of money | string |
+| currency | Currency type | string (ISO 4217) |
+| transaction_id | ID used for deduplication | uuid |
+
+#### Sample response body
+
+```json
+{
+  "status": "success",
+  "transaction_id": "01589980-11ec-9621-0242ac130002"
+}
+```
