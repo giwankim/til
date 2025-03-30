@@ -136,6 +136,8 @@
   - [9. S3-like Object Storage](system-design/interview2/09-s3-like-object-storage.md)
   - [10. Real-time Gaming Leaderboard](system-design/interview2/10-real-time-gaming-leaderboard.md)
   - [11. Payment System](system-design/interview2/11-payment-system.md)
+  - [12. Digital Wallet](system-design/interview2/12-digital-wallet.md)
+  - [13. Stock Exchange](system-design/interview2/13-stock-exchange.md)
 
 ## 잡담
 
