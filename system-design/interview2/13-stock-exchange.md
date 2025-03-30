@@ -46,3 +46,27 @@ US stock market has three tiers of prices quotes: L1, L2, and L3.
 ### High-level design
 
 ![high-level design](../../assets/system-design/interview2/stock-exchange-high-level-design.png)
+
+Let's trace the life of an order through various components in the diagram to see how the prices fit together.
+
+__Trading flow__. This is the critical path with strict latency requirements.
+
+1. A client places an order via the broker's web or mobile app.
+
+2. The broker sends the order to the exchange.
+
+3. Order enters the exchange through the client gateway. The client gateway performs basic gatekeeping functions such as input validation, rate limiting, authentication, normalization, etc. The client gateway then forwards the order to the order manager.
+
+4 - 5. Order manager performs risk checks based on rules set by the risk manager.
+
+6. After passing risk checks, the order manager verifies there are sufficient funds in the wallet for the order.
+
+7 - 9. The order is sent to the matching engine. When a match is found, the matching engine emits two executions (also called fills), with one each for the buy and sell sides. To guarantee that matching results are deterministic when replay, both orders and executions are sequenced in the sequencer.
+
+10 - 14. The executions are returned to the client.
+
+__Market data flow__ and trace the order executions from the matching engine to the broker via the data service.
+
+#### Trading flow
+
+#### Market data flow
