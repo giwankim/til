@@ -56,3 +56,50 @@ Each transfer command requires two operations: deducting money from one account 
   "transaction_id": "01589980-11ec-9621-0242ac130002"
 }
 ```
+
+### In-memory sharding solution
+
+Number of partitions and address of all Redis nodes can be stored in a centralized place. We could use Zookeeper as a highly-available configuration storage solution.
+
+Wallet service has several key responsibilities:
+
+1. Receives the transfer command.
+2. Validates the transfer command.
+3. If the command is valid, it updates the account balances for the two users involved in the transfer, most likely in two different Redis nodes.
+
+![in-memory solution](../../assets/system-design/interview2/digital-wallet-in-memory.png)
+
+> [!WARNING]
+> Does not meet the correctness requirement. Wallet service updates two Redis nodes for each transfer. The two updates need to be done in a single atomic transaction.
+
+### Distributed transactions
+
+#### Database sharding
+
+![relational database](../../assets/system-design/interview2/digital-wallet-relational-db.png)
+
+#### Two-phase commit
+
+There are tow ways to implement a distributed transaction: a low-level solution and a high-level solution.
+
+Low-level solution relies on the database itself.
+
+![two-phase commit](../../assets/system-design/interview2/2pc.png)
+
+1. The coordinator (wallet service), performs read and write operations on multiple databases as normal. Both databases A and C are locked.
+2. When the application is about to commit the transaction, the coordinator asks all databases to prepare the transaction.
+3. In the second phase, the coordinator collects replies from all databases and does the following:
+   1. If all database reply with a "yes", the coordinator asks all databases to commit the transaction it has received.
+   2. If any database replies with a "no", the coordinator asks all databases to abort the transaction.
+
+It is a low-level solution because the prepare step requires a special modification to the database transaction.
+
+The biggest problem with 2PC is that it's not performant, as locks can be held for a very long time while waiting for a message from the other nodes. Another issue is that the coordinator can be a SPoF:
+
+![coordinator crashes](../../assets/system-design/interview2/2pc-coordinator-spof.png)
+
+#### Try-Confirm/Cancel (TC/C)
+
+#### Saga
+
+### Event sourcing
