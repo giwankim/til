@@ -67,6 +67,16 @@ __Trading flow__. This is the critical path with strict latency requirements.
 
 __Market data flow__ and trace the order executions from the matching engine to the broker via the data service.
 
+M1: Matching engine generates a stream of executions (fils) as matches are made. The stream is sent to the market data publisher.
+
+M2: Market data publisher constructs the candlestick charts and the order books from the stream of executions as market data.
+
+M3: Market data publisher sends the market data to the data service. The published market data is saved to specialized storage for real-time analytics. The brokers connect to the data service to obtain timely market data. Brokers relay market data to their clients.
+
+__Reporter flow__
+
+R1 - R2 (reporting flow): Reporter collects al
+
 #### Trading flow
 
 #### Market data flow

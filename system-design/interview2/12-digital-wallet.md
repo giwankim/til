@@ -100,6 +100,15 @@ The biggest problem with 2PC is that it's not performant, as locks can be held f
 
 #### Try-Confirm/Cancel (TC/C)
 
+TC/C is a type of compensating transaction that has two steps:
+
+1. In the first phase, the coordinator asks all databases to reserve resources for the transactions.
+2. In the second phase, the coordinator collects replies from all databases:
+   1. If all databases reply with "yes", the coordinator
+   2. If any database replies with "no", the coordinator
+
+It's important to be aware that the two phases in 2PC are wrapped in the same transaction, but in TC/C each phase is a separate transaction.
+
 #### Saga
 
 ### Event sourcing
