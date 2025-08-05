@@ -46,3 +46,45 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
     - META-INF/MANIFEST.MF
     - BOOT-INF/classes/a/b/C.class
 ```
+
+## Dockerfile
+
+레이어 인덱스 파일이 포함된 jar 파일 빌드 시, `spring-boot-jarmode-tools` jar가 디펜던시로 jar에 포함된다.
+
+`tools` jar mode로 jar 파일을 실행하면
+
+```shell
+java -Djarmode=tools -jar app.jar
+```
+
+출력이 다음과 같다.
+
+```
+Usage:
+  java -Djarmode=tools -jar my-app.jar
+
+Available commands:
+  extract      Extract the contents from the jar
+  list-layers  List layers from the jar that can be extracted
+  help         Help about any command
+```
+
+`extract` 명령을 사용해서 `Dockerfile`에 순차적으로 더할 레이어들을 추출할 수 있다.
+
+```dockerfile
+FROM bellsoft/liberica-openjre-debian:24-cds AS builder
+WORKDIR /builder
+ARG JAR_FILE=build/libs/*.jar
+COPY ${JAR_FILE} application.jar
+RUN java -Djarmode=tools -jar application.jar extract --layers --destination extracted
+
+FROM bellsoft/liberica-openjre-debian:24-cds
+WORKDIR /application
+COPY --from=builder /builder/extracted/dependencies/ ./
+COPY --from=builder /builder/extracted/spring-boot-loader/ ./
+COPY --from=builder /builder/extracted/snapshot-dependencies/ ./
+COPY --from=builder /builder/extracted/application/ ./
+ENTRYPOINT ["java", "-jar", "application.jar"]
+```
+
+Multi-stage `Dockerfile`이고 builder 단계가 다음 단계에서 사용할 디렉토리들을 추출한다. 각 `COPY` 명령이 jarmode를 통해서 추출한 레이어와 연관되어 있다.
