@@ -121,11 +121,78 @@ registering directly with the Servlet container or DelegatingFilterProxy are:
    `FilterChainProxy` can determine invocation based upon anything in the `HttpServletRequest` by
    using the `RequestMatcher` instance.
 
+The following image shows multiple `SecurityFilterChain` instances:
+
+```mermaid
+graph TD
+    Client[Client]
+
+    subgraph FilterChain
+        direction TB
+        Filter0[Filter₀]
+    
+        subgraph DFP["DelegatingFilterProxy"]
+            FCP["FilterChainProxy"]
+        end
+    
+        Filter2[Filter₂]
+        Servlet[Servlet]
+    
+        Filter0 <--> DFP
+        DFP <--> Filter2
+        Filter2 <--> Servlet
+    end
+
+    Decision{?}
+
+    subgraph SecurityFilterChain0["SecurityFilterChain₀"]
+        direction TB
+        API["/api/**"]
+        SF0_1[ ]
+        SF0_2[ ]
+        SF0_3[ ]
+        
+        API --- SF0_1
+        SF0_1 --- SF0_2
+        SF0_2 --- SF0_3
+    end
+
+    subgraph SecurityFilterChainN["SecurityFilterChain_n"]
+        direction TB
+        Root["/**"]
+        SFN_1[ ]
+        SFN_2[ ]
+        SFN_3[ ]
+        SFN_4[ ]
+        
+        Root --- SFN_1
+        SFN_1 --- SFN_2
+        SFN_2 --- SFN_3
+        SFN_3 --- SFN_4
+    end
+
+    Client <--> Filter0
+    DFP --> Decision
+    Decision --> SecurityFilterChain0
+    Decision --> SecurityFilterChainN
+
+    style Filter0 fill:#ff8c42
+    style DFP fill:#ff8c42,stroke:#333,stroke-width:2px
+    style FCP fill:#fff,stroke:#000
+    style Filter2 fill:#ff8c42
+    style Servlet fill:#ff8c42
+    style SF0_1 fill:#ff8c42
+    style SF0_2 fill:#ff8c42
+    style SF0_3 fill:#ff8c42
+    style SFN_1 fill:#ff8c42
+    style SFN_2 fill:#ff8c42
+    style SFN_3 fill:#ff8c42
+    style SFN_4 fill:#ff8c42
+```
+
 ### Security Filters
 
-SecurityFilters are inserted into the FilterChainProxy with SecurityFilterChain API. These filters
-are used for a number of different purposes, like exploit protection, authentication, authorization,
-and more.
+SecurityFilters are inserted into the *FilterChainProxy* with *SecurityFilterChain* API. Those filters can be used for a number of different purposes, like exploit protection, authentication, authorization, and more.
 
 Security filters are most often declared using an `HttpSecurity` instance.
 
