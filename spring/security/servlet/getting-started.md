@@ -1,4 +1,4 @@
-# Auto-configuration
+# Getting Started
 
 ## Spring Boot
 
@@ -28,17 +28,53 @@ To understand how Spring Boot coordinates with Spring Security to achieve these 
 look at `org.springframework.boot.security.autoconfigure.servlet` package in the Spring Boot
 source code.
 
-`SpringBootWebSecurityConfiguration` class publishes a `SecurityFilterChain` `@Bean` that applies
-the following configuration: 
+`SpringBootWebSecurityConfiguration` adds `@EnableWebSecurity` annotation which imports `org.springframework.security.config.annotation.web.configuration.HttpSecurityConfiguration`. `HttpSecurityConfiguration` publishes `HttpSecurity` `@Bean`:
+
+```java
+@Bean(HTTPSECURITY_BEAN_NAME)
+@Scope("prototype")
+HttpSecurity httpSecurity() throws Exception {
+    RequestMatcherFactory.setApplicationContext(this.context);
+    LazyPasswordEncoder passwordEncoder = new LazyPasswordEncoder(this.context);
+    AuthenticationManagerBuilder authenticationBuilder = new DefaultPasswordEncoderAuthenticationManagerBuilder(
+            this.objectPostProcessor, passwordEncoder);
+    authenticationBuilder.parentAuthenticationManager(authenticationManager());
+    authenticationBuilder.authenticationEventPublisher(getAuthenticationEventPublisher());
+    HttpSecurity http = new HttpSecurity(this.objectPostProcessor, authenticationBuilder, createSharedObjects());
+    WebAsyncManagerIntegrationFilter webAsyncManagerIntegrationFilter = new WebAsyncManagerIntegrationFilter();
+    webAsyncManagerIntegrationFilter.setSecurityContextHolderStrategy(this.securityContextHolderStrategy);
+    // @formatter:off
+    http
+        .csrf(withDefaults())
+        .addFilter(webAsyncManagerIntegrationFilter)
+        .exceptionHandling(withDefaults())
+        .headers(withDefaults())
+        .sessionManagement(withDefaults())
+        .securityContext(withDefaults())
+        .requestCache(withDefaults())
+        .anonymous(withDefaults())
+        .servletApi(withDefaults())
+        .apply(new DefaultLoginPageConfigurer<>());
+    http.logout(withDefaults());
+    // @formatter:on
+    applyCorsIfAvailable(http);
+    applyDefaultConfigurers(http);
+    return http;
+}
+```
+
+
+`SpringBootWebSecurityConfiguration` also publishes a `SecurityFilterChain` `@Bean` that applies
+the following configuration:
 
 ```java
 @Bean
 @Order(SecurityProperties.BASIC_AUTH_ORDER)
 SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-    http.authorizeHttpRequests((requests) -> requests.anyRequest().authenticated());
-    http.formLogin(withDefaults());
-    http.httpBasic(withDefaults());
-    return http.build();
+  http.authorizeHttpRequests((requests) -> requests.anyRequest().authenticated());
+  http.formLogin(withDefaults());
+  http.httpBasic(withDefaults());
+  return http.build();
 }
 ```
 
