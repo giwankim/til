@@ -238,44 +238,54 @@ like the following:
 The `ExceptionTranslationFilter` allows translation of `AccessDeniedException` and
 `AuthenticationException` into HTTP responses.
 
-`ExceptionTranslationFilter` is inserted into the *FilterChainProxy* as one of the Security Filters.
+`ExceptionTranslationFilter` is inserted into the `FilterChainProxy` as one of the Security Filters.
 
 ```mermaid
 flowchart LR
-%% ---------- Styles ----------
+    %% ---------- Styles ----------
     classDef orange fill:#f7a86a,stroke:#b25a13,color:#000;
     classDef blue fill:#162d6b,stroke:#0b1b49,color:#fff;
     classDef mini fill:#efefef,stroke:#bdbdbd,color:#333;
-%% subgraph borders (Mermaid lets us style subgraphs via 'style <id>')
-
-%% ---------- Security Filter Chain (left) ----------
-subgraph SFC[SecurityFilterChain]
-direction TB
-    pre[ ]:::mini
-    ETF[ExceptionTranslationFilter]:::orange
-    post[ ]:::mini
-    pre --> ETF --> post
-end
-style SFC stroke:#9a9a9a,stroke-dasharray:5 5, rx: 6, ry: 6;
-
-%% ---------- Decision & outcomes (right side) ----------
-ETF --> S1[① Continue Processing<br/>Request Normally]
-S1 --> DEC{Security<br/>Exception?}
-
-%% ② Start Authentication (bottom-left block)
-DEC -- AuthenticationException --> SA
-subgraph SA[Start Authentication]
-direction TB
-SCH[SecurityContextHolder]:::mini
-RC[RequestCache]:::mini
-EP[AuthenticationEntryPoint]:::mini
-SCH --> RC --> EP
-end
-style SA stroke: #9a9a9a, stroke-dasharray: 5 5, rx: 6, ry: 6;
-
-%% ③ Access Denied (bottom-right block)
-DEC -- AccessDeniedException --> ADH[③ AccessDeniedHandler]:::blue
+    
+    %% ---------- Security Filter Chain (left) ----------
+    subgraph SFC[SecurityFilterChain]
+    direction TB
+        pre1[ ]:::mini
+        pre2[ ]:::mini
+        ETF[ExceptionTranslationFilter]:::orange
+        post1[ ]:::mini
+        post2[ ]:::mini
+        pre1 <--> pre2 <--> ETF <--> post1 <--> post2
+    end
+    style SFC stroke:#9a9a9a,stroke-dasharray:5 5, rx: 6, ry: 6;
+    
+    %% ---------- Decision & outcomes (right side) ----------
+    ETF -- ① --> S1[Continue Processing<br/>Request Normally]
+    S1 -- Security Exception --> DEC{ <br/> }
+    
+    %% ② Start Authentication (bottom-left block)
+    DEC -- ② --> SA
+    subgraph SA[Start Authentication]
+    direction TB
+        SCH[SecurityContextHolder]:::mini
+        RC[RequestCache]:::mini
+        EP[AuthenticationEntryPoint]:::mini
+        SCH --- RC --- EP
+    end
+    style SA stroke: #9a9a9a, stroke-dasharray: 5 5, rx: 6, ry: 6;
+    linkStyle 7,8 stroke:transparent;
+    
+    %% ③ Access Denied (bottom-right block)
+    subgraph ADH[Access Denied]
+    direction TB
+        ADE[AccessDeniedHandler]:::blue
+    end
+    DEC -- ③ --> ADH
 ```
+
+- ①
+- ②
+- ③
 
 ### Logging
 

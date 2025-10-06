@@ -76,9 +76,6 @@
 
 ## Redis
 
-- [개발자를 위한 레디스](http://www.acornpub.co.kr/book/redis_for_developers)
-  - [1장 마이크로서비스 아키텍처와 레디스](redis/redis-for-developer/01-msa.md)
-
 ## Refactoring
 
 - [토비님의 리팩토링 읽기 모임](https://discord.com/channels/687618003717587011/1327448191091867783)
@@ -101,7 +98,9 @@
     - [Architecture](spring/security/servlet/architecture.md)
     - Authentication
       - [Authentication Architecture](spring/security/servlet/authentication/architecture.md)
-      - Username/Password
+      - Username/Password Authentication
+        - Reading Username & Password
+          - [Form Login](spring/security/servlet/authentication/username-password/reading-username-password/form.md)
 
 ## System Design
 
