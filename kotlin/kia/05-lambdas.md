@@ -1,6 +1,6 @@
 # 5. Programming with lambdas
 
-## Lambdas with receivers: with, apply, and also
+## 5.4 Lambdas with receivers: with, apply, and also
 
 _Lambdas with receivers_ are lambdas that allow you to directly call methods on a special receiver object.
 

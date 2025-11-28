@@ -194,3 +194,9 @@ graph TD
     style FAIL fill:none,stroke:#999,stroke-dasharray: 5 5
     style SUCCESS fill:none,stroke:#999,stroke-dasharray: 5 5
 ```
+- ① When the user submits their credentials, the `AbstractAuthenticationProcessingFilter` creates an `Authentication` from the `HttpServletRequest` to be authenticated. Type of `Authentication` created depends on the subclass of `AbstractAuthenticationProcessingFilter`.
+- ② `Authentication` is passed into the `AuthenticationManager` to be authenticated.
+- ③ If authentication fails,
+  - `SecurityContextHolder` is cleared out.
+  - `AuthenticationFailureHandler` is invoked.
+- ④ If authentication is successful,

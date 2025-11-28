@@ -2,9 +2,7 @@
 
 ## 10.1 The persistence lifecycle
 
-Any application with a persistent state must interact with the persistence service (Jakarta Persistence interface) to store and load data.
-
-When interacting with the persistence mechanism this way, the application must concern itself with the state and lifecycle of an entity instance with respect to persistence.
+Because JPA is a transparent persistence mechanism, it is possible to write
 
 ### 10.1.1 Entity instance states
 
