@@ -104,5 +104,17 @@ The set of concepts and vocabulary that is shared between everyone on the team i
 
 ## Summarizing the Concepts of DDD
 
-- A *domain*
-- A *Domain Model*
+- A *domain* is an area of knowledge associated with the problem we are trying to solve.
+- A *Domain Model* is a set of simplifications that represent those aspects of a domain that are
+  relevant to a particular problem. Domain model is part of the solution space, while the domain is
+  part of the problem space.
+- *Ubiquitous Language* is a set of concepts and vocabulary that is associated with the domain.
+- A *bounded context* is a subsystem in the solution space with clear boundaries. A bounded context
+  has its own set of concepts and vocabulary, its own dialect of the Ubiquitous Language.
+- A *Context Map* is a high-level diagram showing a collection of bounded context and the
+  relationships between them.
+- A *Domain Event* is a record of something that happened in the system. Always described in the past
+  tense and often triggers additional activity.
+- A *Command* is a request for some process to happen and is triggered by a person or another event.
+  If the process succeeds, the state of the system changes and one or more Domain Events are
+  recorded.
