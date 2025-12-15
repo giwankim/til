@@ -72,3 +72,68 @@ value class ProductCode(val value: String)
 ### Algebraic Type Systems
 
 An algebraic type system is simply one where every compound type is composed from smaller types by *AND*-ing or *OR*-ing them together.
+
+## Working with Types
+
+In Kotlin, the way types are defined and the way that they are constructed are very similar.
+
+For example, we can define a record type, like this:
+
+```kotlin
+data class Person(val first: String, val last: String)
+```
+
+A choice type is defined as follows:
+
+```kotlin
+sealed interface OrderQuantity {
+    @JvmInline
+    value class UnitQuantity(val value: Int): OrderQuantity
+
+    @JvmInline
+    value class KilogramQuantity(val value: Double): OrderQuantity
+}
+```
+
+A choice type is constructed by instantiating any one of the specific subtypes:
+
+```kotlin
+val anOrderQtyInUnits = OrderQuantity.UnitQuantity(10)
+val anOrderQtyInKg = OrderQuantity.KilogramQuantity(2.5)
+```
+
+To deconstruct a choice type, we use pattern matching. In the same way that we constructed the type by choosing one of the subtypes, we consume it by handling each subtype.
+
+In Kotlin, this is done using a `when` expression:
+
+```kotlin
+when (orderQuantity) {
+    is UnitQuantity -> println("${orderQuantity.value} units")
+    is KilogramQuantity -> println("${orderQuantity.value} kg")
+}
+```
+
+## Building a Domain Model by Composing Types
+
+A composable type system is a great aid in doing DDD because we can quickly create a complex model simply by mixing types together in different combinations. For example, say that we want to track payments for an e-commerce site.
+
+First, we start with some wrappers for primitive types:
+
+```kotlin
+@JvmInline
+value class CheckNumber(val value: Int)
+
+@JvmInline
+value class CardNumber(val value: String)
+```
+
+Next, we build up low-level types. A `CardType` is an OR type, while `CreditCardInfo` is an AND type, a record containing a `CardType` *and* a `CardNumber`.
+
+```kotlin
+enum class CardType { Visa, MasterCard }
+
+data class CreditCardInfo(
+    val cardType: CardType,
+    val cardNumber: CardNumber,
+)
+```
