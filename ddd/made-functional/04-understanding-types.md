@@ -27,8 +27,8 @@ In functional programming, we use composition to build new functions from smalle
 
 New types are built from smaller types in two ways:
 
-- By _AND_ing them together
-- By _OR_ing them together
+- By *AND*-ing them together
+- By *OR*-ing them together
 
 ### "AND" Types
 
@@ -58,7 +58,7 @@ enum class CherryVariety: FruitSnack { Montmorency, Bing }
 ```
 
 > [!NOTE]
-> *Sum types* or *tagged unions*, in F# terminology, are called *discriminated unions*. We will often call them *choice types*, because it best represents their role in domain modeling.
+> *Sum types* or *tagged unions*, in F# terminology, are called *discriminated unions*. We will often call them *choice types*, because this term best represents their role in domain modeling.
 
 ### Simple Types
 
@@ -108,16 +108,16 @@ In Kotlin, this is done using a `when` expression:
 
 ```kotlin
 when (orderQuantity) {
-    is UnitQuantity -> println("${orderQuantity.value} units")
-    is KilogramQuantity -> println("${orderQuantity.value} kg")
+    is OrderQuantity.UnitQuantity -> println("${orderQuantity.value} units")
+    is OrderQuantity.KilogramQuantity -> println("${orderQuantity.value} kg")
 }
 ```
 
 ## Building a Domain Model by Composing Types
 
-A composable type system is a great aid in doing DDD because we can quickly create a complex model simply by mixing types together in different combinations. For example, say that we want to track payments for an e-commerce site.
+A composable type system is a great aid in doing DDD because we can quickly create a complex model simply by mixing types together in different combinations. For example, suppose we want to track payments for an e-commerce site.
 
-First, we start with some wrappers for primitive types:
+We start with some wrappers for primitive types:
 
 ```kotlin
 @JvmInline
@@ -136,4 +136,51 @@ data class CreditCardInfo(
     val cardType: CardType,
     val cardNumber: CardNumber,
 )
+```
+
+We then define another OR type, `PaymentMethod`, as a choice between `Cash` or `Check` or `Card`. This is no longer a simple "enum" because some of the choices have data associated with them:
+
+```kotlin
+sealed interface PaymentMethod {
+    object Cash: PaymentMethod
+
+    @JvmInline
+    value class Check(val number: CheckNumber): PaymentMethod
+
+    @JvmInline
+    value class Card(val info: CreditCardInfo): PaymentMethod
+}
+```
+
+Define a few more basic types:
+
+```kotlin
+@JvmInline
+value class PaymentAmount(val value: BigDecimal)
+
+enum class Currency { EUR, USD }
+```
+
+And finally, the top-level `Payment` is a record containing a `PaymentAmount`, a `Currency`, and a `PaymentMethod`:
+
+```kotlin
+data class Payment(
+    val amount: PaymentAmount,
+    val currency: Currency,
+    val method: PaymentMethod,
+)
+```
+
+To document the actions that can be taken, we define types that represent functions.
+
+So, for example, if we want to show there is a way to use a `Payment` type to pay for an unpaid invoice where the final result is a paid invoice, we could define a function type as follows:
+
+```kotlin
+typealias PayInvoice = (UnpaidInvoice, Payment) -> PaidInvoice
+```
+
+Or, to convert a payment from one currency to another:
+
+```kotlin
+typealias ConvertPaymentCurrency = (Payment, Currency) -> Payment
 ```
