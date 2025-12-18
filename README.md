@@ -12,7 +12,15 @@
   - Authoring Gradle Builds
     - [Learning the Basics](build-tool/gradle/authoring-builds/basics.md)
 
-## CS
+## DDD
+
+- [Domain Modeling Made Functional](https://pragprog.com/titles/swdddf/domain-modeling-made-functional)
+
+  1. [Introduction DDD](ddd/made-functional/01-introduction-ddd.md)
+  2. Understanding the Domain
+  3. [Functional Architecture](ddd/made-functional/03-functional-architecture.md)
+  4. [Understanding Types](ddd/made-functional/04-understanding-types.md)
+  5. [Domain Modeling with Types](ddd/made-functional/05-domain-modeling-with-types.md)
 
 ## Diagram
 
@@ -23,14 +31,6 @@
   - [3. Visualize Application and User Flows](diagram/mermaid/03-user-flows.md)
 
 ## Java
-
-- Java I/O API
-  - [1. Main concepts](java/java-io-api/01-main-concepts/main-concepts.md)
-  - [2. File System Basics](java/java-io-api/02-file-system/)
-    - [1. Accessing Resources using Paths](java/java-io-api/02-file-system/01-accessing-resource-using-paths.md)
-  
-
-- [Common I/O Tasks in Modern Java](java/common-io-tasks-in-modern-java.md)
 
 - Effective Java
   - [Item 24: Favor static member classes over nonstatic](java/effective-java/04-classes-interfaces/item24.md)
@@ -73,8 +73,6 @@
 ## PS
 
 - [컬렉션 프레임워크](ps/collections.md)
-
-## Redis
 
 ## Refactoring
 
