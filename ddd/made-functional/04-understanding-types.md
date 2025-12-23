@@ -184,3 +184,20 @@ Or, to convert a payment from one currency to another:
 ```kotlin
 typealias ConvertPaymentCurrency = (Payment, Currency) -> Payment
 ```
+
+## Modeling Optional Values, Errors, and Collections
+
+Let's discuss some common situations and how to represent them using types:
+
+- Optional or missing values
+- Errors
+- Functions that return no value
+- Collections
+
+### Optional Values
+
+### Errors
+
+### No Value
+
+### Lists and Collections

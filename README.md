@@ -21,6 +21,7 @@
   3. [Functional Architecture](ddd/made-functional/03-functional-architecture.md)
   4. [Understanding Types](ddd/made-functional/04-understanding-types.md)
   5. [Domain Modeling with Types](ddd/made-functional/05-domain-modeling-with-types.md)
+  6. [Integrity and Consistency in the Domain](ddd/made-functional/06-integrity-consistency.md)
 
 ## Diagram
 
