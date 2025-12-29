@@ -24,6 +24,7 @@
   6. [Integrity and Consistency in the Domain](ddd/made-functional/06-integrity-consistency.md)
   7. Modeling Workflows as Pipelines
   8. [Understanding Functions](ddd/made-functional/08-understanding-functions.md)
+  9. [Implementation: Composing a Pipeline](ddd/made-functional/09-composing-pipeline.md)
 
 ## Diagram
 
