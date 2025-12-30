@@ -34,7 +34,7 @@ We defined special function types to represent each step of the workflow. How ca
 The simplest approach is just to define a function in the normal way and trust that when we use it later, we'll get a type-checking error. For example, we could define the `validateOrder` function as below, with no reference to the `ValidateOrder` type that we designed earlier:
 
 ```kotlin
-fun UnvalidatedOrder.validateOrder(           // input
+fun UnvalidatedOrder.validateOrder(       // input
     checkProduct: CheckProductCodeExists, // dependency
     checkAddress: CheckAddressExists      // dependency
 ): ValidatedOrder {
@@ -220,3 +220,70 @@ fun String.toProductCode(checkProductCodeExists: CheckProductCodeExists): Produc
 But now we have a problem. We want the `toProductCode` function to return a `ProductCode`, but it returns a `Boolean`. We need to find a way to make `checkProductCodeExists` return a `ProductCode` instead.
 
 ### Function Adapters
+
+Rather than changing the spec, let's create an "adapter" function that takes the original function as input and emits a new function with the right "shape" to be used in the pipeline.
+
+```kotlin
+fun String.convertToPassthru(checkProductCodeExists: (String) -> Boolean): String {
+    require(checkProductCodeExists(this)) { "Invalid Product Code" }
+    return this
+}
+```
+
+In fact, this implementation is completely generic. If you look at the function signature, you'll see there's no mention of the `ProductCode` type anywhere:
+
+```kotlin
+fun <T> T.predicateToPassthru(f: (T) -> Boolean): T {
+    require(f(this)) { "Invalid Product Code" }
+    return this
+}
+```
+
+And now the hard-coded error message sticks out, so let's parametrize that too:
+
+```kotlin
+fun <T> T.predicateToPassthru(errorMsg: String, f: (T) -> Boolean): T {
+    require(f(this)) { errorMsg }
+    return this
+}
+```
+
+We can interpret this as, "You give me an error message and a function of type `T -> Boolean`, and I'll give you back a function of type `T -> T`."
+This `predicateToPassthru` function is thus a "function transformer."
+
+This technique is extremely common in FP. Even the humble `List.map` function can be thought of as a function transformer--it transforms a "normal" function `T -> U` into a function that works on lists (`List<T> -> List<U>`).
+
+OK, now let's use this generic function to create a new version of `toProductCode` that we can use:
+
+```kotlin
+fun String.toProductCode(checkProductCodeExists: CheckProductCodeExists): ProductCode {
+    return this.let { 
+            ProductCode(it)
+                .predicateToPassthru("Invalid: $it", checkProductCodeExists) 
+        }
+}
+```
+
+Since Kotlin does not have a built-in pipe operator like some FP languages, `predicateToPassthru` may be excessive abstraction and the same could be implemented as follows:
+
+```kotlin
+fun String.toProductCode(checkProductCodeExists: CheckProductCodeExists): ProductCode {
+    val productCode = ProductCode(this)
+    require(checkProductCodeExists(productCode)) { "Invalid: $productCode" }
+    return productCode
+}
+```
+
+Notice that the low-level validation logic, such as "a product must start with a W or a G," is not explicitly implemented in our validation functions but is built into the constructors of the constrained simple types, such as `OrderId` and `ProductCode`.
+
+## Rest of the Steps
+
+### Acknowledgement Step
+
+### Creating the Events
+
+## Composing the Pipeline Steps Together
+
+## Injecting Dependencies
+
+## Assembled Pipeline

@@ -16,15 +16,15 @@
 
 - [Domain Modeling Made Functional](https://pragprog.com/titles/swdddf/domain-modeling-made-functional)
 
-  1. [Introduction DDD](ddd/made-functional/01-introduction-ddd.md)
-  2. Understanding the Domain
-  3. [Functional Architecture](ddd/made-functional/03-functional-architecture.md)
-  4. [Understanding Types](ddd/made-functional/04-understanding-types.md)
-  5. [Domain Modeling with Types](ddd/made-functional/05-domain-modeling-with-types.md)
-  6. [Integrity and Consistency in the Domain](ddd/made-functional/06-integrity-consistency.md)
-  7. Modeling Workflows as Pipelines
-  8. [Understanding Functions](ddd/made-functional/08-understanding-functions.md)
-  9. [Implementation: Composing a Pipeline](ddd/made-functional/09-composing-pipeline.md)
+  - [1. Introduction DDD](ddd/made-functional/01-introducing-ddd.md)
+  - [2. Understanding the Domain](ddd/made-functional/02-understanding-domain.md)
+  - [3. Functional Architecture](ddd/made-functional/03-functional-architecture.md)
+  - [4. Understanding Types](ddd/made-functional/04-understanding-types.md)
+  - [5. Domain Modeling with Types](ddd/made-functional/05-domain-modeling-with-types.md)
+  - [6. Integrity and Consistency in the Domain](ddd/made-functional/06-integrity-consistency.md)
+  - Modeling Workflows as Pipelines
+  - [8. Understanding Functions](ddd/made-functional/08-understanding-functions.md)
+  - [9. Implementation: Composing a Pipeline](ddd/made-functional/09-composing-pipeline.md)
 
 ## Diagram
 
@@ -40,13 +40,6 @@
   - [Item 24: Favor static member classes over nonstatic](java/effective-java/04-classes-interfaces/item24.md)
 
 ## JPA
-
-- [자바 ORM 표준 JPA 프로그래밍](http://www.acornpub.co.kr/book/jpa-programmig)
-  - [1장. JPA 소개]
-
-- [JPA의 사실과 오해](https://event-us.kr/choyoungho/event/98186)
-  - [1일차 JPA와 아키텍처](jpa/사실과오해/orm-and-architecture)
-  - [2일차 고급 설계 이슈](jpa/사실과오해/2-advanced-design-issues.md)
 
 - [Java Persistence with Spring Data and Hibernate](https://www.manning.com/books/java-persistence-with-spring-data-and-hibernate)
   - Part 2: Mapping strategies
