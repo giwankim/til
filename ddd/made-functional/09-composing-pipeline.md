@@ -278,12 +278,52 @@ Notice that the low-level validation logic, such as "a product must start with a
 
 ## Rest of the Steps
 
+Original design of the pricing step function with effects:
+
+```kotlin
+typealias PriceOrder = ValidatedOrder.(GetProductPrice) -> Either<PlaceOrderError, PricedOrder>
+```
+
+Elimintate effects for now:
+
+```kotlin
+typealias PriceOrder = ValidatedOrder.(GetProductPrice) -> PricedOrder
+```
+
+And here's the outline of the implementation. It simply transforms each order line to a `PricedOrderLine` and builds a new `PricedOrder` with them:
+
+```kotlin
+val priceOrder: PriceOrder = { getProductPrice ->
+    val pricedLines = this.lines.map { it.toPricedOrderLine(getProductPrice) }
+    val linePrices = pricedLines.map { it.linePrice }
+    val amountToBill = BillingAmount.sumPrices(linePrices)
+    return PricedOrder(
+        this.orderId,
+        this.customerInfo,
+        this.shippingAddress,
+        this.billingAddress,
+        pricedLines,
+        amountToBill,
+    )
+}
+```
+
+If you have steps in the pipeline that you don't want to implement them yet, you can just throw a `NotImplementedError` with `TODO`:
+
+```kotlin
+fun priceOrder(): PriceOrder = TODO()
+```
+
 ### Acknowledgement Step
+
+### Events
 
 ### Creating the Events
 
 ## Composing the Pipeline Steps Together
 
 ## Injecting Dependencies
+
+## Testing Dependencies
 
 ## Assembled Pipeline
