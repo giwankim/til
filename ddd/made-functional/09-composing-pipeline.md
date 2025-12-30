@@ -26,3 +26,29 @@ value class OrderId(val value: String) {
     }
 }
 ```
+
+## Using Function Types to Guide the Implementation
+
+We defined special function types to represent each step of the workflow. How can we ensure that our code conforms to them?
+
+The simplest approach is just to define a function in the normal way and trust that when we use it later, we'll get a type-checking error. For example, we could define the `validateOrder` function as below, with no reference to the `ValidateOrder` type that we designed earlier:
+
+```kotlin
+fun UnvalidatedOrder.validateOrder(           // input
+        checkProduct: CheckProductCodeExists, // dependency
+        checkAddress: CheckAddressExists      // dependency
+    ): ValidatedOrder {
+    ...
+}
+```
+
+But if we want to make it clear that we are implementing a specific function type, we can write the function as a value annotated with the function type, and with the body of the function written as a lambda.
+
+```kotlin
+// define a function signature
+typealias ValidateOrder = UnvalidatedOrder.(CheckProductCodeExists, CheckAddressExists) -> ValidatedOrder
+
+val validateOrder: ValidateOrder = { checkProduct, checkAddress ->
+    ...
+}
+```
