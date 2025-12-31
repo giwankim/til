@@ -123,6 +123,38 @@ Consumer Deserializer
 
 ### Consumer Groups and Consumer Offsets
 
+Consumer Groups
+
+- All the consumers in an application read data as a consumer group
+- Each consumer within a group reads from exclusive partitions
+
+What if you have more consumers than partitions? Some consumers will be inactive.
+
+- It is acceptable to have multiple consumer groups on the same topic.
+- To create distinct consumer groups, use the consumer property `group.id`
+
+Consumer Offsets
+
+- Kafka stores the offsets at which a consumer group has been reading
+- The offsets committed are in a Kafka topic named `__consumer_offsets`
+- When a consumer in a group has processed data received from Kafka, it should be *periodically* committing the offsets (Kafka broker will write to `__consumer_offsets`, not the group itself)
+- If a consumer dies, it will be able to read back from where it left off thanks to the committed consumer offsets
+
+Delivery semantics for consumers
+
+- Java consumers will automatically commit offsets (at least once)
+- 3 delivery semantics if you choose to commit manually
+- At least once (usually preferred)
+  - Offsets are committed after the message is processed
+  - If the processing goes wrong, the message will be read again
+  - This can result in duplicate processing of messages. Make sure your processing is *idempotent* (i.e., processing the messages again won't impact your systems)
+- At most once
+  - Offsets are committed as soon as messages are received
+  - If the processing goes wrong, some messages will be lost
+- Exactly once
+  - For Kafka -> Kafka workflows: use the Transactional API (easy with Kafka Streams API)
+  - For Kafka -> External systems workflows: use an idempotent consumer
+
 ### Brokers and Topics
 
 ### Topic Replication
