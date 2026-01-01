@@ -214,4 +214,30 @@ Kafka Topic Durability
 
 ### Zookeeper
 
+Zookeeper
+
+- Manages brokers (maintains a list of them)
+- Helps perform leader election for partitions
+- Sends notifications to Kafka in case of changes (e.g. new topic, broker down, broker up, topic deletion, etc.)
+- Kafka 2.x can't work without Zookeeper
+- Kafka 3.x can work without Zookeeper (KIP-500) - using Kafka Raft
+- Kafka 4.x will not have Zookeeper
+- Zookeeper by design operates with an odd number of servers (1, 3, 5, 7)
+- Zookeeper has a leader (writer), the rest of the servers are followers (readers)
+- (Zookeeper does NOT store consumer offsets with Kafka clients >= v0.10)
+
 ### Kafka KRaft
+
+- In 2020, the Apache Kafka project started work on removing Zookeeper dependency (KIP-500)
+- Zookeeper shows scaling issues when clusters have > 100,000 partitions
+- By removing Zookeeper,
+  - Scale to millions of partitions, easier to maintain and set up
+  - Improve stability, easier to monitor, support and administer
+  - Single security model for the whole system
+  - Single process to start Kafka
+  - Faster controller shutdown and recovery time
+
+Kafka 3.x implements the KRaft protocol in order to replace Zookeeper
+
+- Production-ready since Kafka 3.3.1 (KIP-833)
+- Kafka 4.0 will be released only with KRaft (no Zookeeper)
