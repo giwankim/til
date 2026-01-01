@@ -201,6 +201,17 @@ Kafka Consumer Replica Fetching (Kafka v2.4+)
 
 ### Producer Acknowledgments and Topic Durability
 
+Acks
+
+- Producers can choose to receive acknowledgments of data writes:
+  - acks=0: Producer won't wait for acknowledgment (possible data loss)
+  - acks=1: Producer will wait for leader acknowledgment (limited data loss)
+  - acks=all: Leader + replicas acknowledgment (no data loss)
+
+Kafka Topic Durability
+
+- For a replication factor of N, you can permanently lose up to N-1 brokers and still recover your data
+
 ### Zookeeper
 
 ### Kafka KRaft
