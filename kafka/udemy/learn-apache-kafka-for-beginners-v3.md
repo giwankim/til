@@ -5,8 +5,8 @@
 Move data from source system to target system. Can get complicated:
 
 - Multiple integrations as sources and targets increase.
-- Each integration comes with difficulites around
-  - Protocol: how the data in transported (TCP, HTTP, REST, FTP, JDBC, ...)
+- Each integration comes with difficulties around
+  - Protocol: how the data is transported (TCP, HTTP, REST, FTP, JDBC, ...)
   - Data format: how the data is parsed (Binary, CSV, JSON, Avro, Protobuf, ...)
   - Data schema & evolution: how the data is shaped may change over time
 - Each source system will have an *increased load* from the connections.
@@ -62,7 +62,7 @@ Important notes
 Producers
 
 - Producers write data to topics (which are made of partitions)
-- Producers know to which parition to write to (and which Kafka broker has it)
+- Producers know to which partition to write to (and which Kafka broker has it)
 - In case of broker failures, producers will automatically recover
 
 Write load is balanced to many brokers thanks to the number of partitions.
@@ -71,7 +71,7 @@ Message keys
 
 - Producer can choose to send a *key* with the message (string, number, binary, etc...)
 - If key is null, data is sent round robin (Kafka 2.4+ uses sticky partitioning - batches message to same partition until batch is full)
-- if key != null, then all messages for that key will always go to the same partition (hashing)
+- If key != null, then all messages for that key will always go to the same partition (hashing)
 - Typically, a key is sent if you need message ordering for a specific field
 
 Kafka message created by the producer consists of
@@ -140,7 +140,7 @@ Consumer Offsets
 - When a consumer in a group has processed data received from Kafka, it should be *periodically* committing the offsets (Kafka broker will write to `__consumer_offsets`, not the group itself)
 - If a consumer dies, it will be able to read back from where it left off thanks to the committed consumer offsets
 
-Delivery semantics for consumers
+Delivery Semantics for Consumers
 
 - Java consumers will automatically commit offsets (at least once)
 - 3 delivery semantics if you choose to commit manually
@@ -176,6 +176,28 @@ Kafka Broker Discovery
 ![broker discovery](broker-discovery.png)
 
 ### Topic Replication
+
+Topic Replication Factor
+
+- Topic should have a replication factor > 1 (usually between 2 and 3)
+- If a broker fails, another broker can serve the partition
+
+Leader for a Partition
+
+- At any time only *one* broker can be a leader for a given partition
+- Producers can only send data to the broker that is the leader of a partition
+- Other brokers will replicate the data
+- Therefore, each partition has one leader and multiple ISR (in-sync replicas)
+
+Default Producer and Consumer Behavior with Leaders
+
+- Producers can only write to the leader broker for a partition
+- Consumers by default will read from the leader broker for a partition
+
+Kafka Consumer Replica Fetching (Kafka v2.4+)
+
+- Since Kafka 2.4, it is possible to configure consumers to read from the closest replica
+- May help improve latency, and also decrease network cost if using the cloud
 
 ### Producer Acknowledgments and Topic Durability
 
