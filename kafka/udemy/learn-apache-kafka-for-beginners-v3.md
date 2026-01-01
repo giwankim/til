@@ -157,12 +157,28 @@ Delivery semantics for consumers
 
 ### Brokers and Topics
 
+Kafka Brokers
+
+- A Kafka cluster is composed of multiple brokers (servers)
+- Each broker is identified with its ID (integer)
+- Each broker contains certain topic partitions
+- After connecting to any broker (called a bootstrap broker), clients (producers and consumers) will be connected to the entire cluster
+
+Brokers and Topics
+
+![brokers and topics](brokers-and-topics.png)
+
+Kafka Broker Discovery
+
+- Every Kafka broker is also called a "bootstrap server"
+- That means clients only need to connect to one broker, and the clients will know how to be connected to the entire cluster (smart clients)
+
+![broker discovery](broker-discovery.png)
+
 ### Topic Replication
 
 ### Producer Acknowledgments and Topic Durability
 
 ### Zookeeper
 
-### Kafka KRaft - Removing Zookeeper
-
-### Theory Roundup
+### Kafka KRaft
