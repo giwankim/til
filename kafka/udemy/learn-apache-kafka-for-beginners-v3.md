@@ -94,7 +94,7 @@ Kafka Message Serializer
   - Avro
   - Protobuf
 
-Kafka partitioner is a code logic that takes a record and determines which partition to send it to.
+Kafka partitioner is code logic that takes a record and determines which partition to send it to.
 In the default Kafka partitioner, the keys are hashed using the Murmur2 algorithm
 
 ```pseudocode
@@ -256,8 +256,6 @@ Kafka Topic Management
 4. Increase partitions in a topic
 5. Delete a topic
 
-### Kafka Console Producer CLI
-
 ```bash
 kafka-topics.sh 
 
@@ -283,18 +281,9 @@ kafka-topics.sh --bootstrap-server localhost:9092 --topic first_topic --delete
 # (only works if delete.topic.enable=true)
 ```
 
-### Kafka Console Consumer CLI
+### Kafka Console Producer CLI
 
 ```bash
-# Replace "kafka-console-producer.sh" 
-# by "kafka-console-producer" or "kafka-console-producer.bat" based on your system # (or bin/kafka-console-producer.sh or bin\windows\kafka-console-producer.bat if you didn't setup PATH / Environment variables)
-
-kafka-console-producer.sh 
-
-############################
-#####     LOCALHOST    #####
-############################
-
 kafka-topics.sh --bootstrap-server localhost:9092 --topic first_topic --create --partitions 1
 
 # producing
@@ -312,7 +301,7 @@ kafka-console-producer.sh --bootstrap-server localhost:9092 --topic first_topic 
 > fun learning!
 
 
-# producing to a non existing topic
+# producing to a non-existing topic
 kafka-console-producer.sh --bootstrap-server localhost:9092 --topic new_topic
 > hello world!
 
@@ -324,7 +313,7 @@ kafka-topics.sh --bootstrap-server localhost:9092 --topic new_topic --describe
 # edit config/server.properties or config/kraft/server.properties
 # num.partitions=3
 
-# produce against a non existing topic again
+# produce against a non-existing topic again
 kafka-console-producer.sh --bootstrap-server localhost:9092 --topic new_topic_2
 hello again!
 
@@ -339,6 +328,25 @@ kafka-topics.sh --bootstrap-server localhost:9092 --topic new_topic_2 --describe
 kafka-console-producer.sh --bootstrap-server localhost:9092 --topic first_topic --property parse.key=true --property key.separator=:
 >example key:example value
 >name:Franz
+```
+
+### Kafka Console Consumer CLI
+
+```bash
+# create a topic with 3 partitions
+kafka-topics.sh --bootstrap-server localhost:9092 --topic second_topic --create --partitions 3
+
+# consuming
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic second_topic
+
+# other terminal
+kafka-console-producer.sh --bootstrap-server localhost:9092 --producer-property partitioner.class=org.apache.kafka.clients.producer.RoundRobinPartitioner --topic second_topic
+
+# consuming from beginning
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic second_topic --from-beginning
+
+# display key, values and timestamp in consumer
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic second_topic --formatter org.apache.kafka.tools.consumer.DefaultMessageFormatter --property print.timestamp=true --property print.key=true --property print.value=true --property print.partition=true --from-beginning
 ```
 
 ### Kafka Consumers in Group
