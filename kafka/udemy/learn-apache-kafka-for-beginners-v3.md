@@ -26,8 +26,8 @@ Use cases:
 - Gather metrics from many different locations
 - Application log gathering
 - Stream processing (Kafka Streams API)
-- De-coupling of system dependencies
-- Integration with Spark, Flink, Storm, Hadoop, etc...
+- Decoupling of system dependencies
+- Integration with Spark, Flink, Storm, Hadoop, etc.
 - Microservices pub/sub
 
 ## 3. Kafka Theory
@@ -62,15 +62,15 @@ Important notes
 Producers
 
 - Producers write data to topics (which are made of partitions)
-- Producers know to which partition to write to (and which Kafka broker has it)
+- Producers know which partition to write to (and which Kafka broker has it)
 - In case of broker failures, producers will automatically recover
 
 Write load is balanced to many brokers thanks to the number of partitions.
 
 Message keys
 
-- Producer can choose to send a *key* with the message (string, number, binary, etc...)
-- If key is null, data is sent round robin (Kafka 2.4+ uses sticky partitioning - batches message to same partition until batch is full)
+- Producer can choose to send a *key* with the message (string, number, binary, etc.)
+- If key is null, data is sent round-robin (Kafka 2.4+ uses sticky partitioning - batches messages to same partition until batch is full)
 - If key != null, then all messages for that key will always go to the same partition (hashing)
 - Typically, a key is sent if you need message ordering for a specific field
 
@@ -94,7 +94,7 @@ Kafka Message Serializer
   - Avro
   - Protobuf
 
-Kafka partitioner is a code logic that takes a record and determines to which partition to send it into.
+Kafka partitioner is a code logic that takes a record and determines which partition to send it to.
 In the default Kafka partitioner, the keys are hashed using the Murmur2 algorithm
 
 ```pseudocode
@@ -230,7 +230,7 @@ Zookeeper
 
 - In 2020, the Apache Kafka project started work on removing Zookeeper dependency (KIP-500)
 - Zookeeper shows scaling issues when clusters have > 100,000 partitions
-- By removing Zookeeper,
+- Benefits of removing Zookeeper:
   - Scale to millions of partitions, easier to maintain and set up
   - Improve stability, easier to monitor, support and administer
   - Single security model for the whole system
@@ -241,3 +241,52 @@ Kafka 3.x implements the KRaft protocol in order to replace Zookeeper
 
 - Production-ready since Kafka 3.3.1 (KIP-833)
 - Kafka 4.0 will be released only with KRaft (no Zookeeper)
+
+## 7. CLI 101
+
+- Use the `--bootstrap-server` option everywhere, not `--zookeeper`
+
+### Kafka Topics CLI
+
+Kafka Topic Management
+
+1. Create topics
+2. List topics
+3. Describe topics
+4. Increase partitions in a topic
+5. Delete a topic
+
+### Kafka Console Producer CLI
+
+```bash
+kafka-topics.sh 
+
+kafka-topics.sh --bootstrap-server localhost:9092 --list 
+
+kafka-topics.sh --bootstrap-server localhost:9092 --topic first_topic --create
+
+kafka-topics.sh --bootstrap-server localhost:9092 --topic second_topic --create --partitions 3
+
+kafka-topics.sh --bootstrap-server localhost:9092 --topic third_topic --create --partitions 3 --replication-factor 2
+
+# Create a topic (working)
+kafka-topics.sh --bootstrap-server localhost:9092 --topic third_topic --create --partitions 3 --replication-factor 1
+
+# List topics
+kafka-topics.sh --bootstrap-server localhost:9092 --list 
+
+# Describe a topic
+kafka-topics.sh --bootstrap-server localhost:9092 --topic first_topic --describe
+
+# Delete a topic 
+kafka-topics.sh --bootstrap-server localhost:9092 --topic first_topic --delete
+# (only works if delete.topic.enable=true)
+```
+
+### Kafka Console Consumer CLI
+
+### Kafka Consumers in Group
+
+### Kafka Consumer Groups CLI
+
+### Resetting Offsets
