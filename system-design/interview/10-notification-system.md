@@ -41,9 +41,9 @@ __Interviewer:__ 10 million mobile push notifications, 1 million SMS messages, a
 
 We primarily need three components to send an iOS push notification:
 
-- Provider: A provider builds and sends notification requests to Apple Push Notification Service (APNS). To construct a push notification, the provider provides the following data:
+- Provider: A provider builds and sends notification requests to Apple Push Notification Service (APNS). To construct a push notification, the provider includes the following data:
   - Device token: This is a unique identifier used for sending push notifications.
-  - Payload: This is a JSON object that contains that notification's payload. Here is an example:
+  - Payload: This is a JSON object that contains the notification's payload. Here is an example:
     ```json
     {
       "aps": {

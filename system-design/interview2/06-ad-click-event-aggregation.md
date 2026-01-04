@@ -8,7 +8,7 @@ Digital advertising has a core process called Real-Time Bidding (RTB), in which 
 
 Ad click event aggregation plays a critical role in measuring the effectiveness of online advertising. The key metrics used in online advertising, including click-through rate and conversion rate, depend on aggregated ad click data.
 
-The speed of the RTB process is important; usually occurs in less than a second.
+The speed of the RTB process is important; it usually occurs in less than a second.
 
 Data accuracy. Ad click event aggregation plays a critical role in measuring the effectiveness in online advertising. Based on click aggregation results, campaign managers can control the budget or adjust bidding strategies, such as targeted audience groups, keywords, etc. Key metrics used in online advertising, including click-through rate (CTR) and conversion rate (CVR), depend on aggregated ad click data.
 
@@ -26,7 +26,7 @@ Data accuracy. Ad click event aggregation plays a critical role in measuring the
 - Correctness is important as the data is used for RTB and ads billing.
 - Properly handle delayed or duplicate events.
 - Robustness. Resilient to partial failures.
-- Latency requirement. End-to-end latency should be few minutes, at most.
+- Latency requirement. End-to-end latency should be a few minutes, at most.
 
 ### Back-of-the-envelope estimation
 
@@ -44,7 +44,7 @@ Data accuracy. Ad click event aggregation plays a critical role in measuring the
 
 | API | Detail |
 | --- | ------ |
-| GET /ads/{ad_id}/aggregated_count | Return aggregated event count for a given `ad_id` |
+| GET /ads/{ad_id}/aggregated_count | Returns aggregated event count for a given `ad_id` |
 
 ##### Request parameters
 
@@ -54,7 +54,7 @@ Data accuracy. Ad click event aggregation plays a critical role in measuring the
 
 | API | Detail |
 | --- | ------ |
-| GET /ads/popular_ads | Return top N most clicked ads in the last M minutes |
+| GET /ads/popular_ads | Returns top N most clicked ads in the last M minutes |
 
 ##### Request parameters
 
@@ -106,7 +106,7 @@ erDiagram
     MOST_CLICKED_ADS {
         integer window_size "Aggregation window size (M) in minutes"
         timestamp update_time_minute "Last updated timestamp (granularity is minute)"
-        array most_clicked_ads "List if ad IDs in JSON format"
+        array most_clicked_ads "List of ad IDs in JSON format"
     }
 ```
 
@@ -149,7 +149,7 @@ In aggregation service, the input is the raw data (unbounded data streams), and 
 
 A common solution is to adopt a message queue (Kafka) to decouple producers and consumers.
 
-The database writer polls data from the message queue, transforms the data into the database format, and write it to the database.
+The database writer polls data from the message queue, transforms the data into the database format, and writes it to the database.
 
 ![high level design](../../assets/system-design/interview2/ad-click-aggregation-design.png)
 
@@ -194,7 +194,7 @@ Aggregate node counts ad click events by `ad_id` in memory every minute.
 
 ###### Reduce node
 
-Reduce node reduces aggregated results fromm all "Aggregate" nodes to the final result.
+Reduce node reduces aggregated results from all "Aggregate" nodes to the final result.
 
 ![reduce node](../../assets/system-design/interview2/reduce-node.png)
 

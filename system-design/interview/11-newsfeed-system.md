@@ -9,7 +9,7 @@ __Interviewer:__ Both
 
 __Candidate:__ What are the important features?
 
-__Interviewer:__ A user can publish a post and see his friends' posts on the newsfeed page.
+__Interviewer__: A user can publish a post and see their friends' posts on the newsfeed page.
 
 
 __Candidate:__ Is the newsfeed sorted by reverse chronological order or any particular order such as topic scores? For instance, posts from your close friends have higher scores.
@@ -27,7 +27,7 @@ __Candidate:__ What is the traffic volume?
 __Interviewer:__ 10 million DAU
 
 
-__Candidate:__ Can feed contain images or videos?
+__Candidate:__ Can the feed contain images or videos?
 
 __Interviewer:__ It can contain media files, including both images and videos.
 

@@ -21,7 +21,7 @@ Each design achieves a specific balance regarding the tradeoffs of read, write, 
 
 ## Single server key-value store
 
-Intuitive approach it to store key-value pairs in a hash table, which keeps everything in memory. Even though memory access is fast, fitting everything in memory may be impossible due to space constraint. Two optimizations can be done to fit more data in a single server:
+An intuitive approach is to store key-value pairs in a hash table, which keeps everything in memory. Even though memory access is fast, fitting everything in memory may be impossible due to space constraint. Two optimizations can be done to fit more data in a single server:
 
 - compression
 - store only frequently
@@ -34,7 +34,7 @@ A distributed key-value store is required to support big data.
 
 ### CAP theorem
 
-CAP theorem states that it is impossible for distributed system to simultaneously provide more than two of these guarantees: _consistency, availability, and partition tolerance._
+CAP theorem states that it is impossible for a distributed system to simultaneously provide more than two of these guarantees: _consistency, availability, and partition tolerance._
 
 Distribute systems are classified based on the two CAP characteristics they support:
 

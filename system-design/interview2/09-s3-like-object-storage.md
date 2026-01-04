@@ -10,7 +10,7 @@ At a high-level, storage systems fall into three broad categories:
 
 ### Block storage
 
-Came first in the 1960s. Common storage devices like hard disk drives (HDD) and solid-state drives (SSD) that are physically attached to servers are all considered as block storage.
+Came first in the 1960s. Common storage devices like hard disk drives (HDD) and solid-state drives (SSD) that are physically attached to servers are all considered block storage.
 
 ### File storage
 

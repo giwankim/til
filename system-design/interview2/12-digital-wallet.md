@@ -27,7 +27,7 @@ Each transfer command requires two operations: deducting money from one account 
 | Per-node TPS | Node Number |
 | ------------ | ----------- |
 | 100 | 20,000 |
-| 1,000 | 2,0000 |
+| 1,000 | 2,000 |
 | 10,000 | 200 |
 
 ## Step 2 - High-Level Design
@@ -80,7 +80,7 @@ Wallet service has several key responsibilities:
 
 #### Two-phase commit
 
-There are tow ways to implement a distributed transaction: a low-level solution and a high-level solution.
+There are two ways to implement a distributed transaction: a low-level solution and a high-level solution.
 
 Low-level solution relies on the database itself.
 
@@ -89,7 +89,7 @@ Low-level solution relies on the database itself.
 1. The coordinator (wallet service), performs read and write operations on multiple databases as normal. Both databases A and C are locked.
 2. When the application is about to commit the transaction, the coordinator asks all databases to prepare the transaction.
 3. In the second phase, the coordinator collects replies from all databases and does the following:
-   1. If all database reply with a "yes", the coordinator asks all databases to commit the transaction it has received.
+   1. If all databases reply with a "yes", the coordinator asks all databases to commit the transaction it has received.
    2. If any database replies with a "no", the coordinator asks all databases to abort the transaction.
 
 It is a low-level solution because the prepare step requires a special modification to the database transaction.

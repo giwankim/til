@@ -78,7 +78,7 @@ inline fun <T, R> with(receiver: T, block: T.() -> R): R =
   receiver.block()
 ```
 
-Tha main difference is that `apply` returns the receiver itself, but `with` returns the result of calling the lambda.
+The main difference is that `apply` returns the receiver itself, but `with` returns the result of calling the lambda.
 
 ### Using lambdas with receivers in HTML builders
 

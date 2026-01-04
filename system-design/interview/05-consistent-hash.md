@@ -14,7 +14,7 @@ where N is the size of the server pool.
 
 The approach works well when the size of the server pool is fixed, and the data is evenly distributed.
 
-However, problem arises when new servers are added, or existing servers are removed.
+However, a problem arises when new servers are added, or existing servers are removed.
 
 For example, consider the case of 4 servers (0, 1, 2, 3) and 9 keys with their hashes:
 
@@ -33,7 +33,7 @@ Then, the keys are distributed among the 4 servers as follows:
 
 ![servers](../../assets/system-design/interview1/hashing.png)
 
-If server 1 goes offline keys are redistributed as follows as a result of modular operation with number of server reduced by 1:
+If server 1 goes offline, keys are redistributed as follows as a result of modular operation with number of server reduced by 1:
 
 ![rehashed](../../assets/system-design/interview1/rehashed.png)
 
@@ -52,12 +52,12 @@ Most keys are redistributed, not just the ones originally stored in server 1. Th
 
 ## Consistent hashing
 
-> Consistent hashing is a special kind of hashing such that when a hash table is re-sized and consistent hashing is used, only k/n keys need to be remapped onn average, where k is the number of keys, and n is the number of slots. [^1]
+> Consistent hashing is a special kind of hashing such that when a hash table is re-sized and consistent hashing is used, only k/n keys need to be remapped on average, where k is the number of keys, and n is the number of slots. [^1]
 
 The basic steps of consistent hashing algorithm introduced by Karger et al. [^2] are:
 
-  - Map servers and keys on to hash ring using a uniformly distributed hash function.
-  - To find out which server a key is mapped, go clockwise from the key position until the first server on the ring is found.
+  - Map servers and keys onto the hash ring using a uniformly distributed hash function.
+  - To find out which server a key is mapped to, go clockwise from the key position until the first server on the ring is found.
 
 ### Hash space and hash ring
 

@@ -13,7 +13,7 @@ runtime:
 - Protects password storage with BCrypt
 - Provides form-based login and logout flows
 - Authenticates form-based login as well as HTTP Basic
-- Provides content negotiation; for web request, redirect to the login page; for service requests,
+- Provides content negotiation; for web requests, redirect to the login page; for service requests,
   returns a `401 Unauthorized`
 - Mitigates CSRF attacks
 - Mitigates Session Fixation attacks
@@ -28,7 +28,7 @@ To understand how Spring Boot coordinates with Spring Security to achieve these 
 look at `org.springframework.boot.security.autoconfigure.servlet` package in the Spring Boot
 source code.
 
-`SpringBootWebSecurityConfiguration` adds `@EnableWebSecurity` annotation which imports `org.springframework.security.config.annotation.web.configuration.HttpSecurityConfiguration`. `HttpSecurityConfiguration` publishes `HttpSecurity` `@Bean`:
+`SpringBootWebSecurityConfiguration` adds `@EnableWebSecurity` annotation which imports `org.springframework.security.config.annotation.web.configuration.HttpSecurityConfiguration`. `HttpSecurityConfiguration` publishes an `HttpSecurity` `@Bean`:
 
 ```java
 @Bean(HTTPSECURITY_BEAN_NAME)
@@ -78,7 +78,7 @@ SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Excepti
 }
 ```
 
-`UserDetailsServiceAutoConnfiguration` class publishes an `UserDetailsService` `@Bean` with a username of `user` and a randomly generated password that is logged to the console:
+`UserDetailsServiceAutoConfiguration` class publishes an `UserDetailsService` `@Bean` with a username of `user` and a randomly generated password that is logged to the console:
 
 ```java
 @Bean

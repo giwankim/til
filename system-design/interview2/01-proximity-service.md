@@ -100,11 +100,11 @@ erDiagram
 
 ##### Geo index table
 
-A geo index table is used for the efficient processing of spatial operations. This table requires some knowledge about geohash, so will discuss in the "Scale the database" section in deep dive.
+A geo index table is used for the efficient processing of spatial operations. This table requires some knowledge about geohash, so we will discuss it in the "Scale the database" section in the deep dive.
 
 ### High-level design
 
-The system comprises of two parts: location-based service (LBS) and business-related service.
+The system comprises two parts: location-based service (LBS) and business-related service.
 
 ![proximity service design](../../assets/system-design/interview2/proximity-service.png)
 
@@ -157,7 +157,7 @@ In a broad sense, there are two types of geospatial indexing approaches.
 
 One simple approach is to evenly divide the world into small grids.
 
-This approach works to some extend, but it has one major issue: the distribution of businesses is not even. Another potential challenge is to find neighboring grids of a fixed grid.
+This approach works to some extent, but it has one major issue: the distribution of businesses is not even. Another potential challenge is to find neighboring grids of a fixed grid.
 
 #### Option 3: Geohash
 
@@ -169,7 +169,7 @@ Second, divide each grid into four smaller grids. Each grid can be represented b
 
 ![geohash](../../assets/system-design/interview2/geohash2.png)
 
-Repeat this subdivision until the grid size is within the precision desired. Geohash usually used base32 representation.
+Repeat this subdivision until the grid size is within the precision desired. Geohash usually uses base32 representation.
 
 ##### Boundary issues
 

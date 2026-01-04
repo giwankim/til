@@ -51,7 +51,7 @@ The location service is responsible for recording a user's location update.
 
 ### Navigation service
 
-Responsible for finding a fast route from point A to point B. We can tolerate a bit of latency. Calculated route does not have to be the fastest, but accuracy is critical.
+Responsible for finding a fast route from point A to point B. We can tolerate a bit of latency. The calculated route does not have to be the fastest, but accuracy is critical.
 
 The request includes origin and destination as the parameters.
 

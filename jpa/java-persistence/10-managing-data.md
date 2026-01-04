@@ -30,12 +30,12 @@ An entity instance is then in the _removed_ state: the provider will delete it a
 
 #### DETACHED STATE
 
-Consider loading an instance by calling `EntityManager#find()`, then ending our unit of work and close the persistence context.
-The application still has a _handle_-a reference to the instance we loaded. It's now in a detached state, and the data is becoming stale.
+Consider loading an instance by calling `EntityManager#find()`, then ending our unit of work and closing the persistence context.
+The application still has a _handle_—a reference to the instance we loaded. It's now in a detached state, and the data is becoming stale.
 
 ### 10.1.2 The persistent context
 
-In Java Persistence applicatoin, an `EntityManager` has a persistence context. We create a persistent context when we call `EntityManagerFactory#createEntityManager()`. The context is closed when we call `EntityManager#close()`. In JPA terminology, this is an *application_managed* persistence context; our application defines the scope of the persistence context, demarcating the unit of work.
+In a Java Persistence application, an `EntityManager` has a persistence context. We create a persistent context when we call `EntityManagerFactory#createEntityManager()`. The context is closed when we call `EntityManager#close()`. In JPA terminology, this is an *application_managed* persistence context; our application defines the scope of the persistence context, demarcating the unit of work.
 
 The persistence context monitors and manages all entities in the persistent state.
 
@@ -48,14 +48,14 @@ The cache also affects the results of arbitrary queries, such as those executed 
 Persistence context cache ensures the following:
 
 - The persistence layer isn't vulnerable to stack overflows in the case of circular references in an object graph.
-- There can never by conflicting representations of the same database row at the end of a unit of work. The provider can safely write all changes made to an entity instance to the database.
+- There can never be conflicting representations of the same database row at the end of a unit of work. The provider can safely write all changes made to an entity instance to the database.
 - Changes made in a particular persistence context are always immediately visible to all other code executed inside that unit of work and its persistence context. JPA guarantees repeatable entity-instance reads.
 
 The persistence context provides a _guaranteed scope of object identity_; in the scope of a single persistence context, only one instance represents a particular database row. Within one persistence context, Hibernate guarantees both `entityA == entityB` and `entityA.getId().equals(entityB.getId())` will yield the same result.
 
 ## 10.2 The `EntityManager` interface
 
-Any transparent persistence tool includes a persistence manager API. This persistence manager usually provides services for basic CRUD operations, query execution, and controlling the persistence context. In Jakarta Persistent applications, the main interface we interact with is the `EntityManager` to create units of work.
+Any transparent persistence tool includes a persistence manager API. This persistence manager usually provides services for basic CRUD operations, query execution, and controlling the persistence context. In Jakarta Persistence applications, the main interface we interact with is the `EntityManager` to create units of work.
 
 ### 10.2.1 The canonical unit of work
 

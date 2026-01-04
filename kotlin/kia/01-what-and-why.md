@@ -89,7 +89,7 @@ Kotlin code can be compiled to different targets:
 
 #### Compilation process for Kotlin/JVM
 
-Kotlin source code is normally stored in files with the extension .kt. When compiling Kotlin code for the JVM target, compiler analyzes the source code and generated .class files, just like the Java compiler. The generated .class files are then packaged and executed using the standard procedure for the type of application you're working on.
+Kotlin source code is normally stored in files with the extension .kt. When compiling Kotlin code for the JVM target, the compiler analyzes the source code and generates .class files, just like the Java compiler. The generated .class files are then packaged and executed using the standard procedure for the type of application you're working on.
 
 In simple cases, use `kotlinc` command to compile your code, then use `java` command to execute the code:
 
@@ -106,4 +106,4 @@ The Kotlin runtime library contains the definitions of Kotlin's basic classes, l
 
 Additionally, you need the _Kotlin standard library_ included as a dependency. The standard library contains the definitions of such fundamental classes as `List`, `Map`, and `Sequence` as well as many methods for working with them.
 
-Maven and Gradle take care of including both the Kotlin runtime library and (for the latest versions) Kotlin start library as dependencies.
+Maven and Gradle take care of including both the Kotlin runtime library and (for the latest versions) Kotlin standard library as dependencies.

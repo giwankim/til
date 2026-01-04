@@ -1,6 +1,6 @@
 # 5. Domain Modeling with Types
 
-We'll see that types can replace most documentation, and that ability has a powerful benefit: the implementation can never get out of sync with the design because the design is represented in code itself.
+We'll see that types can replace most documentation, and that ability has a powerful benefit: the implementation can never get out of sync with the design because the design is represented in the code itself.
 
 ## Reviewing the Domain Model
 
@@ -73,7 +73,7 @@ Although each domain model is different, many patterns occur repeatedly.
 
 ## Simple Values
 
-We can create a wrapper type in Kotlin by using a `inline value class`:
+We can create a wrapper type in Kotlin by using an `inline value class`:
 
 ```kotlin
 @JvmInline

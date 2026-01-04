@@ -27,12 +27,12 @@ Once you have a value of nullable type, the set of operations you can perform on
 
 So what can you do with a value of nullable type? The most important thing is to compare it with `null`. And once you perform the comparison, the compiler remembers that and treats the value as non-nullable in the scope where the check has been performed.
 
-## 7.3 Taking a closed look at the meaning of types
+## 7.3 Taking a closer look at the meaning of types
 
 In 1976, David Parnas defined types as a set of possible values and a set of operations that can be performed on these values (["Abstract types defined as classes of variables"
 ](https://dl.acm.org/doi/10.1145/800237.807133))
 
-In Java, variable of type `String` can hold one of two kinds of values: an instance fo the class `String` or `null`.
+In Java, variable of type `String` can hold one of two kinds of values: an instance of the class `String` or `null`.
 
 ## 7.4 Combining null checks and method calls with the safe call operator: ?.
 

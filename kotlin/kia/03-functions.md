@@ -130,7 +130,7 @@ package strings
 fun joinToString( /* ... */ ): String { /* ... */ }
 ```
 
-If you need to call such a function from Java, you have to understand how it will be compiled. Let's looks at the Java code that would compile to the same class:
+If you need to call such a function from Java, you have to understand how it will be compiled. Let's look at the Java code that would compile to the same class:
 
 ```java
 package strings;
@@ -161,13 +161,13 @@ public static final String UNIX_LINE_SEPARATOR = "\n";
 
 ## Extension functions and properties
 
-Conceptually, an _extension function_ is a simple things: a function that can be called as a member of a class but is defined outside of it.
+Conceptually, an _extension function_ is a simple thing: a function that can be called as a member of a class but is defined outside of it.
 
 ```kotlin
 fun String.lastChar(): Char = this.get(this.length - 1)
 ```
 
-The class of interface you're extending is called the _receiver type_, the value on which you're calling the extension function is called the _receiver object_.
+The class or interface you're extending is called the _receiver type_, the value on which you're calling the extension function is called the _receiver object_.
 
 In the body of an extension function, you use `this` the same way you would use it in a method. And as in a regular method, you can omit it. You can directly access the methods and properties of the class you're extending. However, unlike methods defined in the class, extension functions don't have access to private or protected members of the class.
 
@@ -197,7 +197,7 @@ val c = "Kotlin".last()
 
 Under the hood, an extension function is a static method that accepts the receiver object as its first argument.
 
-So to make use extension functions from Java, you call the static method and pass the receiver object instance. Let's say the extensions function was declared in a StringUtil.kt file:
+So to make use of extension functions from Java, you call the static method and pass the receiver object instance. Let's say the extensions function was declared in a StringUtil.kt file:
 
 ```java
 /* Java */
@@ -310,7 +310,7 @@ fun main(args: Array<String>) {
 
 ### Infix calls and destructuring declarations
 
-In an infix call, the method name is places immediately between the target object name and the parameter, with no extra separators. The following two calls are equivalent:
+In an infix call, the method name is placed immediately between the target object name and the parameter, with no extra separators. The following two calls are equivalent:
 
 ```kotlin
 1.to("one")
@@ -320,7 +320,7 @@ In an infix call, the method name is places immediately between the target objec
 Infix calls can be used with regular methods and extension functions that have exactly one required parameter. To allow a function to be called using infix notation, you need to mark it with the _infix_ modifier.
 
 ```kotlin
-infix fun Any.to(other: any) = Pair(this, other)
+infix fun Any.to(other: Any) = Pair(this, other)
 ```
 
 Note that you can initialize two variables with the contents of a `Pair` directly:
@@ -333,11 +333,11 @@ This feature is called a _destructuring declaration_.
 
 ## Working with strings and regular expressions
 
-Kotlin makes working with standard Java string more convenient by providing several useful extension functions. Also, it hides some confusing methods, adding extensions that are clearer.
+Kotlin makes working with standard Java strings more convenient by providing several useful extension functions. Also, it hides some confusing methods, adding extensions that are clearer.
 
 ### Splitting strings
 
-It's a common trap to write `"12.345-6.A".split(".")` and expect an array `[12, 345-6, A]` as a result. But Java's `split` methods returns an empty array. That happens because it takes a regular expression as a parameter and splits a string into several strings. Here, the dot (.) is a regular expression that denotes any character.
+It's a common trap to write `"12.345-6.A".split(".")` and expect an array `[12, 345-6, A]` as a result. But Java's `split` method returns an empty array. That happens because it takes a regular expression as a parameter and splits a string into several strings. Here, the dot (.) is a regular expression that denotes any character.
 
 Kotlin hides the confusing method and provides as replacements several overloaded extensions named `split` that have different arguments. The one that takes a regular expression requires a value of type `Regex` or `Pattern`, not `String`.
 
@@ -359,7 +359,7 @@ fun main() {
 
 ### Multiline triple-quoted strings
 
-The purpose of triple-quoted strings is not only to avoid escaping characters. Such a strong literal can contain any characters, including line breaks.
+The purpose of triple-quoted strings is not only to avoid escaping characters. Such a string literal can contain any characters, including line breaks.
 
 By calling `trimIndent`, you can remove that common minimal indent of all the lines of your string and remove the first and last lines of the string, given they are blank.
 
@@ -438,4 +438,4 @@ fun saveUser(user: User) {
 }
 ```
 
-Extracting a piece of code into an extension function turn out to be surprisingly useful. If you follow this approach, the API of the class contains only the essential methods used everywhere, so the class remains small and easy to wrap your head around. On the other hand, functions that primarily deal with a single object and don't need access to its private data can access its members without extra qualification, as in the above example.
+Extracting a piece of code into an extension function turns out to be surprisingly useful. If you follow this approach, the API of the class contains only the essential methods used everywhere, so the class remains small and easy to wrap your head around. On the other hand, functions that primarily deal with a single object and don't need access to its private data can access its members without extra qualification, as in the above example.

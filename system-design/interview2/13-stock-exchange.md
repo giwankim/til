@@ -1,6 +1,6 @@
 # 13. Stock Exchange
 
-Design an electronic stock exchange systems.
+Design an electronic stock exchange system.
 
 ## Step 1 - Establish Design Scope
 
@@ -15,9 +15,9 @@ Design an electronic stock exchange systems.
 ### Non-functional requirements
 
 - Availability. At least 99.99%.
-- Fault tolerance. Fault tolerance and fast recovery mechanism are needed to limit the impact of production incident.
+- Fault tolerance. Fault tolerance and fast recovery mechanism are needed to limit the impact of production incidents.
 - Latency. Round-trip latency should be at the millisecond level, with a particular focus on the 99th percentile latency.
-- Security. Should have an account management system. For legal compliance, the exchange performs a KYC check to verify user's identity before a new account is opened. For public resources, such as web pages containing market data, we should prevent DDoS attacks.
+- Security. Should have an account management system. For legal compliance, the exchange performs a KYC check to verify a user's identity before a new account is opened. For public resources, such as web pages containing market data, we should prevent DDoS attacks.
 
 ### Back-of-the-envelope estimation
 
@@ -47,7 +47,7 @@ US stock market has three tiers of prices quotes: L1, L2, and L3.
 
 ![high-level design](../../assets/system-design/interview2/stock-exchange-high-level-design.png)
 
-Let's trace the life of an order through various components in the diagram to see how the prices fit together.
+Let's trace the life of an order through various components in the diagram to see how the pieces fit together.
 
 __Trading flow__. This is the critical path with strict latency requirements.
 
@@ -61,13 +61,13 @@ __Trading flow__. This is the critical path with strict latency requirements.
 
 6. After passing risk checks, the order manager verifies there are sufficient funds in the wallet for the order.
 
-7 - 9. The order is sent to the matching engine. When a match is found, the matching engine emits two executions (also called fills), with one each for the buy and sell sides. To guarantee that matching results are deterministic when replay, both orders and executions are sequenced in the sequencer.
+7 - 9. The order is sent to the matching engine. When a match is found, the matching engine emits two executions (also called fills), with one each for the buy and sell sides. To guarantee that matching results are deterministic when replayed, both orders and executions are sequenced in the sequencer.
 
 10 - 14. The executions are returned to the client.
 
 __Market data flow__ and trace the order executions from the matching engine to the broker via the data service.
 
-M1: Matching engine generates a stream of executions (fils) as matches are made. The stream is sent to the market data publisher.
+M1: Matching engine generates a stream of executions (fills) as matches are made. The stream is sent to the market data publisher.
 
 M2: Market data publisher constructs the candlestick charts and the order books from the stream of executions as market data.
 
@@ -75,7 +75,7 @@ M3: Market data publisher sends the market data to the data service. The publish
 
 __Reporter flow__
 
-R1 - R2 (reporting flow): Reporter collects al
+R1 - R2 (reporting flow): Reporter collects all
 
 #### Trading flow
 

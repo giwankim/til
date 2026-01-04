@@ -8,7 +8,7 @@ The basic algorithm of a web crawler is simple:
 2. Extract URLs from these web pages
 3. Add new URLs to the list of URLs to be downloaded. Repeat these 3 steps.
 
-__Candidate:__ What is the main purpose of the crawler? Is is used for search engine indexing, data mining, or something else?
+__Candidate:__ What is the main purpose of the crawler? Is it used for search engine indexing, data mining, or something else?
 
 __Interviewer:__ Search engine indexing.
 
@@ -41,7 +41,7 @@ Characteristics of a good web crawler:
 
 - Scalability: The web is very large. There are billions of web pages out there. Web crawling should be extremely efficient using parallelization.
 - Robustness: The web is full of traps. Bad HTML, unresponsive servers, crashes, malicious links, etc are all common. The crawler must handle all those edge cases.
-- Politeness: The crawler should not make too many request to a website within a short time interval.
+- Politeness: The crawler should not make too many requests to a website within a short time interval.
 - Extensibility: The system is flexible so that minimal changes are needed to support new content types. For example, if we want to crawl image files in the future, we should not need to redesign the entire system.
 
 ### Back of the envelope estimation
@@ -49,7 +49,7 @@ Characteristics of a good web crawler:
 - Assume 1 billion web pages are downloaded every month.
 - QPS: 1,000,000,000 / 30 days / 24 hours / 3600 seconds = ~400 pages per second.
 - Peak QPS = 2 * QPS = 800
-- Assume the average web page site is 500kb.
+- Assume the average web page size is 500kb.
 - 1 billion page * 500kb = 500 TB storage per month.
 - Assuming data are stored for five years, 500 TB * 12 months * 5 years = 30 PB.
 
@@ -127,7 +127,7 @@ URL filter excludes certain content types, file extensions, error links and URLs
 
 #### URL Seen?
 
-"URL Seen?" is a data structure that keeps track of URLs that that have been visited before or already in the Frontier. "URL Seen?" helps to avoid adding the same URL multiple times as this can increase server load and cause potential infinite loops.
+"URL Seen?" is a data structure that keeps track of URLs that have been visited before or are already in the Frontier. "URL Seen?" helps to avoid adding the same URL multiple times as this can increase server load and cause potential infinite loops.
 
 Bloom filter and hash tables are common techniques to implement the "URL Seen?" component.
 

@@ -5,7 +5,7 @@ According to Wikipedia,
 
 ## Step 1 - Establish Design Scope
 
-Some may think a payment system is a digital wallet like Apple Pay or Google Pay. Others may think it's backend system that handles payments such as PayPal or Stripe.
+Some may think a payment system is a digital wallet like Apple Pay or Google Pay. Others may think it's a backend system that handles payments such as PayPal or Stripe.
 
 ### Functional requirements
 
@@ -15,14 +15,14 @@ Some may think a payment system is a digital wallet like Apple Pay or Google Pay
 ### Non-functional requirements
 
 - Reliability and fault tolerance. Failed payments need to be carefully handled.
-- A reconciliation process between internal services (payment systems, accounting systems) and external services (payment service providers) is required. The process asynchronously verifies that the payment information across these system is consistent.
+- A reconciliation process between internal services (payment systems, accounting systems) and external services (payment service providers) is required. The process asynchronously verifies that the payment information across these systems is consistent.
 
 ### Back-of-the-envelope estimation
 
 - 1 million transactions per day.
 - 1,000,000 transactions / $10^5$ seconds = 10 TPS.
 
-10 TPS is not a big number for a typical database, which means the focus of this system of this system design is on how to correctly handle payment transactions, rather than aiming for high throughput.
+10 TPS is not a big number for a typical database, which means the focus of this system design is on how to correctly handle payment transactions, rather than aiming for high throughput.
 
 ## Step 2 - High-Level Design
 
@@ -48,7 +48,7 @@ Moves money from account A to account B. In this simplified example, the PSP mov
 
 #### Card schemes
 
-Organizations that process credit card operations. Visa, MasterCard, Discovert, etc.
+Organizations that process credit card operations. Visa, MasterCard, Discover, etc.
 
 #### Ledger
 
@@ -102,7 +102,7 @@ This endpoint executes a payment event. A single payment event may contain multi
 
 > [!TIP] Data type of the "amount" field is "string". Double is not a good choice because:
 >
-> 1. Different protocols, software, and hardware may support different numberic precisions in serialization and deserialization. This difference might cause unintended rounding errors.
+> 1. Different protocols, software, and hardware may support different numeric precisions in serialization and deserialization. This difference might cause unintended rounding errors.
 > 2. The number could be extremely big (for example, Japan's GDP is around $5 * 10^{14}$ yen for 2020), or extremely small (a satoshi of Bitcoin is $10^{-8}$).
 
 #### GET /v1/payments/{id}
@@ -153,13 +153,13 @@ erDiagram
 - `checkout_id` is the foreign key. A single checkout creates a payment event that may contain several payment orders.
 - When we call a third-party PSP to deduct money from the buyer's credit card,
 
-In the `PAYMENT_ORDER` table, `payment_order_Status` is an enumerated type that keeps the execution status of the payment order. Execution status includes `NOT_STARTED`, `EXECUTING`, `SUCCESS`, `FAILED`
+In the `PAYMENT_ORDER` table, `payment_order_status` is an enumerated type that keeps the execution status of the payment order. Execution status includes `NOT_STARTED`, `EXECUTING`, `SUCCESS`, `FAILED`
 
 ```mermaid
 stateDiagram-v2
   state if_state <<choice>>
-  [*] --> NOT_STATED
-  NOT_STATED --> EXECUTING
+  [*] --> NOT_STARTED
+  NOT_STARTED --> EXECUTING
   EXECUTING --> if_state
   if_state --> SUCCESS: payment execution success
   if_state --> FAILED: payment execution failed
@@ -182,7 +182,7 @@ To find out more about implementing the double-entry system, see Square's engine
 
 Most companies prefer not to store credit card information internally (regulation such as Payment Card Industry Data Security Standard (PCI DSS) in the US). To avoid handling credit card information, companies use hosted credit card pages provided by PSPs. For websites, it is a widget or an iframe, while for mobile applications, it may be a pre-built page from the payment SDK.
 
-Exmaple of the checkout experience with PayPal integration. The point is that the PSP provides a hosted payment page that captures the customer card information directly.
+Example of the checkout experience with PayPal integration. The point is that the PSP provides a hosted payment page that captures the customer card information directly.
 
 ![hosted payment page](../../assets/system-design/interview2/hosted-payment-page.png)
 

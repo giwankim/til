@@ -66,10 +66,10 @@ Fetch the top 10 players from the leaderboard.
       "score": 976
     },
     {
-      "user_id": "user_id1",
-      "user_name": "alice",
-      "rank": 1,
-      "score": 976
+      "user_id": "user_id2",
+      "user_name": "bob",
+      "rank": 2,
+      "score": 942
     }
     ...
     "total": 10
@@ -97,7 +97,7 @@ Fetch the rank of a specific user.
 
 ### High-level architecture
 
-There are two services in this design. The game service allows users to play the game and the leaderboard service creates and displays a leaderboard.
+There are two services in this design. The game service allows users to play the game, and the leaderboard service creates and displays a leaderboard.
 
 ![high level architecture](../../assets/system-design/interview2/leaderboard-high-level-architecture.png)
 

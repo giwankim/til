@@ -25,13 +25,13 @@ classDiagram
   %%Episode *-- Review
 ```
 
-Generalization are defined using --|> and are rendered on the diagram as empty arrows.
+Generalizations are defined using --|> and are rendered on the diagram as empty arrows.
 
 ## Relationship
 
 One of the key features of a domain model written with UML is that you can describe how the entities interact with regard to their relationships.
 
-In a lot of cases, a lot of the descriptions can be simply desscribed as _has_.
+In a lot of cases, a lot of the descriptions can be simply described as _has_.
 
 It is preferable to add more detailed description for relationships:
 

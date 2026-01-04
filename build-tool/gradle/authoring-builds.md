@@ -112,13 +112,13 @@ The modules have dependencies between them such as `web-app` and `mobile-app` de
 
 `buildSrc` is automatically recognized by Gradle. It is a good place to define and maintain shared configuration or imperative build logic, such as custom tasks or plugins.
 
-If the `java` plugin is applied to the `buildSrc` project, the compiled code from `buildSrc/src/main/java` is put in the classpath fo the root build script, making it available to any subproject in the build.
+If the `java` plugin is applied to the `buildSrc` project, the compiled code from `buildSrc/src/main/java` is put in the classpath of the root build script, making it available to any subproject in the build.
 
 #### 2. Composite Builds
 
 Composite Builds, also referred to as _included builds_, are best for sharing logic between builds (_not subprojects_) or isolating access to shared build logic (i.e. convention plugins).
 
-The logic in `buildSrc` from the previous example has been turned into a project that contains plugins and be published and worked on independently of the root project build.
+The logic in `buildSrc` from the previous example has been turned into a project that contains plugins and can be published and worked on independently of the root project build.
 
 The plugin is moved to its own build called `build-logic` with a build script and settings file:
 
@@ -157,7 +157,7 @@ include("mobile-app", "web-app", "api", "lib", "documentation")
 
 The build author defines the tasks and dependencies between tasks. Gradle guarantees that these tasks will execute in order of their dependencies.
 
-For example, if the project tasks include `build`, `assemble`, `createDocs`, the build scripts can ensure that they are executed in the order `build` -> `assemble` -> `createDoc`.
+For example, if the project tasks include `build`, `assemble`, `createDocs`, the build scripts can ensure that they are executed in the order `build` -> `assemble` -> `createDocs`.
 
 ### Task Graphs
 
@@ -185,7 +185,7 @@ A Gradle build has three distinct phases.
 
 ```mermaid
 flowchart LR
-  Initialization["1 Initialization Phase"] --> Configuration[2 Configuration Phase] --> Execution[3 Configuration Phase]
+  Initialization["1 Initialization Phase"] --> Configuration[2 Configuration Phase] --> Execution[3 Execution Phase]
 ```
 
 Gradle runs these phases in order:
@@ -205,7 +205,7 @@ Gradle runs these phases in order:
 #### Phase 3. Execution
 
 - Schedules and executes the selected tasks.
-- Dependencies  tasks determine execution order.
+- Dependencies between tasks determine execution order.
 - Execution of tasks can occur in parallel.
 
 ![build phases](https://docs.gradle.org/current/userguide/img/build-lifecycle-example.png)
@@ -226,7 +226,7 @@ Before Gradle assembles the projects for a build, it creates a `Settings` instan
 
 ```mermaid
 flowchart LR
-  A["setting.gradle.kts"] --> B["Settings()"]
+  A["settings.gradle.kts"] --> B["Settings()"]
 ```
 
 ### The `Settings` Object

@@ -1,3 +1,3 @@
 # Unit of Work
 
-Maintains a list of  affected by a business transaction and coordinates
+Maintains a list of objects affected by a business transaction and coordinates

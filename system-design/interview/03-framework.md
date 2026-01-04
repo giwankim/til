@@ -23,7 +23,7 @@ Ask questions to understand the exact requirements.
 - What specific features are we going to build?
 - How many users does the product have?
 - How fast does the company anticipate to scale up?
-- What is the company's technology stack? What existing services you might leverage to simplify the design?
+- What is the company's technology stack? What existing services might you leverage to simplify the design?
 
 ### Step 2 - Propose high-level design and get buy-in
 
@@ -50,7 +50,7 @@ Time management is essential as it is easy to get carried away with minute detai
 
 ### Step 4 - Wrap up
 
-In this final step, the interviewer might ask you a few follow-up questions or give freedom to discuss other additional points.
+In this final step, the interviewer might ask you a few follow-up questions or give you the freedom to discuss other additional points.
 
 - Interviewer might want you to identify the system bottlenecks and discuss potential improvements.
 - It could be useful to give the interviewer a recap of your design.

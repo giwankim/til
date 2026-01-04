@@ -22,7 +22,7 @@ __Dependency management__ is an automated technique for declaring and resolving 
 
 #### Tasks
 
-__Tasks__ are basic __unit of work__ such as compiling code or running your test.
+__Tasks__ are basic __units of work__ such as compiling code or running your test.
 
 #### Plugins
 
@@ -144,7 +144,7 @@ Gradle has built-in support for dependency management.
 
 ### Version catalog
 
-Version catalog provide a way to centralize your dependency declarations in a `libs.versions.toml` file.
+Version catalogs provide a way to centralize your dependency declarations in a `libs.versions.toml` file.
 
 The catalog makes sharing dependencies and version configurations between subprojects simple. It also allows teams to enforce versions of libraries and plugins in large projects.
 

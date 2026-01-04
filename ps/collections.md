@@ -20,9 +20,9 @@
 public class Stack<E> extends Vector<E>
 ```
 
-thread-safe한 `Vector`클래스를 확장해서 구현되어 있음을 확인할 수 있다.
+Thread-safe한 `Vector`클래스를 확장해서 구현되어 있음을 확인할 수 있다.
 
-`Stack`클래스는 컬렉션 프레임워크가 등장한 자바 1.2 (1998년) 이전에 아직 CPU 코어가 하나밖에 없던 시절 나온 자료형으로, 모든 작업에 lock이 수행되는 `Vector`클래스를 기반으로 한다. 따라서 요즘처럼 멀티코어가 당연한 시대에는 성능에 문제가 있다.
+`Stack`클래스는 컬렉션 프레임워크가 등장한 자바 1.2 (1998년) 이전에 아직 CPU 코어가 하나밖에 없던 시절 나온 자료형으로, 모든 작업에 락(lock)이 수행되는 `Vector`클래스를 기반으로 한다. 따라서 요즘처럼 멀티코어가 당연한 시대에는 성능에 문제가 있다.
 
 ### `Deque`
 
@@ -36,7 +36,7 @@ Deque<Integer> stack = new ArrayDeque<>();
 
 즉, `Deque`인터페이스를 구현하는 `ArrayDeque`나 `LinkedList`를 사용할 것을 추천하고 있다.
 
-실제로 `Deque`인터페이스에는 `push(e)`, `pop()`, `peek()`의 메소드가 정의되어 있으며 다음과 같이 `Deque`의 메소드와 상응한다.
+실제로 `Deque`인터페이스에는 `push(e)`, `pop()`, `peek()`의 메소드가 정의되어 있으며, 다음과 같이 `Deque`의 메소드와 상응한다.
 
 | Stack Method | Equivalent `Deque` Method |
 | ------------ | ------------------------- |
@@ -48,9 +48,9 @@ Deque<Integer> stack = new ArrayDeque<>();
 
 ### Thread-safe
 
-그헐다면 thread-safe한 자료형이 필요할 경우 `Stack`을 사용해야할까?
+그렇다면 thread-safe한 자료형이 필요할 경우 `Stack`을 사용해야할까?
 
-그렇지 않다. 새로운 자료형으로 성능을 개선한 `ConcurrentLinkedDeque`나 `LinkedBlockDeque`를 사용하면 된다.
+그렇지 않다. 새로운 자료형으로 성능을 개선한 `ConcurrentLinkedDeque`나 `LinkedBlockingDeque`를 사용하면 된다.
 
 ## 큐
 

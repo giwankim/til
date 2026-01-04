@@ -8,7 +8,7 @@ In most modern languages, functions are first-class objects. The key thing about
 
 ## Functions are Things
 
-Functions are things in their own right. And if functions are things, they can be passed as input to other functions. Or they can be returned as the output of a function. Or they can be passed as a parameter to a function to control its behavior.
+Functions are things in their own right. And if functions are things, they can be passed as inputs to other functions. Or they can be returned as the output of a function. Or they can be passed as a parameter to a function to control its behavior.
 
 > [!NOTE]
 > Functions that input or output other functions or take functions as parameters are called *higher-order functions*.
@@ -104,7 +104,7 @@ fun twelveDividedBy(n: NonZeroInteger) =
         6 -> 2
         ...
         // 0 can't be in the input
-        // so doesn't need to be handled
+        // so it doesn't need to be handled
     }
 ```
 

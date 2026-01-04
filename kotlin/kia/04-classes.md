@@ -101,7 +101,7 @@ The _fragile base class_ problem occurs when modifications of a base class can c
 
 If you want to allow the creation of subclasses of a class, you need to mark the class with the `open` modifier. In addition, you need to add the `open` modifier to every property or method that can be overridden.
 
-Let's say you want to create a clickable `RickButton`. You could declare the class as follow.
+Let's say you want to create a clickable `RickButton`. You could declare the class as follows.
 
 ```kotlin
 open class RichButton : Clickable { // This class is open: others can inherit from it.
@@ -535,7 +535,7 @@ fun addExpense(expense: UsdCent) {
 }
 
 fun main() {
-  addExpense(UsdCEnt(147))
+  addExpense(UsdCent(147))
 }
 ```
 

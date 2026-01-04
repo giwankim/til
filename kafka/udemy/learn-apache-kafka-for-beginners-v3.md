@@ -43,7 +43,7 @@ Topics: a particular stream of data
 - Sequence of messages is called a data stream
 - Cannot query topics, instead use Kafka Producers to send data. Kafka Consumers read the data.
 
-Topics are split in *partitions*.
+Topics are split into *partitions*.
 
 - Messages within each partition are ordered
 - Each message within a partition gets an incremental id, called *offset*
@@ -315,7 +315,7 @@ kafka-topics.sh --bootstrap-server localhost:9092 --topic new_topic --describe
 
 # produce against a non-existing topic again
 kafka-console-producer.sh --bootstrap-server localhost:9092 --topic new_topic_2
-hello again!
+>hello again!
 
 # this time our topic has 3 partitions
 kafka-topics.sh --bootstrap-server localhost:9092 --list

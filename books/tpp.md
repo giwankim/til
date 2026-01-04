@@ -1,8 +1,8 @@
 # The Pragmatic Programmer
 
-The word _pragmatic_ comes from the Latin _pragmaticus_--"skilled in business"--which in turn is derevied from the Greek $\pi\rho\alpha\gamma\mu\alpha\tau\iota\kappa\'{\omicron}\sigma$, meaning "fit for use."
+The word _pragmatic_ comes from the Latin _pragmaticus_--"skilled in business"--which in turn is derived from the Greek $\pi\rho\alpha\gamma\mu\alpha\tau\iota\kappa\'{\omicron}\sigma$, meaning "fit for use."
 
-There are no easy answer. There can only systems that are more appropriate in a particular set of circumstances.
+There are no easy answers. There can only be systems that are more appropriate in a particular set of circumstances.
 
 This is where pragmatism comes in.
 
@@ -30,7 +30,7 @@ There _should_ be engineering in software construction. Within the overall struc
 
 __It's a Continuous Process__
 
-"Kaizen" is a Japanese term that captures te concept of continuously making many small improvements. Every day, work to refine the skills you have and to add new tools to your repertoire.
+"Kaizen" is a Japanese term that captures the concept of continuously making many small improvements. Every day, work to refine the skills you have and to add new tools to your repertoire.
 
 ## 1. A Pragmatic Philosophy
 
@@ -55,11 +55,11 @@ We all spend a large amount of time interacting with others. [Communicate!](#com
 
 Does your work environment suck? Is your job boring? Try to fix it. But don't try forever. As Martin Fowler says, "you can change your organization or change your organization[^1]."
 
-The industry gives you remarkable set of opportunities. Be proactive, and take them.
+The industry gives you a remarkable set of opportunities. Be proactive, and take them.
 
-### The Cat Ate My Source 
+### The Cat Ate My Source Code
 
-One of the cornerstones of the pragmatic philosophy is the idea of taking responsibility for yourself and you actions in terms of your career advancement, your learning and education, your project, and your day-to-day work.
+One of the cornerstones of the pragmatic philosophy is the idea of taking responsibility for yourself and your actions in terms of your career advancement, your learning and education, your project, and your day-to-day work.
 
 __Team Trust__
 
@@ -119,6 +119,6 @@ Don't cause collateral damage just because there's a crisis of some sort.
 
 ### Estimating
 
-## 3. Tha Basic Tools
+## 3. The Basic Tools
 
 [^1]: https://wiki.c2.com/?ChangeYourOrganization

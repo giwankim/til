@@ -4,7 +4,7 @@
 
 ### 5.1.1 Fine-grained domain models
 
-A major objective of Hibernate and Spring Data JPA as a persistence provider is providing support for fine-grained and rich domain models. It's one reason we work with POJOs. In crude terms, _fine grained_ means having more classes than tables.
+A major objective of Hibernate and Spring Data JPA, as persistence providers, is providing support for fine-grained and rich domain models. It's one reason we work with POJOs. In crude terms, _fine grained_ means having more classes than tables.
 
 ### 5.1.2 Defining application concepts
 

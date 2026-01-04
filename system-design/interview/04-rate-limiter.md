@@ -10,11 +10,11 @@ Benefits of using an API rate limiter:
 
 ## Step 1 - Understand the problem and establish design scope
 
-- Accurately limit excessive request.
+- Accurately limit excessive requests.
 - Low latency.
 - Use as little memory as possible.
 - Distributed rate limiting.
-- Exception handling. Show clean exceptions to users when their request are throttled.
+- Exception handling. Show clean exceptions to users when their requests are throttled.
 - High fault tolerance.
 
 ## Step 2 - Propose high-level design and get buy-in
@@ -46,7 +46,7 @@ Here is a list of popular algorithms:
 
 We have a bucket whose capacity is defined as the number of tokens it can hold.
 
-Whenever a consumer wants to access an API endpoint, it must get a token from the bucket. We remove a token from the bucket if it is available and accept the request and reject the request if the bucket doesn't have any tokens.
+Whenever a consumer wants to access an API endpoint, it must get a token from the bucket. We remove a token from the bucket if it is available and accept the request, or reject the request if the bucket doesn't have any tokens.
 
 As requests are consuming tokens, we're also refreshing them at some fixed rate.
 
@@ -59,7 +59,7 @@ The number of buckets depends on the rate-limiting rules:
 
 - Usually necessary to have different buckets for different API endpoints.
 - If we need to throttle request based on IP addresses, each IP address requires a bucket.
-- If the system allows maximum of 10,000 RPS, it makes sense to have a global bucket.
+- If the system allows a maximum of 10,000 RPS, it makes sense to have a global bucket.
 
 ##### Pros
 
@@ -77,7 +77,7 @@ Similar to token bucket except that requests are processed at a fixed rate. It i
 
 - When a request arrives, if the queue (bucket) is not full, the request is added to the queue.
 - Otherwise, the request is dropped.
-- Requests are pulled from the queue and proecessed at regular intervals.
+- Requests are pulled from the queue and processed at regular intervals.
 
 Leaking bucket algorithm has the following two parameters:
 
@@ -87,11 +87,11 @@ Leaking bucket algorithm has the following two parameters:
 ##### Pros
 
 - Memory efficient given the limited queue size.
-- Requests are processed at a fixed rate therefore it is suitable for use cases that needs a stable outflow rate.
+- Requests are processed at a fixed rate; therefore, it is suitable for use cases that need a stable outflow rate.
 
 ##### Cons
 
-- A burst of traffic fills up the queue with old request so recent requests will be rate limited.
+- A burst of traffic fills up the queue with old requests so recent requests will be rate limited.
 - Two parameters to tune.
 
 #### Fixed window counter algorithm
@@ -108,7 +108,7 @@ Leaking bucket algorithm has the following two parameters:
 
 ##### Cons
 
-- Spike in traffic at the edges of a window could cause more request thatn the allowed quota to go through.
+- Spike in traffic at the edges of a window could cause more requests than the allowed quota to go through.
 
 #### Sliding window log algorithm
 
@@ -171,7 +171,7 @@ Lyft open-sourced their [rate-limiting component](https://github.com/envoyproxy/
 
 As an example of rate limiting rules configuration:
 ```yaml
-domain: messagin
+domain: messaging
 descriptors:
   # Only allow 5 marketing messages a day
   - key: message_type
@@ -183,11 +183,11 @@ descriptors:
           requests_per_unit: 5
 ```
 
-Rules are generally writting in configuration files and saved on disk.
+Rules are generally written in configuration files and saved on disk.
 
 ### Exceeding the rate limit
 
-If a request rate limited, API returns HTTP response code 429 (too many requests) to the client.
+If a request is rate limited, the API returns HTTP response code 429 (too many requests) to the client.
 
 Depending on the use cases, we may enqueue the rate-limited requests to be processed later.
 
@@ -196,7 +196,7 @@ Depending on the use cases, we may enqueue the rate-limited requests to be proce
 In order to enhance the client experience of the API, we can respond with additional response headers to send information about the rate limit:
 
 - _X-Rate-Limit-Remaining_: The remaining number of allowed requests within the window.
-- _X-Rate-Limit_: How many calls the client can per time window.
+- _X-Rate-Limit_: How many calls the client can make per time window.
 - _X-Rate-Limit-Retry-After-Seconds_: Number of seconds to wait until the client can make a request again without being throttled.
 
 When a user has sent too many requests, a 429 HTTP response status code and _X-Rate-Limit-Retry-After-Seconds_ header are returned to the client.
@@ -206,7 +206,7 @@ When a user has sent too many requests, a 429 HTTP response status code and _X-R
 ![rate-limiter](../../assets/system-design/interview1/rate-limiter-design.png)
 
 - Rules are stored on disk. Workers frequently pull rules from disk and store them in the cache.
-- Client request is first routed the rate limiter middleware.
+- Client request is first routed to the rate limiter middleware.
 - Rate limiter middleware loads rules from the cache and decides whether to forward the request to API servers or rate limit the request. The request is either dropped or forwarded to the queue.
 
 ### Distributed environment

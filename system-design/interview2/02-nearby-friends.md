@@ -2,7 +2,7 @@
 
 Mobile app feature called "Nearby Friends". Mobile client presents a list of friends who are geographically nearby.
 
-In proximity services, the addresses for businesses are static, while in "nearby friends" data is more dynamic.
+In proximity services, the addresses for businesses are static, while in "nearby friends", data is more dynamic.
 
 ![nearby friends](../../assets/system-design/interview2/nearby-friends.png)
 
@@ -47,7 +47,7 @@ What are the responsibilities of the backend?
 - For each location update, find all the active friends who should receive it and forward it to those users' devices.
 - If the distance between two users is over a certain threshold, do not forward it to the recipient's device.
 
-The problem is the scale. 10 million active users. With each user updating location every 30 seconds, there are 333K updates per second. If on average each user has 400 friends, and we further assume that roughly 10% of those friends are online and nearby, every second the backend forwards 333K * 400 * 10% = 13 million location updates per second.
+The problem is the scale: 10 million active users. With each user updating their location every 30 seconds, there are 333K updates per second. If on average each user has 400 friends, and we further assume that roughly 10% of those friends are online and nearby, every second the backend forwards 333K * 400 * 10% = 13 million location updates per second.
 
 ### Proposed design
 
@@ -103,7 +103,7 @@ Mobile client sends periodic location updates over the persistent WebSocket conn
 4. WebSocket server updates the new location in the location cache. The update refreshes the TTL. WebSocket server saves the new location in a variable in the user's WebSocket connection handler for subsequent distance calculation.
 5. WebSocket server publishes the new location to the user's channel in the Redis pub/sub server. Steps 3 ~ 5 can be executed in parallel.
 6. Redis pub/sub broadcasts the location update to all subscribers (WebSocket connection handler). The subscribers are all the online friends of the user sending the update.
-7. On receiving the message, the WebSocket server, computes the distance between the user sending the new location and the subscriber.
+7. On receiving the message, the WebSocket server computes the distance between the user sending the new location and the subscriber.
 8. If the distance does not exceed the search radius, the new location and the last updated timestamp are sent to the subscriber's client.
 
 ##### Concrete example

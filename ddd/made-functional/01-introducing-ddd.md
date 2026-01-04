@@ -1,12 +1,10 @@
 # 1. Introducing DDD
 
-Design approach focused on clear communication and shared domain knowledge: *domain-driven design*.
+A design approach focused on clear communication and shared domain knowledge: *domain-driven design*.
 
 ## Shared Model
 
-The goal of DDD is to have domain experts, development team, other stakeholders, and the source code
-itself share the same
-*model*.
+The goal of DDD is to have domain experts, the development team, other stakeholders, and the source code itself share the same *model*.
 
 DDD community has developed some guidelines to help:
 
@@ -106,12 +104,12 @@ The set of concepts and vocabulary that is shared between everyone on the team i
 
 - A *domain* is an area of knowledge associated with the problem we are trying to solve.
 - A *Domain Model* is a set of simplifications that represent those aspects of a domain that are
-  relevant to a particular problem. Domain model is part of the solution space, while the domain is
+  relevant to a particular problem. The domain model is part of the solution space, while the domain is
   part of the problem space.
 - *Ubiquitous Language* is a set of concepts and vocabulary that is associated with the domain.
 - A *bounded context* is a subsystem in the solution space with clear boundaries. A bounded context
   has its own set of concepts and vocabulary, its own dialect of the Ubiquitous Language.
-- A *Context Map* is a high-level diagram showing a collection of bounded context and the
+- A *Context Map* is a high-level diagram showing a collection of bounded contexts and the
   relationships between them.
 - A *Domain Event* is a record of something that happened in the system. Always described in the past
   tense and often triggers additional activity.

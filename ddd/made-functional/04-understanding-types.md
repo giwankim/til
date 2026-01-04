@@ -12,7 +12,7 @@ a function.
 > "Values" vs "Objects" vs "Variables"
 > A value is just a member of a type.
 >
-> Values are immutable (which is why they are not called "variables") and values do not have any
+> Values are immutable (which is why they are not called "variables"); values do not have any
 > behavior attached to them, they are just data.
 >
 > In contrast, an object is an encapsulation of a data structure *and* its associated behavior (

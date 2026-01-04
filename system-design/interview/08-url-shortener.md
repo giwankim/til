@@ -22,7 +22,7 @@ __Interviewer__: Shortened URL can be a combination of numbers (0-9) and charact
 
 __Candidate__: Can shortened URLs be deleted or updated?
 
-__Interviewer__: For simplicity, let's assume shorted URLs cannot be deleted or updated.
+__Interviewer__: For simplicity, let's assume shortened URLs cannot be deleted or updated.
 
 Here are the basic use cases:
 
@@ -57,18 +57,18 @@ In this section, we discuss API endpoints, URL redirecting, and URL shortening f
 
 Once the server receives a GET request with shortened URL, it returns the long URL with 301 redirect.
 
-- __301 Moved Permanently__: 301 redirect shows that the requested URL is "permanently" moved to the long URL. Browser caches the response and redirects directly to the long URL subsequently.
-- __302 Found__: means that the URL is "temporarily" moved to the long URL.
+- __301 Moved Permanently__: 301 redirect shows that the requested URL is "permanently" moved to the long URL. The browser caches the response and redirects directly to the long URL subsequently.
+- __302 Found__: This means that the URL is "temporarily" moved to the long URL.
 
-Each redirection method has its pros and cons. If the priority is to reduce the server load, using 301 redirect makes sense; however, if analytics is important 302 redirection is a better choice.
+Each redirection method has its pros and cons. If the priority is to reduce the server load, using 301 redirect makes sense; however, if analytics are important, 302 redirection is a better choice.
 
 ### URL shortening
 
 Assume the shortened URL looks like this www.tinyurl.com/{hashValue}.
 
 The hash function must satisfy the following requirements:
-  - Each `longURL` must be hashed to one `hashValue.`
-  - Each `hashValue` can be mapped back to the `longURL.`
+  - Each `longURL` must be hashed to one `hashValue`
+  - Each `hashValue` can be mapped back to the `longURL`
 
 ## Step 3 - Design deep dive
 

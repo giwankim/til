@@ -31,8 +31,8 @@ flowchart TB
 
 Client sends a request to the application, and the servlet container creates a `FilterChain`, which
 contains the `Filter` instances and the `Servlet` that should process the `HttpServletRequest`,
-based onn the path of the request URI. In a Spring MVC application, the `Servlet` is an instance of
-`DispatcherServlet`
+based on the path of the request URI. In a Spring MVC application, the `Servlet` is an instance of
+`DispatcherServlet`.
 
 Since a `Filter` impacts only downstream `Filter` instances and the `Servlet`, the order in which
 each `Filter` is invoked is extremely important.
@@ -44,7 +44,7 @@ the Servlet container's lifecycle and Spring's `ApplicationContext`. You can reg
 `DelegatingFilterProxy` through the standard Servlet container mechanisms but delegate all the work
 to a Spring Bean that implements `Filter`.
 
-`DelegatingFilterProxy` allows delaying looking up `Filter` bean instances. Container needs to
+`DelegatingFilterProxy` allows delaying the lookup of `Filter` bean instances. Container needs to
 register the `Filter` instances before the container can start up; however, Spring typically uses a
 `ContextLoaderListener` to load the Spring Beans, which is not done until after the `Filter`
 instances need to be registered.
@@ -114,10 +114,10 @@ registering directly with the Servlet container or DelegatingFilterProxy are:
 
 1. It provides a starting point for all of Spring Security's Servlet support. For that reason, when
    troubleshooting, adding a debug point in `FilterChainProxy` is a great place to start.
-2. Since `FilterChainProxy` is central to Spring Security usage, it can perform task that are not
-   viewed as optional. For example, clears out the `SecurityContext` to avoid memory leaks. Also
-   applied `HttpFirewall` to protect against certain types of attacks.
-3. In a Servlet container, `Filter` instances are invoked based upon the URL along.
+2. Since `FilterChainProxy` is central to Spring Security usage, it can perform tasks that are not
+   viewed as optional. For example, it clears out the `SecurityContext` to avoid memory leaks. Also
+   applies `HttpFirewall` to protect against certain types of attacks.
+3. In a Servlet container, `Filter` instances are invoked based upon the URL alone.
    `FilterChainProxy` can determine invocation based upon anything in the `HttpServletRequest` by
    using the `RequestMatcher` instance.
 
@@ -192,7 +192,7 @@ graph TD
 
 ### Security Filters
 
-SecurityFilters are inserted into the *FilterChainProxy* with *SecurityFilterChain* API. Those filters can be used for a number of different purposes, like exploit protection, authentication, authorization, and more.
+SecurityFilters are inserted into the *FilterChainProxy* with the *SecurityFilterChain* API. Those filters can be used for a number of different purposes, like exploit protection, authentication, authorization, and more.
 
 Security filters are most often declared using an `HttpSecurity` instance.
 
@@ -206,7 +206,7 @@ class SecurityConfig {
             csrf { }
             httpBasic { }
             formLogin { }
-            authorizaHttpRequests {
+            authorizeHttpRequests {
                 authorize(anyRequest, authenticated)
             }
         }
@@ -293,7 +293,7 @@ Spring Security provides logging of all security related events at the DEBUG and
 can be very useful for debugging your application.
 
 Consider an example where a user tries to make a `POST` request to a resource that has CSRF
-protection enabled without the CSRF token. With no logs, the user will see a 403 error with non
+protection enabled without the CSRF token. With no logs, the user will see a 403 error with no
 explanation of why the request was rejected. However, if you enable logging for Spring Security, you
 will see a log message like this:
 

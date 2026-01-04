@@ -1,6 +1,6 @@
 # 3. Visualize Application and User Flows
 
-High-level interactions can be discussed with nontechnical colleagues to ensure what you're planning on building actually fulfuls the criteria of the project.
+High-level interactions can be discussed with nontechnical colleagues to ensure what you're planning on building actually fulfills the criteria of the project.
 
 We can leverage a sequence diagram for this use case.
 

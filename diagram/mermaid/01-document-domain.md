@@ -1,8 +1,8 @@
 # 1. Document Domain
 
-Domain modeling in the sense of DDD is the primary way fo determining the important aspects of a buisiness. It's usually created collaboratively by engineering, product, and business stakeholders to ensure all major parts of the business are aligned on what the domain model looks like.
+Domain modeling in the sense of DDD is the primary way for determining the important aspects of a business. It's usually created collaboratively by engineering, product, and business stakeholders to ensure all major parts of the business are aligned on what the domain model looks like.
 
-Within UML, *class diagram* can be used to model classes adn model domains.
+Within UML, *class diagram* can be used to model classes and model domains.
 
 ## Entities
 

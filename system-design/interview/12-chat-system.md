@@ -45,12 +45,12 @@ __Candidate:__ How long shall we store the chat history?
 
 __Interviewer:__ Forever.
 
-We focus onn designing a chat app like Facebook messenger, with an emphasis on the following features:
+We focus on designing a chat app like Facebook messenger, with an emphasis on the following features:
 
 - A one-on-one chat with low delivery latency
 - Small group chat (max of 100 people)
 - Online presence
-- Multiple device support. The same account can be logged in to multiple accounts at the same time.
+- Multiple device support. The same account can be logged in to multiple devices at the same time.
 - Push notifications
 
 It is also important to agree on the design scale. We will design a system that supports 50 million DAU.
@@ -69,7 +69,7 @@ When a client intends to start a chat, it connects to the chat service using one
 
 When the sender sends a message to the receiver via the chat service, it can use the time-tested HTTP protocol. In this scenario, the client opens a HTTP connection with the chat service and sends the message, informing the service to send the message to the receiver. Keep-alive is efficient for this because keep-alive header allows a client to maintain a persistent connection with the chat service. It also reduces the number of TCP handshakes. HTTP is a fine option on the sender side, and many popular chat applications such as Facebook used HTTP initially to send messages.
 
-The receiver side is bit more complicated. Since HTTP is client-initiated, it is not trivial to send messages from the server. The techniques used to simulate a server-initiated connection are polling, long polling, and WebSocket.
+The receiver side is a bit more complicated. Since HTTP is client-initiated, it is not trivial to send messages from the server. The techniques used to simulate a server-initiated connection are polling, long polling, and WebSocket.
 
 #### Polling
 

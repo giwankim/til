@@ -6,7 +6,7 @@
 
 ```kotlin
 fun main() {
-  println("Hello, world!)
+  println("Hello, world!")
 }
 ```
 
@@ -19,7 +19,7 @@ fun main() {
 
 ```kotlin
 fun max(a: Int, b: Int): Int {
-  return if (a > b) else b
+  return if (a > b) a else b
 }
 ```
 
@@ -29,7 +29,7 @@ Note that in Kotlin, `if` is an expression with a result value. You can think of
 
 ### Difference between expressions and statements
 
-The difference between an expression and a statement is that an expression has a value, which can be used as part of another expression, whereas a statement is always a top-level elements in its enclosing block and doesn't have its own value.
+The difference between an expression and a statement is that an expression has a value, which can be used as part of another expression, whereas a statement is always a top-level element in its enclosing block and doesn't have its own value.
 
 On the other hand, Kotlin enforces assignments to always be statement.
 
@@ -51,7 +51,7 @@ Omitting the return type is allowed only for functions with an expression body.
 
 ### Variable declaration
 
-A variable declaration in Kotlin starts with a keyword (`val` or `var`), followed bt the name for the variable. While Kotlin lets you omit the type for many variable declarations (thanks to its powerful `type inference`), you can always explicitly put the type after the variable name.
+A variable declaration in Kotlin starts with a keyword (`val` or `var`), followed by the name for the variable. While Kotlin lets you omit the type for many variable declarations (thanks to its powerful `type inference`), you can always explicitly put the type after the variable name.
 
 If you're not initializing your variable immediately, the compiler won't be able to infer the type for the variable. In this case, you need to specify its type explicitly:
 
@@ -64,12 +64,12 @@ fun main() {
 
 ### Variable: read-only or reassignable
 
-Kotlin provides tow keywords `val` and `var` for declaring variables:
+Kotlin provides two keywords `val` and `var` for declaring variables:
 
-- `val` (from _value_) declares _read-only reference._
+- `val` (from _value_) declares a _read-only reference._
 - `var` (from _variable_) declares a _reassignable reference._
 
-By default, you should strive to declare all variable in Kotlin with the `val` keyword. Using read-only references, immutable objects, and functions without side effects allows you to tak advantage of the benefits offered by _functional programming_ style.
+By default, you should strive to declare all variables in Kotlin with the `val` keyword. Using read-only references, immutable objects, and functions without side effects allows you to take advantage of the benefits offered by _functional programming_ style.
 
 A `val` variable must be initialized exactly once during the execution of the block where it's defined. However, you can initialize it with different values depending on some condition, as long as the compiler can ensure only one of the initialization statements will be executed.
 
@@ -86,7 +86,7 @@ fun main() {
 }
 ```
 
-Note that, even though `val` reference is itself read-only and can't be changed once it has been assigned, the object it points to may by mutable.
+Note that, even though `val` reference is itself read-only and can't be changed once it has been assigned, the object it points to may be mutable.
 
 ```kotlin
 fun main() {
@@ -95,7 +95,7 @@ fun main() {
 }
 ```
 
-Even though `var` keyword allows variable to change its value, it type is fixed.
+Even though `var` keyword allows a variable to change its value, its type is fixed.
 
 ```kotlin
 fun main() {
@@ -158,7 +158,7 @@ class Person (
 
 Basically, when you declare a property, you declare the corresponding accessors.
 
-The concise declaration of the `Person` class hides the same underlying implementation as the original Java code: it's a class with private fields that is initialized in the constructor and cn be accessed through the corresponding getter. That means you can use this class from Java and from Kotlin the same way, independent of where it was declared. Here's how you can use the Kotlin class `Person` from Java code.
+The concise declaration of the `Person` class hides the same underlying implementation as the original Java code: it's a class with private fields that is initialized in the constructor and can be accessed through the corresponding getter. That means you can use this class from Java and from Kotlin the same way, independent of where it was declared. Here's how you can use the Kotlin class `Person` from Java code.
 
 ```java
 public class PersonUser {
@@ -175,7 +175,7 @@ public class PersonUser {
 }
 ```
 
-You can convert to above Java code to Kotlin as follows.
+You can convert the above Java code to Kotlin as follows.
 
 ```kotlin
 fun main() {
@@ -192,7 +192,7 @@ fun main() {
 
 #### Tip
 
-You can also use the Kotlin property syntax for class defined in Java. Getters in a Java class can be accessed as `val` properties from Kotlin, and getter-setter pairs can be accessed as `var` properties.
+You can also use the Kotlin property syntax for classes defined in Java. Getters in a Java class can be accessed as `val` properties from Kotlin, and getter-setter pairs can be accessed as `var` properties.
 
 ### Custom accessors
 
@@ -208,7 +208,7 @@ class Rectangle(
 }
 ```
 
-Note that you can define the getter using expression-body syntax and write `val isSquare get() = height == width` as well. The expression-body syntax allows you to omit explicitly specifying the property type, having the compiler infer the type.
+Note that you can define the getter using expression-body syntax and write `val isSquare get() = height == width` as well. The expression-body syntax allows you to omit explicitly specifying the property type, letting the compiler infer the type.
 
 To invoke the property like `isSquare`
 
@@ -268,11 +268,11 @@ fun main() {
 }
 ```
 
-Note that this example shows the only place in Kotlin syntax where your're required to use semicolons: if you define any methods in the enum class, the semicolons separates the enum constant list from the method definitions.
+Note that this example shows the only place in Kotlin syntax where you're required to use semicolons: if you define any methods in the enum class, the semicolon separates the enum constant list from the method definitions.
 
 ### When expression
 
-Like `if,` `when` is an expression that returns a value. The following is a function with a _expression body_, returning the `when` expression directly.
+Like `if,` `when` is an expression that returns a value. The following is a function with an expression body, returning the `when` expression directly.
 
 ```kotlin
 fun getMnemonic(color: Color) =
@@ -474,7 +474,7 @@ fun main() {
 }
 ```
 
-The `..` syntax creates a range that includes the end point. To create a half-closed range, which don't include the specified end point, use `..<`. For eexample, the loop `for (x in 0..<size)` is equivalent to `for (x in 0..size-1)`.
+The `..` syntax creates a range that includes the end point. To create a half-closed range, which doesn't include the specified end point, use `..<`. For example, the loop `for (x in 0..<size)` is equivalent to `for (x in 0..size-1)`.
 
 ### Iterating over maps
 
@@ -592,7 +592,7 @@ An important difference from Java is that Kotlin doesn't have a `throws` clause.
 
 `Integer readNumber(BufferedReader reader) throws IOException;`
 
-Kotlin doesn't differentiate between checked and unchecked exceptions. You don't specify the exceptions thrown yb a function, and you may or may not handle any exceptions.
+Kotlin doesn't differentiate between checked and unchecked exceptions. You don't specify the exceptions thrown by a function, and you may or may not handle any exceptions.
 
 ### Using try as an expression
 

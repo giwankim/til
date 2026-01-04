@@ -130,7 +130,7 @@ The Gradle community has two standards for multi-project build structures:
 
 #### 1. Multi-Project Builds using `buildSrc`
 
-Multi-project build allow you to organize projects with many module, wire dependencies between those modules, and easily share common build logic amongst them.
+Multi-project builds allow you to organize projects with many modules, wire dependencies between those modules, and easily share common build logic among them.
 
 For example, a build that has many modules called `mobile-app`, `web-app`, `api`, `lib`, and `documentation` could be structured as follows:
 
@@ -266,24 +266,24 @@ Multi-project builds are collections of tasks you can run.
 
 #### Executing tasks by name
 
-The basic rule behind Gradle's behavior is to execute all tasks down the hierarchy with _this_ name. And complain if there is _no_ such task found in any of the subprojects traversed.
+The basic rule behind Gradle's behavior is to execute all tasks down the hierarchy with _this_ name. And complains if there is _no_ such task found in any of the subprojects traversed.
 
 > [!NOTE]
-> Some task selector, like `help` or `dependencies`, will only run the task on the project they are invoked on and not on all the subprojects to reduce the amount of information printed on the screen.
+> Some task selectors, like `help` or `dependencies`, will only run the task on the project they are invoked on and not on all the subprojects to reduce the amount of information printed on the screen.
 
 #### Executing tasks by fully qualified name
 
-You can use a task's fully qualified name to execute a specific task in a particular subproject. For example: `gradle:services:webservice:build` we run the `build` task of the _webservice_ subproject.
+You can use a task's fully qualified name to execute a specific task in a particular subproject. For example: `gradle :services:webservice:build` we run the `build` task of the _webservice_ subproject.
 
 ### Multi-Project building and testing
 
 The `build` task is typically used to compile, test, and check a single project.
 
-In a multi-project builds, you may often want to do all of these tasks across various projects. The `buildNeeded` and `buildDependents` tasks can help with this.
+In a multi-project build, you may often want to do all of these tasks across various projects. The `buildNeeded` and `buildDependents` tasks can help with this.
 
 In [this example](https://docs.gradle.org/current/userguide/declaring_dependencies_between_subprojects.html#javadependencies_2), the `:services:person-service` project depends on both the `:api` and `:shared` projects. The `:api` project also depends on the `:shared` project.
 
-Assuming you are working on a single project, the `:api` project, you have been making changes but have not build the entire project since performing a `clean`. You may want to build any necessary support JARs but only perform code quality and unit tests on the parts of the project you have changes.
+Assuming you are working on a single project, the `:api` project, you have been making changes but have not built the entire project since performing a `clean`. You may want to build any necessary support JARs but only perform code quality and unit tests on the parts of the project you have changed.
 
 The `build` task does this:
 
@@ -344,7 +344,7 @@ BUILD SUCCESSFUL in 0s
 
 You may want to refactor some part of the `:api` project used in other projects. If you make these changes, testing only the `:api` project is insufficient. You must test all projects that depend on the `:api` project.
 
-Thie `buildDependents` task tests ALL the projects that have been a project dependency (in the testRuntime configuration) on the specified project:
+The `buildDependents` task tests ALL the projects that have been a project dependency (in the testRuntime configuration) on the specified project:
 
 ```bash
 $ gradle :api:buildDependents
@@ -429,9 +429,9 @@ Gradle runs these phases in order:
 
 #### Example
 
-The following example shows which part of setting and build files correspond to various build phases:
+The following example shows which parts of settings and build files correspond to various build phases:
 
-`setting.gradle.kts`
+`settings.gradle.kts`
 
 ```kotlin
 rootProject.name = "basic"
@@ -489,7 +489,7 @@ BUILD SUCCESSFUL in 0s
 
 In the __initialization phase__, Gradle detects the set of projects (root and subprojects) and included builds participating in the build.
 
-Gradle first evaluates the settings file, `setting.gradle.kts`, and instantiates a `Settings` object. Then, Gradle instantiates `Project` instances for each project.
+Gradle first evaluates the settings file, `settings.gradle.kts`, and instantiates a `Settings` object. Then, Gradle instantiates `Project` instances for each project.
 
 ### Phase 2. Configuration
 

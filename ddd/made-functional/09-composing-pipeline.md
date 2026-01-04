@@ -42,7 +42,7 @@ fun UnvalidatedOrder.validateOrder(       // input
 }
 ```
 
-But if we want to make it clear that we are implementing a specific function type, we can write the function as a value annotated with the function type, and with the body of the function written as a lambda.
+But if we want to make it clear that we are implementing a specific function type, we can write the function as a value annotated with the function type, with the body of the function written as a lambda.
 
 ```kotlin
 // define a function signature
@@ -284,7 +284,7 @@ Original design of the pricing step function with effects:
 typealias PriceOrder = ValidatedOrder.(GetProductPrice) -> Either<PlaceOrderError, PricedOrder>
 ```
 
-Elimintate effects for now:
+Eliminate effects for now:
 
 ```kotlin
 typealias PriceOrder = ValidatedOrder.(GetProductPrice) -> PricedOrder

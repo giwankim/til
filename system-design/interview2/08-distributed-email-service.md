@@ -38,13 +38,13 @@ The most popular protocols for retrieving emails are known as Post Office Protoc
 
 __POP__ is a standard mail protocol to receive and download emails from a remote mail server to a local email client. Once emails are downloaded to your computer or phone, they are deleted from the email server. The details are covered in [RFC 1939](http://www.faqs.org/rfcs/rfc1939.html). POP requires mail clients to download the entire email. This can take a long time if an email contains a large attachment.
 
-__IMAP__ is also standard mail protocol for receiving emails for a local email client. When you read an email, you are connected to an external mail server, and data is transferred to your local device. IMAP only downloads a message when you click it, and emails are not deleted from mail servers, meaning tht you can access emails from multiple devices.
+__IMAP__ is also standard mail protocol for receiving emails for a local email client. When you read an email, you are connected to an external mail server, and data is transferred to your local device. IMAP only downloads a message when you click it, and emails are not deleted from mail servers, meaning that you can access emails from multiple devices.
 
 __HTTPS__ is not technically a mail protocol, but it can be used to access your mailbox. For example, it's common for Microsoft Outlook to talk to mobile devices over HTTPS, on a custom-made protocol called ActiveSync.
 
 #### DNS
 
-A DNS server is used to look up the mail exchanger record (MX record) for the recipient's domain. If you run DNS lookup for gmail.com from the command line, you may bet MX records as shown:
+A DNS server is used to look up the mail exchanger record (MX record) for the recipient's domain. If you run DNS lookup for gmail.com from the command line, you may get MX records as shown:
 
 ![mx records](../../assets/system-design/interview2/dns-mx.png)
 
@@ -58,12 +58,12 @@ An email attachment is sent along with an email message, commonly with Base64 en
 
 #### Traditional mail server architecture
 
-The following figure describes what happens when Alice sends an email to Bob.
+The figure below describes what happens when Alice sends an email to Bob.
 
 ![traditional mail servers](../../assets/system-design/interview2/traditional-mail-server.png)
 
 1. Alice logs into her Outlook client, composes an email, and presses "send." The email is sent to the Outlook mail server. The communication protocol between the Outlook client and mail server is SMTP.
-2. Outlook mail server queries the DNS to find the address of the recipient's SMTP server. Next, it transfer the email to the Gmail mail server. The communication protocol between the mail servers is SMTP.
+2. Outlook mail server queries the DNS to find the address of the recipient's SMTP server. Next, it transfers the email to the Gmail mail server. The communication protocol between the mail servers is SMTP.
 3. Gmail server stores the email and makes it available to Bob, the recipient.
 4. Gmail client fetches new emails through the IMAP/POP server when Bob logs in to Gmail.
 

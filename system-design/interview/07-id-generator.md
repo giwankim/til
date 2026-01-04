@@ -1,6 +1,6 @@
 # 7. Design a Unique ID Generator in Distributed Systems
 
-First thought might be to use a primary key with the *auto_increment* attribute in a traditional database. However, _auto\_increment_ does not work inn a distributed environment because generating unique IDs across multiple databases with minimal delay is challenging.
+First thought might be to use a primary key with the *auto_increment* attribute in a traditional database. However, _auto\_increment_ does not work in a distributed environment because generating unique IDs across multiple databases with minimal delay is challenging.
 
 # Step 1 - Understand the problem and establish design scope
 
@@ -38,7 +38,7 @@ The first approach is multi-master replication.
 
 MySQL multi-master replication is a database configuration where two or more MySQL servers (masters) simultaneously handle read and write operations, and replicate data changes to each other.
 
-This approach uses the databases' *auto_increment* feature. Instead of increasing next ID by 1, we increase it by k, where k is the number of database servers in use.
+This approach uses the databases' *auto_increment* feature. Instead of increasing the next ID by 1, we increase it by k, where k is the number of database servers in use.
 
 ### Cons
 
@@ -48,7 +48,7 @@ This approach uses the databases' *auto_increment* feature. Instead of increasin
 
 ## UUID
 
-UUID is 128-bit number used to identify information in computer systems. UUID has a very low probability of getting collision.
+UUID is 128-bit number used to identify information in computer systems. UUID has a very low probability of a collision.
 
 Here is an example of UUID: `dffef5c0-d6d2-4080-a78b-fa9f1d924a1a`.
 
@@ -82,7 +82,7 @@ Flickr developed ticket servers to generate distributed primary keys.
 
 ## Snowflake
 
-None of the above methods meet our specification. Twitter's unique ID generation system called "snowflake" can satisfy our requirements.
+None of the above methods meet our specifications. Twitter's unique ID generation system called "snowflake" can satisfy our requirements.
 
 ```mermaid
 ---

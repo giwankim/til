@@ -11,7 +11,7 @@ FROM eclipse-temurin:21
 WORKDIR workspace
 ARG JAR_FILE=build/libs/*.jar
 COPY ${JAR_FILE} catalog-service.jar
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "catalog-service.jar"]
 ```
 
 하지만 컨테이너 환경에서 압축된 uber jar를 그대로 사용하는 것은 성능에 안 좋은 영향을 끼칠 수 있고, 작성한 애플리케이션 코드와 모든 의존성들을 도커 이미지의 동일한
@@ -87,4 +87,4 @@ COPY --from=builder /builder/extracted/application/ ./
 ENTRYPOINT ["java", "-jar", "application.jar"]
 ```
 
-Multi-stage `Dockerfile`이고 builder 단계가 다음 단계에서 사용할 디렉토리들을 추출한다. 각 `COPY` 명령이 jarmode를 통해서 추출한 레이어와 연관되어 있다.
+Multi-stage `Dockerfile`이고 builder 단계가 다음 단계에서 사용할 디렉터리들을 추출한다. 각 `COPY` 명령이 jarmode를 통해서 추출한 레이어와 연관되어 있다.

@@ -1,6 +1,6 @@
 # Introduction
 
-Diagrams are useful conveying ideas and thoughts. It is useful for communication and even understanding the system architecture.
+Diagrams are useful for conveying ideas and thoughts. It is useful for communication and even understanding the system architecture.
 
 The book covers two main diagramming techniques: UML and C4 model.
 
