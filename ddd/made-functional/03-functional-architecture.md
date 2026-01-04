@@ -75,7 +75,30 @@ A workflow is always contained within a single bounded context and never impleme
 
 ### Workflow Inputs and Outputs
 
+Input to a workflow is always the data associated with a command, and the output is always a set of events to communicate to other contexts.
+
+But remember, that we have now determined that there is a "customer/supplier" relationship with the billing context.
+
+This means we will need to emit a new event (`BillableOrderPlaced`) from our workflow that might look something like this:
+
+```text
+data BillableOrderPlaced =
+    OrderId
+    AND BillingAddress
+    AND AmountToBill
+```
+
+![Workflow inputs and outputs](workflow-inputs-outputs.png)
+
+In the preceding diagram, a workflow function does not "publish" Domain Events--it simply returns them.
+
 ### Avoid Domain Events Within a Bounded Context
+
+In OOP design, it is common to have Domain Events raised internally within a bounded context. In that approach, a workflow object raises an event, then a handler listens for that event and processes it, then sends another event.
+
+In a functional design, we prefer not to use this approach because it creates hidden dependencies. Instead, if we need a "listener" for an event, we just append it to the end of the workflow like this:
+
+![Avoid Domain Events within a Bounded Context](avoid-domain-events-within-bounded-context.png)
 
 ## Code Structure Within a Bounded Context
 
