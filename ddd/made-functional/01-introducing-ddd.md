@@ -29,6 +29,7 @@ workflows.
 ### Expanding the Events to the Edges
 
 > [!NOTE]
+>
 > - A *scenario* describes a goal that a customer wants to achieve. Similar to a "story" in agile
     development. A *use case* is a more detailed version of a scenario, which describes the user
     interactions and other steps that the user needs to take to accomplish a goal.
@@ -56,7 +57,7 @@ smaller part of a larger domain.
 
 ## Bounded Contexts
 
-We need a distinction between a "problem space" and a "solution space." To build the solution we
+We need a distinction between a "problem space" and a "solution space." To build the solution, we
 will create a *model* of the problem domain, extracting only the aspects of the domain that are
 relevant and then re-creating them in our solution space.
 
@@ -93,7 +94,7 @@ Some domains are more important than others. These are the *core* domains--the o
 business advantage, the ones that bring in the money.
 
 Other domains may be required but are not core. These are called *supportive* domains, and if they
-are not unique to the business they are called *generic* domains.
+are not unique to the business, they are called *generic* domains.
 
 ## Ubiquitous Language
 
