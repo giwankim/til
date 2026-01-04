@@ -15,7 +15,6 @@
 ## DDD
 
 - [Domain Modeling Made Functional](https://pragprog.com/titles/swdddf/domain-modeling-made-functional)
-
   - [1. Introduction DDD](ddd/made-functional/01-introducing-ddd.md)
   - [2. Understanding the Domain](ddd/made-functional/02-understanding-domain.md)
   - [3. Functional Architecture](ddd/made-functional/03-functional-architecture.md)
@@ -28,7 +27,7 @@
 
 ## Diagram
 
-- [Creating Sofware with Modern Diagramming Techniques](https://pragprog.com/titles/apdiag/creating-software-with-modern-diagramming-techniques/)
+- [Creating Software with Modern Diagramming Techniques](https://pragprog.com/titles/apdiag/creating-software-with-modern-diagramming-techniques/)
   - [0. Introduction](diagram/mermaid/00-intro.md)
   - [1. Document your Domain](diagram/mermaid/01-document-domain.md)
   - [2. Enhance your Domain Model](diagram/mermaid/02-enhance-domain.md)
@@ -48,6 +47,10 @@
   - Part 3: Transactional data processing
     - [10. Managing data](jpa/java-persistence/10-managing-data.md)
     - [11. Transactions and concurrency](jpa/java-persistence/11-transactions-and-concurrency.md)
+
+## Kafka
+
+- [Learn Apache Kafka for Beginners v3 (Udemy)](kafka/udemy/learn-apache-kafka-for-beginners-v3.md)
 
 ## Kotlin
 
@@ -80,7 +83,7 @@
     - [3 - Bad Smells in Code](https://github.com/giwankim/refactoring/blob/main/docs/ch03.md)
     - [4 - Building Tests](https://github.com/giwankim/refactoring/blob/main/docs/ch04.md)
     - [7 - Encapsulation](https://github.com/giwankim/refactoring/blob/main/docs/ch07.md)
-    - [8 - Moving Feautres](https://github.com/giwankim/refactoring/blob/main/docs/ch08.md)
+    - [8 - Moving Features](https://github.com/giwankim/refactoring/blob/main/docs/ch08.md)
     - [9 - Organizing Data](https://github.com/giwankim/refactoring/blob/main/docs/ch09.md)
 
 ## Spring
@@ -127,4 +130,4 @@
 
 ## 잡담
 
-- [원영적 사고와 에자일](etc/lucky-vicky.md)
+- [원영적 사고와 애자일](etc/lucky-vicky.md)
