@@ -132,7 +132,21 @@ New states can be added without breaking existing code.
 
 ## 7.4 Modeling Each Step in the Workflow with Types
 
+### 7.4.1 Validation Step
+
+### 7.4.2 Pricing Step
+
+### 7.4.3 Acknowledge Order Step
+
+### 7.4.4 Creating Events to Return
+
 ## 7.5 Documenting Effects
+
+### 7.5.1 Effects in the Validation Step
+
+### 7.5.2 Effects in the Pricing Step
+
+### 7.5.3 Effects in the Acknowledge Step
 
 ## 7.6 Composing the Workflow from the Steps
 
@@ -141,3 +155,17 @@ New states can be added without breaking existing code.
 ## 7.8 The Complete Pipeline
 
 ## 7.9 Long-Running Workflows
+
+We're expecting that even though there are calls to remote systems, the pipeline will complete within a short time.
+
+But what if these external services took much longer to complete?
+
+First, we would need to save the state into storage before calling a remote service, then we'd wait for a message telling us that the service had finished, and then we'd have to reload the state from storage and continue on with the next step in the workflow.
+
+![long-running workflows](long-running-workflows.png)
+
+This is where the state machine model is a valuable framework for thinking about the system. The mini-workflow transitions the order from the original state to a new state, and at the end, the new state is saved back to storage again.
+
+These kinds of long-running workflows are sometimes called *Sagas*.
+
+If the number of events and states increases and the transitions get complicated, you may need to create a *Process Manager*, which is in charge of handling incoming messages, determining what action should be taken based on the current state, and then triggering the appropriate workflow.
