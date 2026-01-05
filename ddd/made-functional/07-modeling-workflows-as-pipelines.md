@@ -1,6 +1,6 @@
 # 7. Modeling Workflows as Pipelines
 
-Domain model order-placing workflow using types.
+Modeling an order-placing workflow using types.
 
 Here's the summary of the "Place Order" workflow:
 
@@ -44,7 +44,7 @@ data class UnvalidatedOrder(
 
 ### 7.1.1 Commands as Input
 
-In some sense then, the *real* input for the workflow is not actually the order form but the command.
+In some sense, then, the *real* input for the workflow is not actually the order form but the command.
 
 ```kotlin
 data class PlaceOrder(
@@ -97,7 +97,38 @@ The choice type would be mapped to a DTO and serialized and deserialized on the 
 
 ## 7.2 Modeling an Order as a Set of States
 
+`Order` isn't just a static document but actually transitions through a series of different states:
+
+![Order states](order-states.png)
+
+A naive approach would be to create a single record type that captures all the different states with flags.
+
+But this approach has problems:
+
+- States are implicit and would require lots of conditional code to be handled.
+- Some states have data that is not needed in other states.
+- It's not clear which fields go with which flags.
+
+Create a new type for each state of the order:
+
+```kotlin
+sealed interface Order
+class UnvalidatedOrder(...) : Order
+class ValidatedOrder(...) : Order
+class PricedOrder(...) : Order
+```
+
+This is the object that represents the order at any time in its lifecycle, and it is the type that can be persisted to storage or communicated to other contexts.
+
+### 7.2.1 Adding New State Types as Requirements Change
+
+New states can be added without breaking existing code.
+
 ## 7.3 State Machines
+
+### 7.3.1 Why Use State Machines?
+
+### 7.3.2 How to Implement Simple State Machines
 
 ## 7.4 Modeling Each Step in the Workflow with Types
 
