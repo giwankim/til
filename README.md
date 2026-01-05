@@ -21,7 +21,7 @@
   - [4. Understanding Types](ddd/made-functional/04-understanding-types.md)
   - [5. Domain Modeling with Types](ddd/made-functional/05-domain-modeling-with-types.md)
   - [6. Integrity and Consistency in the Domain](ddd/made-functional/06-integrity-consistency.md)
-  - Modeling Workflows as Pipelines
+  - [7. Modeling Workflows as Pipelines](ddd/made-functional/07-modeling-workflows-as-pipelines.md)
   - [8. Understanding Functions](ddd/made-functional/08-understanding-functions.md)
   - [9. Implementation: Composing a Pipeline](ddd/made-functional/09-composing-pipeline.md)
 
