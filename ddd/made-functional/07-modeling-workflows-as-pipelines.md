@@ -308,6 +308,45 @@ typealias AcknowledgeOrder = PricedOrder.(CreateOrderAcknowledgementLetter, Send
 
 ### 7.4.4 Creating Events to Return
 
+We still need to create the `OrderPlaced` event (for shipping) and the `BillableOrderPlaced` event (for billing).
+
+```kotlin
+data class OrderPlaced(
+    val orderId: OrderId,
+    val customerInfo: CustomerInfo,
+    val shippingAddress: Address,
+    val billingAddress: Address,
+    val amountToBill: BillingAmount,
+    val lines: List<PricedOrderLine>,
+)
+
+data class BillableOrderPlaced(
+    val orderId: OrderId,
+    val billingAddress: Address,
+    val amountToBill: BillingAmount,
+)
+```
+
+To actually return the events, we could create a special type to hold them, but it's highly likely that we'll be adding new events to this workflow over time, and defining a special record type like this makes it harder to change.
+
+Instead, why don't we say that the workflow returns a *list* of events, where an event can be one of `OrderPlaced`, `BillableOrderPlaced`, or `OrderAcknowledgmentSent`.
+
+That is, we'll define an `OrderPlacedEvent` that's a choice type like this:
+
+```kotlin
+sealed interface PlaceOrderEvent {
+    data class OrderPlaced(...): PlaceOrderEvent
+    data class BillableOrderPlaced(...): PlaceOrderEvent
+    data class OrderAcknowledgmentSent(...): PlaceOrderEvent
+}
+```
+
+And then the final step of the workflow will emit a list of these events:
+
+```kotlin
+typealias CreateEvents = (PricedOrder) -> List<PlaceOrderEvent>
+```
+
 ## 7.5 Documenting Effects
 
 ### 7.5.1 Effects in the Validation Step
