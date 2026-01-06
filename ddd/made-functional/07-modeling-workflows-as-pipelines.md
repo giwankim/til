@@ -242,7 +242,69 @@ The pricing function itself will then look like this:
 typealias PriceOrder = ValidatedOrder.(GetProductPrice) -> PricedOrder
 ```
 
+The function always succeeds, so there's no need to return an `Either` type.
+
 ### 7.4.3 Acknowledge Order Step
+
+The next step creates an acknowledgment letter and sends it to the customer.
+
+```kotlin
+@JvmInline
+value class HtmlString(val value: String)
+
+data class OrderAcknowledgement(
+    val emailAddress: EmailAddress,
+    val letter: HtmlString
+)
+```
+
+We'll assume that a service function will generate the content for us and that all we have to do is give it a `PricedOrder`.
+
+```kotlin
+typealias CreateOrderAcknowledgementLetter = PricedOrder -> HtmlString
+```
+
+Once we have the letter, we need to send it. Should we call some sort of API directly, or write the acknowledgement to a message queue, or what?
+
+We can punt on the exact implementation and just focus on the interface we need.
+
+```kotlin
+typealias SendOrderAcknowledgement = (OrderAcknowledgement) -> Unit
+```
+
+With this design we can't tell if the acknowledgement was sent.
+
+```kotlin
+typealias SendOrderAcknowledgement = (OrderAcknowledgement) -> Boolean
+```
+
+Booleans are generally a bad choice in a design, though.
+
+```kotlin
+enum class SendResult {
+    Sent,
+    NotSent,
+}
+
+typealias SendOrderAcknowledgement = (OrderAcknowledgement) -> SendResult
+```
+
+Or perhaps we should have the service (optionally) return the `OrderAcknowledgement` event itself? If we do that, though, we have created a coupling between our domain and the service via the event type.
+
+Finally, what should the output of this "Acknowledge Order" step be? Let's define that event type now:
+
+```kotlin
+data class OrderAcknowledgementSent(
+    val orderId: OrderId,
+    val emailAddress: EmailAddress,
+)
+```
+
+And finally, we can put all of this together to define the function type for this step:
+
+```kotlin
+typealias AcknowledgeOrder = PricedOrder.(CreateOrderAcknowledgementLetter, SendOrderAcknowledgement) -> OrderAcknowledgementSent?
+```
 
 ### 7.4.4 Creating Events to Return
 
