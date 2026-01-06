@@ -44,7 +44,7 @@ data class UnvalidatedOrder(
 
 ### 7.1.1 Commands as Input
 
-In some sense, then, the *real* input for the workflow is not actually the order form but the command.
+In some sense, the *real* input for the workflow is the command, not the order form.
 
 ```kotlin
 data class PlaceOrder(
@@ -126,15 +126,121 @@ New states can be added without breaking existing code.
 
 ## 7.3 State Machines
 
+In the previous section, we converted a single type with flags into a set of separate types.
+
+These kinds of situations are extremely common in business modeling scenarios. Let's look at using "states" as a general domain modeling tool.
+
 ### 7.3.1 Why Use State Machines?
 
+- Each state can have different allowable behavior.
+- All the states are explicitly documented.
+- It is a design tool that forces you to think about every possibility that could occur.
+
 ### 7.3.2 How to Implement Simple State Machines
+
+Complex state machines, used in language parsers and so on, are generated from rule sets or grammars and are quite complicated to implement. But the simple business-oriented state machines can be coded manually.
+
+Make each state have its own type, which stores the data that is relevant to that state. The entire set of states can then be represented by a choice type with a case for each state. Here's an example using the shopping cart state machine:
+
+![Shopping cart state machine](shopping-cart-state-machine.png)
+
+```kotlin
+class Item(...)
+
+sealed interface ShoppingCart {
+    data class Active(val unpaidItems: List<Item>): ShoppingCart
+    data class Paid(val paidItems: List<Item>, val payment: BigDecimal): ShoppingCart
+    data object Empty: ShoppingCart
+}
+```
+
+A command handler is then represented by a function that accepts the entire state machine (the choice type) and returns a new version of it (the updated choice type). The state transition function `addItem` takes a `ShoppingCart` parameter and the item to add:
+
+```kotlin
+fun ShoppingCart.addItem(item: Item): ShoppingCart {
+    return when (this) {
+        is ShoppingCart.Empty -> ShoppingCart.Active(listOf(item))              // create a new active cart with one item
+        is ShoppingCart.Active -> ShoppingCart.Active(unpaidItems + item)       // create a new active cart with the item added
+        is ShoppingCart.Paid -> this                                            // ignore
+    }
+}
+```
+
+The state transition function `makePayment` takes a `ShoppingCart` parameter and the payment information:
+
+```kotlin
+fun ShoppingCart.makePayment(payment: Payment): ShoppingCart {
+    return when (this) {
+        is ShoppingCart.Active -> ShoppingCart.Paid(unpaidItems, payment) // create a new paid cart with the payment
+        else -> this                                                      // ignore
+    }
+}
+```
 
 ## 7.4 Modeling Each Step in the Workflow with Types
 
 ### 7.4.1 Validation Step
 
+We documented the "ValidateOrder" substep like this:
+
+```text
+substep "ValidateOrder"
+    input: UnvalidatedOrder
+    output: ValidatedOrder OR ValidationError
+    dependencies: CheckProductCodeExists, CheckAddressExists
+```
+
+We will treat dependencies as functions. The type signature of the function will become the "interface" that we need to implement later.
+
+```kotlin
+typealias CheckProductCodeExists = (ProductCode) -> Boolean
+```
+
+We need a function that takes an `UnvalidatedAddress` and returns a corrected address if valid, or some kind of validation error if the address is not valid.
+
+We also want to distinguish between a "checked address" and our `Address` domain object. For now, we might just say that a `CheckedAddress` is just a wrapped version of an `UnvalidatedAddress`:
+
+```kotlin
+@JvmInline
+value class CheckedAddress(val value: UnvalidatedAddress)
+```
+
+The service then takes an `UnvalidatedAddress` as input and returns `Either` type with `CheckedAddress` value for the success case or an `AddressValidationError` value for the failure case:
+
+```kotlin
+typealias CheckAddressExists = (UnvalidatedAddress) -> Either<AddressValidationError, CheckedAddress>
+```
+
+We can now define the `ValidateOrder` step.
+
+```kotlin
+object AddressValidationError : ValidationError
+
+typealias ValidateOrder = UnvalidatedOrder.(CheckProductCodeExists, CheckAddressExists) -> Either<ValidationError, ValidatedOrder>
+```
+
+Overall return value of the function must be a `Either` type because one of the dependencies returns a `Either` type. When `Either` is used, it "contaminates" all it touches, and the "result-ness" needs to be passed up until we get to a top-level function that handles it.
+
 ### 7.4.2 Pricing Step
+
+```text
+substep "PriceOrder"
+    input: ValidatedOrder
+    output: PricedOrder
+    dependencies: GetProductPrice
+```
+
+```kotlin
+typealias GetProductPrice = (ProductCode) -> Price
+```
+
+The `PriceOrder` function needs information from the product catalog, but instead of passing some sort of heavyweight `IProductCatalog` interface to it, we'll just pass a *function* that represents exactly what we need from the product catalog. That is `GetProductPrice` acts as an abstraction.
+
+The pricing function itself will then look like this:
+
+```kotlin
+typealias PriceOrder = ValidatedOrder.(GetProductPrice) -> PricedOrder
+```
 
 ### 7.4.3 Acknowledge Order Step
 
@@ -154,17 +260,19 @@ New states can be added without breaking existing code.
 
 ## 7.8 The Complete Pipeline
 
+### 7.8.1 The Internal Steps
+
 ## 7.9 Long-Running Workflows
 
-We're expecting that even though there are calls to remote systems, the pipeline will complete within a short time.
+We expect that, even though there are calls to remote systems, the pipeline will complete within a short time.
 
 But what if these external services took much longer to complete?
 
-First, we would need to save the state into storage before calling a remote service, then we'd wait for a message telling us that the service had finished, and then we'd have to reload the state from storage and continue on with the next step in the workflow.
+First, we would need to save the state into storage before calling a remote service. Then, we'd wait for a message indicating the service has finished, reload the state from storage, and continue with the next step in the workflow.
 
 ![long-running workflows](long-running-workflows.png)
 
-This is where the state machine model is a valuable framework for thinking about the system. The mini-workflow transitions the order from the original state to a new state, and at the end, the new state is saved back to storage again.
+This is where the state machine model is a valuable framework for thinking about the system. The mini-workflow transitions the order from the original state to a new state and, at the end, the new state is saved back to storage.
 
 These kinds of long-running workflows are sometimes called *Sagas*.
 
