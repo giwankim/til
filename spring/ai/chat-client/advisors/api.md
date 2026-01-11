@@ -38,46 +38,46 @@ classDiagram
 
     %% Base request/response classes
     class ChatClientRequest {
-        +prompt: Prompt
-        +context: Map<String, Obj>
+        +prompt Prompt
+        +context Map~String, Any~
     }
     class ChatClientResponse {
-        +chatResponse: ChatResponse
-        +context: Map<String, Obj>
+        +chatResponse ChatResponse
+        +context Map~String, Any~
     }
 
     %% Ordered interface
     class Ordered {
-        +getOrder(): int
+        +getOrder() int
     }
 
     %% Advisor base class implements Ordered
     class Advisor {
-        +getName(): String
+        +getName() String
     }
     Advisor --|> Ordered
 
     %% Concrete advisors extending Advisor
     class CallAdvisor {
-        +adviseCall(ChatClientRequest, CallAdvisorChain): ChatClientResponse
+        +adviseCall(ChatClientRequest, CallAdvisorChain) ChatClientResponse
     }
     class StreamAdvisor {
-        +adviseStream(ChatClientRequest, StreamAdvisorChain): Flux<ChatClientResponse>
+        +adviseStream(ChatClientRequest, StreamAdvisorChain) Flux~ChatClientResponse~
     }
     CallAdvisor --|> Advisor
     StreamAdvisor --|> Advisor
 
     %% Advisor chains and aggregation relationships
     class CallAdvisorChain {
-        +nextCall(ChatClientRequest): ChatClientResponse
+        +nextCall(ChatClientRequest) ChatClientResponse
     }
     class StreamAdvisorChain {
-        +nextStream(ChatClientRequest): Flux<ChatClientResponse>
+        +nextStream(ChatClientRequest) Flux~ChatClientResponse~
     }
 
     %% A CallAdvisorChain aggregates zero or more CallAdvisor instances
-    CallAdvisorChain "1" o-- "0..*" CallAdvisor
+    CallAdvisorChain o--> "0..*" CallAdvisor
 
     %% A StreamAdvisorChain aggregates zero or more StreamAdvisor instances
-    StreamAdvisorChain "1" o-- "0..*" StreamAdvisor
+    StreamAdvisorChain o--> "0..*" StreamAdvisor
 ```
