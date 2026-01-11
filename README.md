@@ -88,6 +88,11 @@
 
 ## Spring
 
+- Spring AI
+  - Chat Client API
+    - [Advisors](spring/ai/chat-client/advisors/api.md)
+- Spring Boot 4.x
+  - [Core Spring Resilience Features: @ConcurrencyLimit, @Retryable, and RetryTemplate](spring/4.0/resilience.md)
 - [효율적인 도커 이미지를 위한 Dockerfile](spring/dockerfiles.md)
 - Spring Security
   - [Features](spring/features.md)
