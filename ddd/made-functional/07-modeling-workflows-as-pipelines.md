@@ -219,7 +219,7 @@ object AddressValidationError : ValidationError
 typealias ValidateOrder = UnvalidatedOrder.(CheckProductCodeExists, CheckAddressExists) -> Either<ValidationError, ValidatedOrder>
 ```
 
-Overall return value of the function must be a `Either` type because one of the dependencies returns a `Either` type. When `Either` is used, it "contaminates" all it touches, and the "result-ness" needs to be passed up until we get to a top-level function that handles it.
+The overall return value of the function must be an `Either` type because one of the dependencies returns an `Either` type. When `Either` is used, it "contaminates" all it touches, and the "result-ness" needs to be passed up until we get to a top-level function that handles it.
 
 ### 7.4.2 Pricing Step
 
@@ -234,7 +234,7 @@ substep "PriceOrder"
 typealias GetProductPrice = (ProductCode) -> Price
 ```
 
-The `PriceOrder` function needs information from the product catalog, but instead of passing some sort of heavyweight `IProductCatalog` interface to it, we'll just pass a *function* that represents exactly what we need from the product catalog. That is `GetProductPrice` acts as an abstraction.
+The `PriceOrder` function needs information from the product catalog, but instead of passing some sort of heavyweight `IProductCatalog` interface to it, we'll just pass a *function* that represents exactly what we need from the product catalog. That is, `GetProductPrice` acts as an abstraction.
 
 The pricing function itself will then look like this:
 
@@ -272,7 +272,7 @@ We can punt on the exact implementation and just focus on the interface we need.
 typealias SendOrderAcknowledgement = (OrderAcknowledgement) -> Unit
 ```
 
-With this design we can't tell if the acknowledgement was sent.
+With this design, we can't tell if the acknowledgement was sent.
 
 ```kotlin
 typealias SendOrderAcknowledgement = (OrderAcknowledgement) -> Boolean
@@ -329,7 +329,7 @@ data class BillableOrderPlaced(
 
 To actually return the events, we could create a special type to hold them, but it's highly likely that we'll be adding new events to this workflow over time, and defining a special record type like this makes it harder to change.
 
-Instead, why don't we say that the workflow returns a *list* of events, where an event can be one of `OrderPlaced`, `BillableOrderPlaced`, or `OrderAcknowledgmentSent`.
+Instead, why don't we say that the workflow returns a *list* of events, where an event can be one of `OrderPlaced`, `BillableOrderPlaced`, or `OrderAcknowledgementSent`.
 
 That is, we'll define an `OrderPlacedEvent` that's a choice type like this:
 
@@ -337,7 +337,7 @@ That is, we'll define an `OrderPlacedEvent` that's a choice type like this:
 sealed interface PlaceOrderEvent {
     data class OrderPlaced(...): PlaceOrderEvent
     data class BillableOrderPlaced(...): PlaceOrderEvent
-    data class OrderAcknowledgmentSent(...): PlaceOrderEvent
+    data class OrderAcknowledgementSent(...): PlaceOrderEvent
 }
 ```
 
@@ -349,13 +349,72 @@ typealias CreateEvents = (PricedOrder) -> List<PlaceOrderEvent>
 
 ## 7.5 Documenting Effects
 
+Let's quickly revisit all our dependencies and double-check if we need to be explicit about any effects like this.
+
 ### 7.5.1 Effects in the Validation Step
+
+Let's assume `CheckProductCodeExists` can neither return an error nor is it a remote call.
+
+On the other hand, we know that `CheckAddressExists` function is calling a remote service, so it should have an async effect as well as an error effect.
+
+```kotlin
+typealias CheckAddressExists = suspend (UnvalidatedAddress) -> Either<AddressValidationError, CheckedAddress>
+```
+
+It is now clear from the type signature that the `CheckAddressExists` function is doing I/O and that it might fail.
+
+Just as with `Either`, the `suspend` effect is contagious for any code containing it. So changing `CheckAddressExists` to return async with errors means we must change the whole `ValidateOrder` function to return async with errors as well.
+
+```kotlin
+typealias ValidateOrder = suspend UnvalidatedOrder   // input
+    .(CheckProductCodeExists, CheckAddressExists)    // (dependency, async dependency)
+    -> Either<List<ValidationError>, ValidatedOrder> // output
+```
 
 ### 7.5.2 Effects in the Pricing Step
 
+The pricing step has only one dependency: `GetProductPrice`. We'll assume that the product catalog is local, so there is no async effect, nor can accessing it return an error.
+
+However, the `PriceOrder` step might well return an error. For example, an item may have been mispriced, and so the overall amount to bill is very large (or negative).
+
+```kotlin
+@JvmInline
+value class PricingError(val value: String): PlaceOrderError
+
+typealias PriceOrder = ValidatedOrder.(GetProductPrice) -> Either<PricingError, PricedOrder>
+```
+
 ### 7.5.3 Effects in the Acknowledge Step
 
+The `AcknowledgeOrder` step has two dependencies: `CreateOrderAcknowledgementLetter` and `SendOrderAcknowledgement`.
+
+We'll assume that the letter creation is local, so it does not have any effects that need to be documented in the type signature.
+
+On the other hand, we know that `SendOrderAcknowledgement` will be doing I/O, so it needs an async effect. Even if there is an error, we want to ignore it and continue on the happy path.
+
+```kotlin
+typealias SendOrderAcknowledgement = suspend (OrderAcknowledgement) -> SendResult
+```
+
+```kotlin
+typealias AcknowledgeOrder = suspend PricedOrder
+    .(CreateOrderAcknowledgementLetter, SendOrderAcknowledgement)
+    -> OrderAcknowledgementSent?
+```
+
 ## 7.6 Composing the Workflow from the Steps
+
+Let's look at the definitions of all the steps in one place, with the dependencies removed so that only the inputs and outputs are listed.
+
+```kotlin
+typealias ValidateOrder = suspend UnvalidatedOrder.() -> Either<List<ValidationError>, ValidatedOrder>
+
+typealias PriceOrder = ValidatedOrder.() -> Either<PricingError, PricedOrder>
+
+typealias AcknowledgeOrder = suspend PricedOrder.() -> OrderAcknowledgementSent?
+
+typealias CreateEvents = PricedOrder.() -> List<PlaceOrderEvent>
+```
 
 ## 7.7 Are Dependencies Part of the Design?
 
