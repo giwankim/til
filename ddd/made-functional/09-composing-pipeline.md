@@ -4,10 +4,15 @@ The workflow can be thought of as a series of document transformations--a pipeli
 
 - Start with an `UnvalidatedOrder` and convert it into a `ValidatedOrder`, returning an error if the validation fails.
 - Take the output of the validation step (a `ValidatedOrder`) and turn it into a `PricedOrder` by adding some extra information.
-- Take the output of the pricing step, create an acknowledgment letter from it, and send it.
+- Take the output of the pricing step, create an acknowledgement letter from it, and send it.
 - Create a set of events representing what happened and return them.
 
-## Working with Simple Types
+Functions can't be composed for two reasons:
+
+- Some functions have extra parameters that aren't part of the data pipeline--we called these "dependencies."
+- The second reason is explicitly indicated "effects," which means that functions with effects in their output cannot be directly connected to other functions.
+
+## 9.1 Working with Simple Types
 
 For each simple type, we'll need at least two functions:
 
@@ -16,7 +21,7 @@ For each simple type, we'll need at least two functions:
 
 ```kotlin
 @JvmInline
-value class OrderId(val value: String) {
+value class OrderId private constructor(val value: String) {
     companion object {
         operator fun invoke(str: String): OrderId {
             require(str.isNotEmpty()) { "OrderId must not be null or empty" }
@@ -27,7 +32,7 @@ value class OrderId(val value: String) {
 }
 ```
 
-## Using Function Types to Guide the Implementation
+## 9.2 Using Function Types to Guide the Implementation
 
 We defined special function types to represent each step of the workflow. How can we ensure that our code conforms to them?
 
@@ -53,9 +58,11 @@ val validateOrder: ValidateOrder = { checkProduct, checkAddress ->
 }
 ```
 
-## Implementing the Validation Step
+All the parameters and the return value have types determined by the function type, so if you make a mistake, you get an error right away, rather than later when you are trying to assemble the function.
 
-The validation step will take the unvalidated order and transform it into a fully validated domain object.
+## 9.3 Implementing the Validation Step
+
+The validation step will take the unvalidated order with all its primitive fields, and transform it into a fully validated domain object.
 
 We modeled the function types for this step like this:
 
@@ -64,10 +71,12 @@ typealias CheckAddressExists = suspend (UnvalidatedAddress) ->
     Either<AddressValidationError, CheckedAddress>
 
 typealias ValidateOrder = suspend UnvalidatedOrder.(
-    CheckAddressExists,
-    CheckProductCodeExists
-) -> ValidatedOrder
+    CheckAddressExists,    // async, error dependency
+    CheckProductCodeExists // dependency
+) -> Either<List<ValidationError>, ValidatedOrder>
 ```
+
+We'll eliminate effects for this chapter.
 
 The steps to create a `ValidatedOrder` from an `UnvalidatedOrder` will be as follows:
 
@@ -123,7 +132,7 @@ fun UnvalidatedCustomerInfo.toCustomerInfo(): CustomerInfo {
 }
 ```
 
-### Valid, Checked Address
+### 9.3.1 Valid, Checked Address
 
 The `toAddress` function is a bit more complex since it also has to check that the address exists (using the `CheckAddressExists` service).
 
@@ -164,7 +173,7 @@ val validateOrder: ValidateOrder = { checkProductCodeExists, checkAddressExists 
 }
 ```
 
-### Order Lines
+### 9.3.2 Order Lines
 
 Creating the list of order lines is even more complex. First, we need to transform a single `UnvalidatedOrderLine` to a `ValidatedOrderLine`.
 
@@ -219,7 +228,7 @@ fun String.toProductCode(checkProductCodeExists: CheckProductCodeExists): Produc
 
 But now we have a problem. We want the `toProductCode` function to return a `ProductCode`, but it returns a `Boolean`. We need to find a way to make `checkProductCodeExists` return a `ProductCode` instead.
 
-### Function Adapters
+### 9.3.3 Function Adapters
 
 Rather than changing the spec, let's create an "adapter" function that takes the original function as input and emits a new function with the right "shape" to be used in the pipeline.
 
@@ -239,7 +248,7 @@ fun <T> T.predicateToPassthru(f: (T) -> Boolean): T {
 }
 ```
 
-And now the hard-coded error message sticks out, so let's parametrize that too:
+And now the hard-coded error message sticks out, so let's parameterize that too:
 
 ```kotlin
 fun <T> T.predicateToPassthru(errorMsg: String, f: (T) -> Boolean): T {
@@ -276,7 +285,7 @@ fun String.toProductCode(checkProductCodeExists: CheckProductCodeExists): Produc
 
 Notice that the low-level validation logic, such as "a product must start with a W or a G," is not explicitly implemented in our validation functions but is built into the constructors of the constrained simple types, such as `OrderId` and `ProductCode`.
 
-## Rest of the Steps
+## 9.4 Rest of the Steps
 
 Original design of the pricing step function with effects:
 
@@ -308,22 +317,64 @@ val priceOrder: PriceOrder = { getProductPrice ->
 }
 ```
 
-If you have steps in the pipeline that you don't want to implement them yet, you can just throw a `NotImplementedError` with `TODO`:
+By the way, if you have many steps in the pipeline that you don't want to implement yet, you can just throw a `NotImplementedError` with `TODO`:
 
 ```kotlin
 fun priceOrder(): PriceOrder = TODO()
 ```
 
-### Acknowledgement Step
+Going back to the implementation of `priceOrder`, we've introduced two new helper functions: `toPricedOrderLine` and `BillingAmount.sumPrices`.
 
-### Events
+Why have we defined a `BillingAmount` type in the first place? It is distinct from a `Price`, and the validation rules might be different.
 
-### Creating the Events
+```kotlin
+@JvmInline
+value class BillingAmount private constructor(val value: BigDecimal) {
+    companion object {
+        operator fun invoke(v: BigDecimal): BillingAmount { ... }
+        fun sumPrices(prices: List<Price>): BillingAmount {
+            return invoke(prices.sumOf { it.value })
+        }
+    }
+}
+```
 
-## Composing the Pipeline Steps Together
+The `toPricedOrderLine` function is similar to what we've seen before. It's a helper function that converts a single line only:
 
-## Injecting Dependencies
+```kotlin
+val toPricedOrderLine: ValidatedOrderLine.(GetProductPrice) -> PricedOrderLine = { getProductPrice ->
+    val price = getProductPrice(this.productCode)
+    return PricedOrderLine(
+        this.orderLineId,
+        this.productCode,
+        this.quantity,
+        price.multiply(this.quantity),
+    )
+}
+```
 
-## Testing Dependencies
+And within this function, we've introduced another helper function `Price.multiply`, to multiply a `Price` by a quantity.
 
-## Assembled Pipeline
+```kotlin
+@JvmInline
+value class Price private constructor(val value: BigDecimal) {
+    ...
+    fun multiply(quantity: Double): Price {
+        return invoke(this.value * quantity.toBigDecimal())
+    }
+}
+```
+
+### 9.4.1 Acknowledgement Step
+
+### 9.4.2 Events
+
+### 9.4.3 Creating the Events
+
+## 9.5 Composing the Pipeline Steps Together
+
+## 9.6 Injecting Dependencies
+
+## 9.7 Testing Dependencies
+
+## 9.8 Assembled Pipeline
