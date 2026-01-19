@@ -4,7 +4,7 @@ The workflow can be thought of as a series of document transformations--a pipeli
 
 - Start with an `UnvalidatedOrder` and convert it into a `ValidatedOrder`, returning an error if the validation fails.
 - Take the output of the validation step (a `ValidatedOrder`) and turn it into a `PricedOrder` by adding some extra information.
-- Take the output of the pricing step, create an acknowledgement letter from it, and send it.
+- Take the output of the pricing step, create an acknowledgment letter from it, and send it.
 - Create a set of events representing what happened and return them.
 
 Functions can't be composed for two reasons:
@@ -306,7 +306,7 @@ val priceOrder: PriceOrder = { getProductPrice ->
     val pricedLines = this.lines.map { it.toPricedOrderLine(getProductPrice) }
     val linePrices = pricedLines.map { it.linePrice }
     val amountToBill = BillingAmount.sumPrices(linePrices)
-    return PricedOrder(
+    PricedOrder(
         this.orderId,
         this.customerInfo,
         this.shippingAddress,
@@ -344,7 +344,7 @@ The `toPricedOrderLine` function is similar to what we've seen before. It's a he
 ```kotlin
 val toPricedOrderLine: ValidatedOrderLine.(GetProductPrice) -> PricedOrderLine = { getProductPrice ->
     val price = getProductPrice(this.productCode)
-    return PricedOrderLine(
+    PricedOrderLine(
         this.orderLineId,
         this.productCode,
         this.quantity,
@@ -365,13 +365,107 @@ value class Price private constructor(val value: BigDecimal) {
 }
 ```
 
-### 9.4.1 Acknowledgement Step
+### 9.4.1 Acknowledgment Step
+
+Here's the design for the acknowledgment step, with effects removed:
+
+```kotlin
+@JvmInline
+value class HtmlString(val value: String)
+
+data class OrderAcknowledgment(
+    val emailAddress: EmailAddress,
+    val letter: HtmlString,
+): PlaceOrderEvent
+
+enum class SendResult { Sent, NotSent }
+
+typealias SendOrderAcknowledgment = (OrderAcknowledgment) -> SendResult
+
+typealias AcknowledgeOrder = PricedOrder
+    .(CreateOrderAcknowledgmentLetter, SendOrderAcknowledgment)
+    -> OrderAcknowledgmentSent?
+```
+
+And here's the implementation:
+
+```kotlin
+val acknowledgeOrder: AcknowledgeOrder = { createOrderAcknowledgmentLetter, sendOrderAcknowledgment ->
+    val letter = createOrderAcknowledgmentLetter(this)
+    val acknowledgment = OrderAcknowledgment(this.customerInfo.emailAddress, letter)
+    // if the acknowledgment was successfully sent,
+    // return the corresponding event, else return None
+    when(sendOrderAcknowledgment(acknowledgment)) {
+        SendResult.Sent -> OrderAcknowledgmentSent(
+            this.orderId,
+            this.customerInfo.emailAddress,
+        )
+        SendResult.NotSent -> null
+    }
+}
+```
 
 ### 9.4.2 Events
 
-### 9.4.3 Creating the Events
+Finally, we just need to create the events to be returned from the workflow. Billing event should only be sent when the billable amount is greater than zero.
+
+```kotlin
+sealed interface PlaceOrderEvent {
+// Event to send to shipping context
+
+// Event to send to billing context
+// Will only be created if the AmountToBill is not zero
+}
+```
 
 ## 9.5 Composing the Pipeline Steps Together
+
+We're ready to complete the workflow by composing the implementations of the steps into a pipeline. We want the code to look something like this:
+
+```kotlin
+val placeOrder: UnvalidatedOrder.() -> List<PlaceOrderEvent> = {
+    this.validateOrder()
+        .priceOrder()
+        .acknowledgeOrder()
+        .createEvents()
+}
+```
+
+But we have a problem, which is that `validateOrder` has two extra inputs in addition to `UnvalidatedOrder`. As it stands, there's no easy way to connect the input of the `PlaceOrder` workflow to the `validateOrder` function because the inputs and outputs don't match.
+
+`priceOrder` has two inputs, so it can't be connected to the output of `validateOrder` either.
+
+Composing functions with different "shapes" like this is one of the main challenges of FP. For now we'll use a very simple approach, which is to use *partial application*. What we'll do is apply just two of the three parameters to `validateOrder`, giving us a new function with only one input.
+
+We can bake in the dependencies to `priceOrder` and `acknowledgeOrder` in the same way.
+
+The main workflow function, `placeOrder`, would now look something like this:
+
+```kotlin
+val placeOrder: PlaceOrderWorkflow = {
+    this.validateOrder(checkProductCodeExists, checkAddressExists)
+        .priceOrder(getProductPrice)
+        .acknowledgeOrder(createOrderAcknowledgmentLetter, sendOrderAcknowledgment)
+        .createEvents()
+}
+```
+
+Sometimes, even by doing this, the functions don't fit together. In our case, the output of `acknowledgeOrder` is just the event, not the priced order, so it doesn't match the input of `createEvents`.
+
+We could write a little adapter for this, or we could simply switch to a more imperative style of code:
+
+```kotlin
+val placeOrder: PlaceOrderWorkflow = {
+    val pricedOrder = this.validateOrder(checkProductCodeExists, checkAddressExists)
+        .priceOrder(getProductPrice)
+    createEvents(
+        pricedOrder,
+        pricedOrder.acknowledgeOrder(createOrderAcknowledgmentLetter, sendOrderAcknowledgment)
+    )
+}
+```
+
+Next issue: Where do `checkProductCodeExists` and `checkAddressExists` and `getProductPrice` and the other dependencies come from? Let's look at how to "inject" these dependencies.
 
 ## 9.6 Injecting Dependencies
 
