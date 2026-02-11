@@ -52,7 +52,7 @@ Indicate a user is authenticated:
 
 ```kotlin
 val context: SecurityContext = SecurityContextHolder.createEmptyContext()
-val authentication: Authentication = TestingAthenticationToken("username", "password", "ROLE_USER")
+val authentication: Authentication = TestingAuthenticationToken("username", "password", "ROLE_USER")
 context.authentication = authentication
 
 SecurityContextHolder.setContext(context)
