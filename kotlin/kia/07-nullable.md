@@ -15,7 +15,7 @@ int strLen(String s) {
 }
 ```
 
-Do you expect the function to be called with a `null` argument? If you don't expect it to happen can declare this function in Kotlin as follows:
+Do you expect the function to be called with a `null` argument? If you don't expect it to happen, you can declare this function in Kotlin as follows:
 
 ```kotlin
 fun strLen(s: String) = s.length
@@ -45,6 +45,6 @@ Safe calls can be used for accessing properties as well, not just for method cal
 
 If you have an object graph in which multiple properties have nullable types, it's often convenient to use multiple safe calls in the same expression.
 
-## 7.5 Providing default values in null cases with the Elvis operator: ?
+## 7.5 Providing default values in null cases with the Elvis operator (`?:`)
 
 ## 7.8 Dealing with nullable expressions: The let function
