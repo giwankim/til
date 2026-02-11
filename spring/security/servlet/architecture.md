@@ -130,14 +130,14 @@ graph TD
     subgraph FilterChain
         direction TB
         Filter0[Filter₀]
-    
+
         subgraph DFP["DelegatingFilterProxy"]
             FCP["FilterChainProxy"]
         end
-    
+
         Filter2[Filter₂]
         Servlet[Servlet]
-    
+
         Filter0 <--> DFP
         DFP <--> Filter2
         Filter2 <--> Servlet
@@ -151,7 +151,7 @@ graph TD
         SF0_1[ ]
         SF0_2[ ]
         SF0_3[ ]
-        
+
         API --- SF0_1
         SF0_1 --- SF0_2
         SF0_2 --- SF0_3
@@ -164,7 +164,7 @@ graph TD
         SFN_2[ ]
         SFN_3[ ]
         SFN_4[ ]
-        
+
         Root --- SFN_1
         SFN_1 --- SFN_2
         SFN_2 --- SFN_3
@@ -229,7 +229,7 @@ The above configuration will result in the following `Filter` ordering:
 The list of filters is printed at DEBUG level on the application startup, so you can see something
 like the following:
 
-```
+```text
 2023-06-14T08:55:22.321-03:00  DEBUG 76975 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [ DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CsrfFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, DefaultLoginPageGeneratingFilter, DefaultLogoutPageGeneratingFilter, BasicAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter]
 ```
 
@@ -246,7 +246,7 @@ flowchart LR
     classDef orange fill:#f7a86a,stroke:#b25a13,color:#000;
     classDef blue fill:#162d6b,stroke:#0b1b49,color:#fff;
     classDef mini fill:#efefef,stroke:#bdbdbd,color:#333;
-    
+
     %% ---------- Security Filter Chain (left) ----------
     subgraph SFC[SecurityFilterChain]
     direction TB
@@ -258,11 +258,11 @@ flowchart LR
         pre1 <--> pre2 <--> ETF <--> post1 <--> post2
     end
     style SFC stroke:#9a9a9a,stroke-dasharray:5 5, rx: 6, ry: 6;
-    
+
     %% ---------- Decision & outcomes (right side) ----------
     ETF -- ① --> S1[Continue Processing<br/>Request Normally]
     S1 -- Security Exception --> DEC{ <br/> }
-    
+
     %% ② Start Authentication (bottom-left block)
     DEC -- ② --> SA
     subgraph SA[Start Authentication]
@@ -274,7 +274,7 @@ flowchart LR
     end
     style SA stroke: #9a9a9a, stroke-dasharray: 5 5, rx: 6, ry: 6;
     linkStyle 7,8 stroke:transparent;
-    
+
     %% ③ Access Denied (bottom-right block)
     subgraph ADH[Access Denied]
     direction TB
@@ -297,7 +297,7 @@ protection enabled without the CSRF token. With no logs, the user will see a 403
 explanation of why the request was rejected. However, if you enable logging for Spring Security, you
 will see a log message like this:
 
-```
+```text
 2023-06-14T09:44:25.797-03:00 DEBUG 76975 --- [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing POST /hello
 2023-06-14T09:44:25.797-03:00 TRACE 76975 --- [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Invoking DisableEncodeUrlFilter (1/15)
 2023-06-14T09:44:25.798-03:00 TRACE 76975 --- [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Invoking WebAsyncManagerIntegrationFilter (2/15)
@@ -311,7 +311,7 @@ will see a log message like this:
 
 To log all the security events, you can add the following:
 
-```
+```properties
 logging.level.org.springframework.security=TRACE
 ```
 

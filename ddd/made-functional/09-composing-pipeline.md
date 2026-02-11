@@ -266,9 +266,9 @@ OK, now let's use this generic function to create a new version of `toProductCod
 
 ```kotlin
 fun String.toProductCode(checkProductCodeExists: CheckProductCodeExists): ProductCode {
-    return this.let { 
+    return this.let {
             ProductCode(it)
-                .predicateToPassthru("Invalid: $it", checkProductCodeExists) 
+                .predicateToPassthru("Invalid: $it", checkProductCodeExists)
         }
 }
 ```

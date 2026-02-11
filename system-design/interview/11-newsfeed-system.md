@@ -6,26 +6,21 @@ __Candidate:__ Is this a mobile app? Or a web app, or both?
 
 __Interviewer:__ Both
 
-
 __Candidate:__ What are the important features?
 
 __Interviewer__: A user can publish a post and see their friends' posts on the newsfeed page.
-
 
 __Candidate:__ Is the newsfeed sorted by reverse chronological order or any particular order such as topic scores? For instance, posts from your close friends have higher scores.
 
 __Interviewer:__ To keep things simple, let's assume the feed is sorted in reverse chronological order.
 
-
 __Candidate:__ How many friends can a user have?
 
 __Interviewer:__ 5,000
 
-
 __Candidate:__ What is the traffic volume?
 
 __Interviewer:__ 10 million DAU
-
 
 __Candidate:__ Can the feed contain images or videos?
 
@@ -58,8 +53,6 @@ Params:
 - `auth_token`: used to authenticate API requests.
 
 #### Feed publishing
-
-
 
 #### Newsfeed building
 

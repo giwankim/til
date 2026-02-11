@@ -35,7 +35,7 @@ The application still has a _handle_—a reference to the instance we loaded. It
 
 ### 10.1.2 The persistent context
 
-In a Java Persistence application, an `EntityManager` has a persistence context. We create a persistent context when we call `EntityManagerFactory#createEntityManager()`. The context is closed when we call `EntityManager#close()`. In JPA terminology, this is an *application_managed* persistence context; our application defines the scope of the persistence context, demarcating the unit of work.
+In a Java Persistence application, an `EntityManager` has a persistence context. We create a persistent context when we call `EntityManagerFactory#createEntityManager()`. The context is closed when we call `EntityManager#close()`. In JPA terminology, this is an _application_managed_ persistence context; our application defines the scope of the persistence context, demarcating the unit of work.
 
 The persistence context monitors and manages all entities in the persistent state.
 

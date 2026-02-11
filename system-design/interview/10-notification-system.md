@@ -8,26 +8,21 @@ __Candidate:__ What type of notifications does the system support?
 
 __Interviewer:__ Push notification, SMS message, and email.
 
-
 __Candidate:__ Is it a real-time system?
 
 __Interviewer:__ Let's say it is a soft real-time system. We want users to receive notifications as soon as possible. However, if the system is under a high workload, a slight delay is acceptable.
-
 
 __Candidate:__ What are the supported devices?
 
 __Interviewer:__ iOS, android, laptop/desktop
 
-
 __Candidate:__ What triggers notifications?
 
 __Interviewer:__ Notification can be triggered by client applications. They can also be scheduled on the server-side.
 
-
 __Candidate:__ Will users be able to opt-out?
 
 __Interviewer:__ Yes, users who choose to opt-out will no longer receive notifications
-
 
 __Candidate:__ How many notifications are sent out each day?
 
@@ -44,6 +39,7 @@ We primarily need three components to send an iOS push notification:
 - Provider: A provider builds and sends notification requests to Apple Push Notification Service (APNS). To construct a push notification, the provider includes the following data:
   - Device token: This is a unique identifier used for sending push notifications.
   - Payload: This is a JSON object that contains the notification's payload. Here is an example:
+
     ```json
     {
       "aps": {
@@ -56,6 +52,7 @@ We primarily need three components to send an iOS push notification:
       }
     }
     ```
+
 - APNS: This is a remote service provided by Apple to propagate push notifications to iOS devices.
 - iOS Device: It is the end-client, which receives push notifications.
 

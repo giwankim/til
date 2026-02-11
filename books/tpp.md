@@ -20,7 +20,7 @@ A Pragmatic programmer has the following characteristics:
 
 > [!TIP]
 > Tip 1: Care about your craft
-
+>
 > [!TIP]
 > Tip 2: Think! About your work
 
@@ -91,7 +91,7 @@ Don't cause collateral damage just because there's a crisis of some sort.
 
 > [!TIP]
 > Tip 6: Be a Catalyst for Change
-
+>
 > [!TIP]
 > Tip 7: Remember the Big Picture
 
@@ -99,7 +99,7 @@ Don't cause collateral damage just because there's a crisis of some sort.
 
 ### Your Knowledge Portfolio
 
-### Communicate!
+### Communicate
 
 ## 2. A Pragmatic Approach
 
@@ -121,4 +121,4 @@ Don't cause collateral damage just because there's a crisis of some sort.
 
 ## 3. The Basic Tools
 
-[^1]: https://wiki.c2.com/?ChangeYourOrganization
+[^1]: <https://wiki.c2.com/?ChangeYourOrganization>

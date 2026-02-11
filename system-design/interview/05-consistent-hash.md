@@ -56,8 +56,8 @@ Most keys are redistributed, not just the ones originally stored in server 1. Th
 
 The basic steps of consistent hashing algorithm introduced by Karger et al. [^2] are:
 
-  - Map servers and keys onto the hash ring using a uniformly distributed hash function.
-  - To find out which server a key is mapped to, go clockwise from the key position until the first server on the ring is found.
+- Map servers and keys onto the hash ring using a uniformly distributed hash function.
+- To find out which server a key is mapped to, go clockwise from the key position until the first server on the ring is found.
 
 ### Hash space and hash ring
 
@@ -95,7 +95,7 @@ Consistent hashing is widely used in real-world systems, including
 - Akamai CDN
 - Maglev network load balancer
 
-[^1]: Consistent hashing: https://en.wikipedia.org/wiki/Consistent_hashing
+[^1]: Consistent hashing: <https://en.wikipedia.org/wiki/Consistent_hashing>
 
 [^2]: D. Karger, E. Lehman, T. Leighton, M. Levine, D. Lewin, and R. Panigrahy. Consistent
 hashing and random trees: Distributed caching protocols for relieving hot spots on the

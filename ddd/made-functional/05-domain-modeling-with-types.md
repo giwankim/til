@@ -28,7 +28,7 @@ data KilogramQuantity = ...
 // ------------------------
 
 // ----- unvalidated state -----
-data UnvalidatedOrder = 
+data UnvalidatedOrder =
     UnvalidatedCustomerInfo
     AND UnvalidatedShippingAddress
     AND UnvalidatedBillingAddress

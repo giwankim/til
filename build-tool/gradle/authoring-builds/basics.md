@@ -59,21 +59,21 @@ While `gradle` is usually checked into source control, `build` and `.gradle` dir
 The anatomy of a typical project root directory looks as follows:
 
 ```bash
-├── .gradle 
-│   ├── 4.8 
-│   ├── 4.9 
+├── .gradle
+│   ├── 4.8
+│   ├── 4.9
 │   └── ⋮
-├── build   
+├── build
 ├── gradle
-│   └── wrapper 
-├── gradle.properties   
-├── gradlew 
-├── gradlew.bat 
-├── settings.gradle.kts 
-├── subproject-one  
-|   └── build.gradle.kts    
-├── subproject-two  
-|   └── build.gradle.kts    
+│   └── wrapper
+├── gradle.properties
+├── gradlew
+├── gradlew.bat
+├── settings.gradle.kts
+├── subproject-one
+|   └── build.gradle.kts
+├── subproject-two
+|   └── build.gradle.kts
 └── ⋮
 ```
 

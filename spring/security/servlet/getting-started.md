@@ -63,7 +63,6 @@ HttpSecurity httpSecurity() throws Exception {
 }
 ```
 
-
 `SpringBootWebSecurityConfiguration` also publishes a `SecurityFilterChain` `@Bean` that applies
 the following configuration:
 

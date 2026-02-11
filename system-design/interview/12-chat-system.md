@@ -10,36 +10,29 @@ __Candidate:__ What kind of chat app shall we design? 1 on 1 or group based?
 
 __Interviewer:__ It should support both 1 on 1 and group chat.
 
-
 __Candidate:__ Is this a mobile app? Or a web app? Or both?
 
 __Interviewer:__ Both.
-
 
 __Candidate:__ What is the scale of this app? A startup app or massive scale?
 
 __Interviewer:__ It should support 50 million DAU.
 
-
 __Candidate:__ For group chat, what is the group member limit?
 
 __Interviewer:__ A maximum of 100 people
-
 
 __Candidate:__ What features are important for the chat app? Can it support attachment?
 
 __Interviewer:__ 1 on 1 chat, group chat, online indicator. The system only supports text messages.
 
-
 __Candidate:__ Is there a message size limit?
 
 __Interviewer:__ Yes, text length should be less than 100,000 characters long.
 
-
 __Candidate:__ Is end-to-end encryption required?
 
-__Interviewer:__ 
-
+__Interviewer:__
 
 __Candidate:__ How long shall we store the chat history?
 

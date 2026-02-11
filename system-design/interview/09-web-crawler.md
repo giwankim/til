@@ -12,26 +12,21 @@ __Candidate:__ What is the main purpose of the crawler? Is it used for search en
 
 __Interviewer:__ Search engine indexing.
 
-
 __Candidate:__ How many web pages does the web crawler collect per month?
 
 __Interviewer:__ 1 billion pages
-
 
 __Candidate:__ What content types are included? HTML only or other content types such as PDFs and images as well?
 
 __Interviewer:__ HTML only.
 
-
 __Candidate:__ Shall we consider newly added or edited web pages?
 
 __Interviewer:__ Yes, we should consider newly added or edited web pages.
 
-
 __Candidate:__ Do we need to store HTML pages crawled from the web?
 
 __Interviewer:__ Yes, up to 5 years.
-
 
 __Candidate:__ How do we handle web pages with duplicate content?
 
@@ -51,7 +46,7 @@ Characteristics of a good web crawler:
 - Peak QPS = 2 * QPS = 800
 - Assume the average web page size is 500kb.
 - 1 billion page * 500kb = 500 TB storage per month.
-- Assuming data are stored for five years, 500 TB * 12 months * 5 years = 30 PB.
+- Assuming data are stored for five years, 500 TB *12 months* 5 years = 30 PB.
 
 ## Step 2 - Propose high-level design and get buy-in
 
@@ -143,7 +138,7 @@ URL Storage stores already visited URLs.
 2. HTML Downloader fetches a list of URLs from URL Frontier.
 3. HTML Downloader gets IP addresses of URLs from DNS Resolver and starts downloading.
 4. Content Parser parses HTML pages and checks if pages are malformed.
-5. 
+5.
 
 ## Step 3 - Design Deep Dive
 

@@ -1,8 +1,8 @@
 # 7. Design a Unique ID Generator in Distributed Systems
 
-First thought might be to use a primary key with the *auto_increment* attribute in a traditional database. However, _auto\_increment_ does not work in a distributed environment because generating unique IDs across multiple databases with minimal delay is challenging.
+First thought might be to use a primary key with the *auto_increment* attribute in a traditional database. However, *auto\_increment* does not work in a distributed environment because generating unique IDs across multiple databases with minimal delay is challenging.
 
-# Step 1 - Understand the problem and establish design scope
+## Step 1 - Understand the problem and establish design scope
 
 __Candidate:__ What are the characteristics of unique IDs?
 
@@ -30,7 +30,7 @@ __Interviewer:__ The system should be able to generate 10,000 IDs per second.
 - IDs are ordered by date.
 - Generate over 10,000 unique IDs per second.
 
-# Step 2 - Propose high-level design and get buy-in
+## Step 2 - Propose high-level design and get buy-in
 
 ## Multi-master replication
 
@@ -97,6 +97,6 @@ packet-beta
 
 ### Cons
 
-# Step 3 - Design deep dive
+## Step 3 - Design deep dive
 
-# Step 4 - Wrap up
+## Step 4 - Wrap up
