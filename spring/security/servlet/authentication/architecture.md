@@ -100,7 +100,7 @@ The most common implementation is `ProviderManager`.
 ## ProviderManager
 
 Most commonly used implementation of `AuthenticationManager`. Delegates to a `List` of `AuthenticationProvider` instances.
-Each `AuthenticationnProvider` has an opportunity to indicate that authentication should be successful, fail, or indicate it cannot make a decision and allow a downstream `AuthenticationProvider` to decide.
+Each `AuthenticationProvider` has an opportunity to indicate that authentication should be successful, fail, or indicate it cannot make a decision and allow a downstream `AuthenticationProvider` to decide.
 
 ```mermaid
 graph LR
