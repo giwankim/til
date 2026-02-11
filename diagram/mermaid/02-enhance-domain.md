@@ -45,7 +45,7 @@ classDiagram
   TV Show --|> Title: implements
   Short --|> Title: implements
   Film --|> Title: implements
-  
+
   Viewer --> Title: watches
 
   Season *-- Review: has
@@ -71,7 +71,7 @@ classDiagram
   TV Show --|> Title: implements
   Short --|> Title: implements
   Film --|> Title: implements
-  
+
   Viewer "0..*" --> "0..*" Title: watches
 
   Season "1" *-- "0..*" Review: has
@@ -99,7 +99,7 @@ classDiagram
   TV Show --|> Title: implements
   Short --|> Title: implements
   Film --|> Title: implements
-  
+
   Viewer "0..*" --> "0..*" Title: watches
 
   Season "1" *-- "0..*" Review: has

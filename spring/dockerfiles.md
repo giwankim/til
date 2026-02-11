@@ -59,7 +59,7 @@ java -Djarmode=tools -jar app.jar
 
 출력이 다음과 같다.
 
-```
+```text
 Usage:
   java -Djarmode=tools -jar my-app.jar
 

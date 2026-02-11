@@ -19,7 +19,7 @@ follows:
 
 ## SecurityContextHolder
 
-`SecurityContextHolder` contains the SecurityContext. It is also where Spring Security stores the details of who is authenticated. If `SecurityContextHolder` contains a value, it is used as the currently authenticated user. 
+`SecurityContextHolder` contains the SecurityContext. It is also where Spring Security stores the details of who is authenticated. If `SecurityContextHolder` contains a value, it is used as the currently authenticated user.
 
 ```mermaid
 flowchart TB
@@ -83,7 +83,7 @@ By default, `SecurityContextHolder` uses a `ThreadLocal` to store these details.
 
 `Authentication` contains:
 
-- `principal`: Identifies the user. When authenticating with a username/password this is often an instance of `UserDetails`. 
+- `principal`: Identifies the user. When authenticating with a username/password this is often an instance of `UserDetails`.
 - `crendentials`: Often a password.
 - `authorities`: `GrantedAuthority` instances are high-level permissions the user is granted. Two examples are roles and scopes.
 
@@ -111,7 +111,7 @@ graph LR
         APM1[ ]
         APM2[ ]
         APN[AuthenticationProviderₙ]
-    
+
         AP0 <--> APM1
         APM1 <--> APM2
         APM2 <--> APN
@@ -132,7 +132,7 @@ Can inject multiple `AuthenticationProvider` instances into `ProviderManager`. E
 
 `AuthenticationEntryPoint` is used to send an HTTP response that requests credentials from a client.
 
-## AbstractAuthenticationProcessingFilter   
+## AbstractAuthenticationProcessingFilter
 
 `AbstractAuthenticationProcessingFilter` is used as a base `Filter` for authenticating a user's credentials.
 
@@ -144,13 +144,13 @@ graph TD
         AAPF[AbstractAuthenticationProcessingFilter]
         F3[ ]
         F4[ ]
-        
+
         F1 <--> F2
         F2 <--> AAPF
         AAPF <--> F3
         F3 <--> F4
     end
-    
+
     AUTH[Authentication]
     AM[AuthenticationManager]
     DECISION{Authenticated?}
@@ -160,7 +160,7 @@ graph TD
         SCH1[SecurityContextHolder]
         RMS1[RememberMeServices]
         AFH[AuthenticationFailureHandler]
-        
+
         SCH1 ~~~ RMS1
         RMS1 ~~~ AFH
     end
@@ -172,19 +172,19 @@ graph TD
         RMS2[RememberMeServices]
         AEP[ApplicationEventPublisher]
         ASH[AuthenticationSuccessHandler]
-        
+
         SAS ~~~ SCH2
         SCH2 ~~~ RMS2
         RMS2 ~~~ AEP
         AEP ~~~ ASH
     end
-    
+
     AAPF -->|① creates| AUTH
     AUTH -->|②| AM
     AM --> DECISION
     DECISION -->|③| FAIL
     DECISION -->|④| SUCCESS
-    
+
     style AAPF fill:#FF8C69,stroke:#333
     style F1 fill:#FF8C69,stroke:#333
     style F2 fill:#FF8C69,stroke:#333
@@ -194,6 +194,7 @@ graph TD
     style FAIL fill:none,stroke:#999,stroke-dasharray: 5 5
     style SUCCESS fill:none,stroke:#999,stroke-dasharray: 5 5
 ```
+
 - ① When the user submits their credentials, the `AbstractAuthenticationProcessingFilter` creates an `Authentication` from the `HttpServletRequest` to be authenticated. Type of `Authentication` created depends on the subclass of `AbstractAuthenticationProcessingFilter`.
 - ② `Authentication` is passed into the `AuthenticationManager` to be authenticated.
 - ③ If authentication fails,

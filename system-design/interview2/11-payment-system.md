@@ -99,7 +99,7 @@ This endpoint executes a payment event. A single payment event may contain multi
 | `payment_order_id` | Globally unique ID for this payment | string |
 
 > [!NOTE] `payment_order_id` is globally unique. When the payment executor sends a payment request to a third-party PSP, `payment_order_id` is used by the PSP as the deduplication ID, also called the idempotency key.
-
+>
 > [!TIP] Data type of the "amount" field is "string". Double is not a good choice because:
 >
 > 1. Different protocols, software, and hardware may support different numeric precisions in serialization and deserialization. This difference might cause unintended rounding errors.

@@ -66,7 +66,7 @@ Data accuracy. Ad click event aggregation plays a critical role in measuring the
 
 Raw data in log files:
 
-```
+```text
 [AdClickEvent] ad001,2021-01-01 00:00:01,user1,207.148.22.22,USA
 ```
 
@@ -95,7 +95,7 @@ To support ad filtering, add an additional field called `filter_id`. Records wit
 | ad001 | 202101010001 | 0023 | 6 |
 
 | filter_id | region | ip | user_id |
-| --------- | -------| ---| ------- |
+| --------- | ------ | --- | ------- |
 | 0012 | US | * | 0012 |
 | 0013 | * | 123.1.2.3 | 0023 |
 
@@ -112,12 +112,12 @@ erDiagram
 
 #### Comparison
 
-|      | Raw data only | Aggregated data only |
-| ---- | ------------- | -------------------- |
-| Pros | Full data set                         | Smaller data set |
-|      | Support data filter and recalculation | Fast query |
-| Cons | Huge data storage                     | Data loss |
-|      | Slow query                            | |
+| Category | Raw data only | Aggregated data only |
+| --- | --- | -------------------- |
+| Pros | Full data set | Smaller data set |
+| Pros | Support data filter and recalculation | Fast query |
+| Cons | Huge data storage | Data loss |
+| Cons | Slow query | |
 
 Recommend to store both raw and aggregated data:
 
@@ -136,8 +136,6 @@ Evaluate the following:
 - Do queries rely on many online analytical processing (OLAP) functions like SUM, COUNT?
 
 Average write QPS is 10,000 with peak of 50,000 so the system is write-heavy. Raw data is used as backup and source for recalculation so read volume is low.
-
-
 
 ### High-level design
 

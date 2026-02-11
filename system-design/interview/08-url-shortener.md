@@ -6,7 +6,7 @@ Design a URL shortening service like tinyurl.
 
 __Candidate__: Can you give me an example of how a URL shortener works?
 
-__Interviewer__: Assume URL https://www.systeminterview.com/q=chatsystem&c=loggedin&v=v3&l=long is the original URL. Your service creates an alias with shorter length: https://tinyurl.com/y7keocwj. If you click the alias, it redirects you to the original URL.
+__Interviewer__: Assume URL <https://www.systeminterview.com/q=chatsystem&c=loggedin&v=v3&l=long> is the original URL. Your service creates an alias with shorter length: <https://tinyurl.com/y7keocwj>. If you click the alias, it redirects you to the original URL.
 
 __Candidate__: What is the traffic volume?
 
@@ -35,7 +35,7 @@ Here are the basic use cases:
 - Write operation: 100 million URLs are generated per day.
 - Write operation per second: 100 million / 24 / 3600 = 1160
 - Read operation: Assuming read-write ratio of 10:1, read operation per second: 1160 * 10 = 11,600
-- Assuming URL shortener service runs for 10 years: 100 million * 365 * 10 = 365 billion records
+- Assuming URL shortener service runs for 10 years: 100 million *365* 10 = 365 billion records
 - Assume average URL length is 100.
 - Storage requirement over 10 years: 365 billion * 100 bytes = 36.5 TB
 
@@ -64,14 +64,15 @@ Each redirection method has its pros and cons. If the priority is to reduce the 
 
 ### URL shortening
 
-Assume the shortened URL looks like this www.tinyurl.com/{hashValue}.
+Assume the shortened URL looks like this <www.tinyurl.com/{hashValue}>.
 
 The hash function must satisfy the following requirements:
-  - Each `longURL` must be hashed to one `hashValue`
-  - Each `hashValue` can be mapped back to the `longURL`
+
+- Each `longURL` must be hashed to one `hashValue`
+- Each `hashValue` can be mapped back to the `longURL`
 
 ## Step 3 - Design deep dive
 
-We dive deep into _data model, hash function, URL shortening, and URL redirection._
+We dive deep into *data model, hash function, URL shortening, and URL redirection.*
 
 ## Step 4 - Wrap up

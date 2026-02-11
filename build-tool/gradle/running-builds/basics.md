@@ -165,15 +165,15 @@ androidApplication = { id = "com.android.application", version.ref = "androidGra
 
 ```kotlin
 plugins {
-   alias(libs.plugins.androidApplication)  
+   alias(libs.plugins.androidApplication)
 }
 
 dependencies {
     // Dependency on a remote binary to compile and run the code
-    implementation(libs.googleMaterial)    
+    implementation(libs.googleMaterial)
 
     // Dependency on a remote binary to compile and run the test code
-    testImplementation(libs.mockitoCore)   
+    testImplementation(libs.mockitoCore)
 }
 ```
 

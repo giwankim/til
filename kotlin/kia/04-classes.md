@@ -309,7 +309,7 @@ The block of code surrounded by parentheses is called a _primary constructor_. I
 
 - specifying constructor parameters and
 - defining properties that are initialized by those parameters.
-  
+
 The most explicit code we can write that does the same thing is
 
 ```kotlin

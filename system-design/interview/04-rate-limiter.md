@@ -71,7 +71,7 @@ The number of buckets depends on the rate-limiting rules:
 
 - It might be challenging to tune the two parameters (bucket size and token refill rate) in the algorithm.
 
-#### Leaking bucket 
+#### Leaking bucket
 
 Similar to token bucket except that requests are processed at a fixed rate. It is usually implemented with a FIFO queue.
 
@@ -170,6 +170,7 @@ Redis is a popular option to implement rate limiting. It offers two commands: IN
 Lyft open-sourced their [rate-limiting component](https://github.com/envoyproxy/ratelimit?tab=readme-ov-file).
 
 As an example of rate limiting rules configuration:
+
 ```yaml
 domain: messaging
 descriptors:

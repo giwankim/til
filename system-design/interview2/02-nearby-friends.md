@@ -47,7 +47,7 @@ What are the responsibilities of the backend?
 - For each location update, find all the active friends who should receive it and forward it to those users' devices.
 - If the distance between two users is over a certain threshold, do not forward it to the recipient's device.
 
-The problem is the scale: 10 million active users. With each user updating their location every 30 seconds, there are 333K updates per second. If on average each user has 400 friends, and we further assume that roughly 10% of those friends are online and nearby, every second the backend forwards 333K * 400 * 10% = 13 million location updates per second.
+The problem is the scale: 10 million active users. With each user updating their location every 30 seconds, there are 333K updates per second. If on average each user has 400 friends, and we further assume that roughly 10% of those friends are online and nearby, every second the backend forwards 333K *400* 10% = 13 million location updates per second.
 
 ### Proposed design
 

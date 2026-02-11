@@ -49,7 +49,6 @@ Rough calculation of the QPS of all pages in the system.
 | PUT /v1/hotels/{id} | Update hotel information. (Only available to hotel staff) |
 | DELETE /v1/hotels/{id} | Delete a hotel. (Only available to hotel staff) |
 
-
 #### Room-related APIs
 
 | API | Detail |
@@ -176,6 +175,7 @@ To check if a customer can reserve a specific type of room or not:
 From the SQL perspective:
 
 1. Select rows within a date range
+
    ```sql
    SELECT date, total_inventory, total_reserved
    FROM room_type_inventory
@@ -184,6 +184,7 @@ From the SQL perspective:
       hotel_id = :hotelId AND
       date between :startDate and :endDate
    ```
+
 1. For each entry, the application checks the condition below:
    `if (total_reserved + numberOfRoomsToReserve) <= 110% * total_inventory` to support 10% overbooking.
 
@@ -406,7 +407,7 @@ sequenceDiagram
   rect rgb(191, 223, 255, 0.5)
   Note right of Database: Single Transaction
   User->>+Database: Manage room inventory
-  Database-->>-User: Room inventory 
+  Database-->>-User: Room inventory
 
   User->>+Database: Reserve room
   Database-->>-User: Reservation result

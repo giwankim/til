@@ -15,23 +15,23 @@ It can be set with the environment variable `GRADLE_USER_HOME`.
 It is roughly structured as follows:
 
 ```bash
-├── caches                  
-│   ├── 4.8                     
-│   ├── 4.9                     
+├── caches
+│   ├── 4.8
+│   ├── 4.9
 │   ├── ⋮
-│   ├── jars-3                  
-│   └── modules-2               
-├── daemon 
+│   ├── jars-3
+│   └── modules-2
+├── daemon
 │   ├── ⋮
 │   ├── 4.8
 │   └── 4.9
-├── init.d                  
+├── init.d
 │   └── my-setup.gradle
-├── jdks                    
+├── jdks
 │   ├── ⋮
 │   └── jdk-14.0.2+12
 ├── wrapper
-│   └── dists                   
+│   └── dists
 │       ├── ⋮
 │       ├── gradle-4.8-bin
 │       ├── gradle-4.9-all
@@ -52,6 +52,7 @@ Consult the [Gradle Directories reference](https://docs.gradle.org/current/userg
 ### Project Root directory
 
 The anatomy of a typical project root directory looks as follows:
+
 ```bash
 ├── .gradle
 │   ├── 4.8
@@ -62,11 +63,11 @@ The anatomy of a typical project root directory looks as follows:
 │   └── wrapper
 ├── gradle.properties
 ├── gradlew
-├── gradlew.bat     
+├── gradlew.bat
 ├── settings.gradle.kts
-├── subproject-one    
+├── subproject-one
 |   └── build.gradle.kts
-├── subproject-two    
+├── subproject-two
 |   └── build.gradle.kts
 └── ⋮
 ```

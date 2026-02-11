@@ -59,7 +59,7 @@ __Trading flow__. This is the critical path with strict latency requirements.
 
 4 - 5. Order manager performs risk checks based on rules set by the risk manager.
 
-6. After passing risk checks, the order manager verifies there are sufficient funds in the wallet for the order.
+1. After passing risk checks, the order manager verifies there are sufficient funds in the wallet for the order.
 
 7 - 9. The order is sent to the matching engine. When a match is found, the matching engine emits two executions (also called fills), with one each for the buy and sell sides. To guarantee that matching results are deterministic when replayed, both orders and executions are sequenced in the sequencer.
 
