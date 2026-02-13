@@ -188,7 +188,7 @@ val c = "Kotlin".lastChar()
 ```
 
 ```kotlin
-import strings.lsatChar as last
+import strings.lastChar as last
 
 val c = "Kotlin".last()
 ```

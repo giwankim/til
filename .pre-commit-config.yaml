@@ -12,3 +12,8 @@ repos:
       - id: markdownlint
         files: \.md$
         args: [--config=.markdownlint.yaml]
+  - repo: https://github.com/crate-ci/typos
+    rev: v1.43.4
+    hooks:
+      - id: typos
+        files: \.md$
