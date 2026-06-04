@@ -81,3 +81,29 @@ classDiagram
     %% A StreamAdvisorChain aggregates zero or more StreamAdvisor instances
     StreamAdvisorChain o--> "0..*" StreamAdvisor
 ```
+
+The `adviseCall()` and `adviseStream()` are the key advisor methods, typically performing actions
+
+In addition the `getOrder()` method determines
+
+```mermaid
+flowchart TD
+    %% Step 1: convert the prompt into a ChatClientRequest
+    A[Prompt] --> |"1. Prompt to ChatClientRequest"| B[ChatClientRequest]
+
+    %% Advisors scope wraps the internal advice logic
+    subgraph Advisors ["Advisor(s)"]
+        %% Step 2: perform any pre‑processing on the ChatClientRequest
+        B --> |"2. Before advising"| C["Advisor (internal)"]
+        %% Step 3: send the prompt to the Chat model
+        C --> |"3. Prompt"| D[Chat Model]
+        %% Step 4: receive the ChatResponse from the Chat model
+        D --> |"4. ChatResponse"| C
+        %% Step 5: perform any post‑processing after advising
+        C --> |ChatClientResponse| E[ChatClientResponse]
+        E --> |"5. After advising"| F[ChatClientResponse]
+    end
+
+    %% Step 6: convert the ChatClientResponse into the final ChatResponse
+    F --> |"6. ChatClientResponse to ChatResponse"| G[ChatResponse]
+```
