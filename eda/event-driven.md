@@ -20,18 +20,21 @@ An event need not carry much data on it, often just some id information and a li
 
 ### Decouples sender from receiver
 
-It implies a low level of coupling between the sender from the receiver.
+It implies a low level of coupling between the sender and the receiver.
 
 ### "Where did this happen?" traceability problem
 
 It can become problematic, however, if there really is a logical flow that runs over various event notifications. The problem is that it can be hard to see such a flow as it's not explicit in any program text. Often the only way to figure out this flow is from monitoring a live system.
 
-Simple example of this trap is when an event is used as a passive-aggressive command.
+A simple example of this trap is when an event is used as a passive-aggressive command.
 
 ## 2. Event-Carried State Transfer
 
-<!-- What it is: events carry enough data that receivers don't call back.
-     - Trade-off: reduced coupling / availability vs. data duplication & eventual consistency -->
+This pattern shows up when you want to update clients of a system in such a way that they don't need to contact the source system in order to do further work.
+
+### Trade-offs
+
+An obvious downside of this pattern is that there's lots of data schlepped around and lots of copies. What we gain is greater resilience. We reduce latency and improve availability, at the cost of increased complexity and eventual consistency.
 
 ## 3. Event-Sourcing
 
@@ -45,6 +48,16 @@ Simple example of this trap is when an event is used as a passive-aggressive com
 <!-- What it is: separate the model for reading from the model for writing.
      - Relationship to event-sourcing (often paired, not required)
      - When the added complexity is/ isn't justified -->
+
+Command Query Responsibility Segregation (CQRS) is the notion of having separate data structures for reading and writing information. You can use CQRS without any events present in your design, but commonly people do combine CQRS with the earlier patterns here.
+
+### Justification
+
+In complex domains, a single model to handle both reads and writes gets too complicated, and we can simplify by separating the models. This is particularly appealing when you have different access patterns, such as lots of reads and very few writes.
+
+### Trade-offs
+
+The gain from CQRS has to be balanced against the additional complexity of having separate models.
 
 ## Key Distinctions & When to Use Each
 
