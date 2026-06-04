@@ -80,8 +80,20 @@ The gain from CQRS has to be balanced against the additional complexity of havin
 
 ## Key Distinctions & When to Use Each
 
-<!-- Pull together the contrasts: which problems each pattern actually solves,
-     and Fowler's caution about adopting them without clear benefit. -->
+The four patterns are *orthogonal*: they solve different problems and can be mixed freely. CQRS isn't inherently about events, and event sourcing doesn't require asynchrony. Fowler's main warning is that trouble usually comes from *conflating* the patterns, not from any one of them. (His anecdote: a project manager blamed event sourcing for a troubled project, while the tech lead pinned the real culprit on asynchronous communication — two independent choices mistaken for one.)
+
+| Pattern | Problem it solves | Reach for it when | Be wary when |
+| --- | --- | --- | --- |
+| Event Notification | Decouple the source of a change from whoever reacts to it | You want low coupling and don't care about the response | A real logical flow spans many notifications — invisible in the code, traceable only on a live system |
+| Event-Carried State Transfer | Let clients do further work without querying the source | Source availability and latency matter more than data freshness | You can't tolerate eventual consistency or the duplicated data |
+| Event-Sourcing | A strong audit log plus the ability to rebuild and replay state | You need history, temporal queries, or alternative-history replay | State depends on outside systems, or event schemas will churn over time |
+| CQRS | Separate the model for reading from the model for writing | Reads and writes have very different shapes or access patterns | The domain is simple — the extra model is pure overhead |
+
+### Fowler's caution
+
+> All these patterns are good in the right place, and bad when put on the wrong terrain.
+
+He pointedly declines to give a decision procedure, admitting he'd like to write a "definitive treatise" on when each applies but doesn't have the time. He singles out CQRS as the one his colleagues are "deeply wary of using ... finding it often misused." The takeaway: adopt each pattern only where its specific benefit is clear, and never reach for one by default.
 
 ## My Takeaways
 
