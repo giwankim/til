@@ -1,9 +1,5 @@
 # Today I Learned
 
-## Books
-
-- [The Pragmatic Programmer](books/tpp.md)
-
 ## Build Tool
 
 - Gradle
