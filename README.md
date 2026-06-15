@@ -11,8 +11,8 @@
 ## DDD
 
 - [Domain Modeling Made Functional](https://pragprog.com/titles/swdddf/domain-modeling-made-functional)
-  - [1. Introduction DDD](ddd/made-functional/01-introducing-ddd.md)
-  - [2. Understanding the Domain](ddd/made-functional/02-understanding-domain.md)
+  - [1. Introducing DDD](ddd/made-functional/01-introducing-ddd.md)
+  - [2. Understanding the Domain](ddd/made-functional/02-understanding-the-domain.md)
   - [3. Functional Architecture](ddd/made-functional/03-functional-architecture.md)
   - [4. Understanding Types](ddd/made-functional/04-understanding-types.md)
   - [5. Domain Modeling with Types](ddd/made-functional/05-domain-modeling-with-types.md)
@@ -20,6 +20,7 @@
   - [7. Modeling Workflows as Pipelines](ddd/made-functional/07-modeling-workflows-as-pipelines.md)
   - [8. Understanding Functions](ddd/made-functional/08-understanding-functions.md)
   - [9. Implementation: Composing a Pipeline](ddd/made-functional/09-composing-pipeline.md)
+  - [10. Implementation: Working with Errors](ddd/made-functional/10-working-with-errors.md)
 
 ## Diagram
 
@@ -28,10 +29,15 @@
   - [1. Document your Domain](diagram/mermaid/01-document-domain.md)
   - [2. Enhance your Domain Model](diagram/mermaid/02-enhance-domain.md)
   - [3. Visualize Application and User Flows](diagram/mermaid/03-user-flows.md)
+  - [7. Design Database Schemas](diagram/mermaid/07-database-schema.md)
+
+## EDA
+
+- [What do you mean by "Event-Driven"?](eda/meaning-of-event-driven.md)
 
 ## Java
 
-- Effective Java
+- [Effective Java](https://www.oreilly.com/library/view/effective-java/9780134686097/)
   - [Item 24: Favor static member classes over nonstatic](java/effective-java/04-classes-interfaces/item24.md)
 
 ## JPA
@@ -43,9 +49,12 @@
   - Part 3: Transactional data processing
     - [10. Managing data](jpa/java-persistence/10-managing-data.md)
     - [11. Transactions and concurrency](jpa/java-persistence/11-transactions-and-concurrency.md)
+    - [Unit of Work](jpa/java-persistence/unit-of-work.md)
 
 ## Kafka
 
+- [Kafka: The Definitive Guide](https://www.oreilly.com/library/view/kafka-the-definitive/9781492043072/)
+  - [1. Meet Kafka](kafka/definitive-guide/01-meet-kafka.md)
 - [Learn Apache Kafka for Beginners v3 (Udemy)](kafka/udemy/learn-apache-kafka-for-beginners-v3.md)
 
 ## Kotlin
@@ -56,6 +65,7 @@
   - [3. Defining and calling functions](kotlin/kia/03-functions.md)
   - [4. Classes, objects, and interfaces](kotlin/kia/04-classes.md)
   - [5. Programming with lambdas](kotlin/kia/05-lambdas.md)
+  - [6. Working with collections and sequences](kotlin/kia/06-collections-sequences.md)
   - [7. Working with nullable values](kotlin/kia/07-nullable.md)
   - [13. DSL construction](kotlin/kia/13-dsl.md)
 - [Effective Kotlin](https://kt.academy/book/effectivekotlin)
@@ -91,17 +101,17 @@
       - [API](spring/ai/chat-client/advisors/api.md)
 - Spring Boot 4.x
   - [Core Spring Resilience Features: @ConcurrencyLimit, @Retryable, and RetryTemplate](spring/4.0/resilience.md)
-- [효율적인 도커 이미지를 위한 Dockerfile](spring/dockerfiles.md)
 - Spring Security
-  - [Features](spring/features.md)
+  - [Features](spring/security/features.md)
   - Servlet Applications
     - [Getting Started](spring/security/servlet/getting-started.md)
     - [Architecture](spring/security/servlet/architecture.md)
     - Authentication
       - [Authentication Architecture](spring/security/servlet/authentication/architecture.md)
-      - Username/Password Authentication
+      - [Username/Password Authentication](spring/security/servlet/authentication/username-password/username-password-authentication.md)
         - Reading Username & Password
           - [Form Login](spring/security/servlet/authentication/username-password/reading-username-password/form.md)
+- [효율적인 도커 이미지를 위한 Dockerfile](spring/dockerfiles.md)
 
 ## System Design
 
@@ -114,9 +124,8 @@
   - [8. Design a URL Shortener](system-design/interview/08-url-shortener.md)
   - [9. Design a Web Crawler](system-design/interview/09-web-crawler.md)
   - [10. Design a Notification System](system-design/interview/10-notification-system.md)
-  - [11. Design a News Feed System](system-design/interview/11-news-feed-system.md)
+  - [11. Design a News Feed System](system-design/interview/11-newsfeed-system.md)
   - [12. Design a Chat System](system-design/interview/12-chat-system.md)
-
 - [System Design Interview: Volume 2](https://www.amazon.com/dp/1736049119)
   - [1. Proximity Service](system-design/interview2/01-proximity-service.md)
   - [2. Nearby Friends](system-design/interview2/02-nearby-friends.md)
